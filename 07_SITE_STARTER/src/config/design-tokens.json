@@ -10,9 +10,9 @@
     "muted": "#C6C6C2"
   },
   "font": {
-    "display": "Oswald 700",
-    "accent": "Roboto Condensed 900 italic",
-    "body": "Manrope 400/500/600/700",
+    "display": "Inter Tight 800",
+    "accent": "Inter Tight 800 (no italics)",
+    "body": "Inter 400/500/600/700",
     "note": "Use next/font/google; support de/en/uk; NEVER ship binary font files"
   },
   "layout": {

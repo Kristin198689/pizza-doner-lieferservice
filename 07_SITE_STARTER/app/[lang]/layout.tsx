@@ -1,11 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { biz, getMessages, locales } from '@/lib/i18n';
-// Self-hosted fonts (no requests to Google at runtime). Latin + Cyrillic subsets are split via unicode-range.
-import '@fontsource-variable/oswald';
-import '@fontsource-variable/manrope';
-import '@fontsource/roboto-condensed/900-italic.css';
-import '@fontsource/anton';
-import '@fontsource/playfair-display/900-italic.css';
+// Self-hosted fonts (no requests to Google at runtime).
+import '@fontsource-variable/inter-tight';
+import '@fontsource-variable/inter';
 import '../globals.css';
 
 

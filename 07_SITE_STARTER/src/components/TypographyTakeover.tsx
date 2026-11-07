@@ -25,7 +25,7 @@ export function TypographyTakeover({ t, sliceAlt }: { t: Messages['takeover']; s
 
       const build = (tl: gsap.core.Timeline, fadeOut: boolean) => {
         tl.fromTo(q('.tk__w1 .tk__chi'), { yPercent: 118 }, { yPercent: 0, duration: 1.5, ease: 'power4.out', stagger: 0.12 }, 0);
-        tl.fromTo(q('.tk__w2 .tk__chi'), { yPercent: 118, skewX: -14 }, { yPercent: 0, skewX: 0, duration: 1.7, ease: 'power4.out' }, 1.1);
+        tl.fromTo(q('.tk__w2 .tk__chi'), { yPercent: 118 }, { yPercent: 0, duration: 1.7, ease: 'power4.out' }, 1.1);
         // the slice: slow arc in, lingers in the middle, drifts out
         const slice = q('.tk__slice');
         tl.fromTo(slice, { x: () => vw() * 0.7, y: () => vh() * 0.42, rotation: 38, scale: 0.8, opacity: 0 }, { x: () => vw() * 0.06, y: () => -vh() * 0.02, rotation: -8, scale: 1.04, opacity: 1, duration: 3, ease: 'power2.out' }, 1.8);

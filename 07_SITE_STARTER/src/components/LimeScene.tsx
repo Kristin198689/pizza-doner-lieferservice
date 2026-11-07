@@ -14,18 +14,11 @@ export function LimeScene({ t, alt, word }: { t: Messages['lime']; alt: string; 
       const q = gsap.utils.selector(el);
       const mm = gsap.matchMedia();
 
-      /** type leans with scroll velocity (transform only) */
-      const kinetic = (self: ScrollTrigger) => {
-        const v = gsap.utils.clamp(-9, 9, self.getVelocity() / -260);
-        skewTo(v);
-      };
-      const targets = q('.lime__l1, .lime__l2, .lime__row');
-      const skewTo = gsap.quickTo(targets, 'skewX', { duration: 0.5, ease: 'power3.out' });
 
       mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
-          scrollTrigger: { trigger: el, start: 'top top', end: '+=170%', scrub: 0.7, pin: true, anticipatePin: 1, invalidateOnRefresh: true, onUpdate: kinetic },
+          scrollTrigger: { trigger: el, start: 'top top', end: '+=170%', scrub: 0.7, pin: true, anticipatePin: 1, invalidateOnRefresh: true },
         });
         // it rolls: translation + several turns that settle into its resting pose
         tl.fromTo(q('.lime__wrap'), { xPercent: 125, rotation: -420 }, { xPercent: 0, rotation: 0, ease: 'power2.out', duration: 1.4 }, 0);
@@ -39,7 +32,7 @@ export function LimeScene({ t, alt, word }: { t: Messages['lime']; alt: string; 
       });
 
       mm.add('(max-width: 767px) and (prefers-reduced-motion: no-preference)', () => {
-        const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 70%', end: 'center 45%', scrub: 0.7, onUpdate: kinetic } });
+        const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 70%', end: 'center 45%', scrub: 0.7 } });
         tl.fromTo(q('.lime__wrap'), { xPercent: 115, rotation: -300 }, { xPercent: 0, rotation: 0, ease: 'power2.out', duration: 1 }, 0);
         tl.fromTo(q('.lime__l1'), { xPercent: 0 }, { xPercent: -3, duration: 0.6 }, 0.45);
         tl.fromTo(q('.lime__l2'), { xPercent: 0 }, { xPercent: 3, duration: 0.6 }, 0.5);

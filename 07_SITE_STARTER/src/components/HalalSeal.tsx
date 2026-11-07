@@ -15,7 +15,7 @@ export function HalalSeal({ className = '', style }: { className?: string; style
       <circle cx="100" cy="100" r="97" fill="#f6f2e9" />
       <circle cx="100" cy="100" r="91" fill="none" stroke={ink} strokeWidth="5" />
       <circle cx="100" cy="100" r="50" fill="none" stroke={ink} strokeWidth="2.5" />
-      <text fontFamily="Anton, 'Oswald Variable', Impact, sans-serif" fontSize="24" fill={ink}>
+      <text fontFamily="'Inter Tight Variable', 'Inter Variable', Arial, sans-serif" fontWeight="800" fontSize="24" fill={ink}>
         <textPath href="#sealRing" startOffset="0" textLength="418" lengthAdjust="spacing">HALAL • HALAL • HALAL • HALAL •</textPath>
       </text>
       <path d="M112 66a24 24 0 1 0 0 40 19 19 0 0 1 0-40Z" fill={ink} transform="translate(-6 -2)" />
