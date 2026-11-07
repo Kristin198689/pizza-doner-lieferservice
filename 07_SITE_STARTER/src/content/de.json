@@ -1,0 +1,82 @@
+{
+  "nav": {
+    "home": "Start",
+    "menu": "Speisekarte",
+    "delivery": "Lieferung",
+    "pickup": "Abholung",
+    "contact": "Kontakt",
+    "call": "Jetzt anrufen",
+    "languages": "Sprache wählen"
+  },
+  "hero": {
+    "eyebrow": "PIZZA · DÖNER · YUFKA",
+    "title": "DEIN LIEBLINGS-ESSEN.",
+    "accent": "FRISCH GELIEFERT.",
+    "caption": "Heiß. Frisch. Direkt zu dir.",
+    "pickup": "Abholung",
+    "delivery": "Lieferung",
+    "scroll": "SCROLLEN & ENTDECKEN",
+    "shot2eyebrow": "FRISCH AUS DEM OFEN",
+    "shot2title": "MEHR ALS NUR PIZZA.",
+    "shot2accent": "EIN GEFÜHL."
+  },
+  "runway": {
+    "eyebrow": "DREI KLASSIKER",
+    "title": "DREI LIEBLINGE.",
+    "accent": "EIN HUNGER.",
+    "description": "Pizza, Döner und Yufka – frisch für dich vorbereitet.",
+    "pizza": "PIZZA",
+    "doner": "DÖNER",
+    "yufka": "YUFKA"
+  },
+  "box": {
+    "eyebrow": "WARM. FRISCH. VERPACKT.",
+    "title": "DIREKT AUS DER BOX.",
+    "body": "Frisch zubereitet. Zum Mitnehmen oder Liefern lassen."
+  },
+  "lime": {
+    "eyebrow": "BEREIT FÜR DEN NÄCHSTEN BISS?",
+    "title": "EINROLLEN.",
+    "accent": "REINBEISSEN.",
+    "body": "Yufka – herzhaft, frisch, unkompliziert."
+  },
+  "menu": {
+    "eyebrow": "UNSER ANGEBOT",
+    "title": "WORAUF HAST DU HUNGER?",
+    "body": "Unser vollständiges Angebot und die Preise folgen nach Bestätigung durch den Betrieb.",
+    "categories": {
+      "pizza": "Pizza",
+      "doner": "Döner",
+      "yufka": "Yufka",
+      "burger": "Burger",
+      "snacks": "Snacks & Beilagen",
+      "drinks": "Getränke"
+    },
+    "snacksHint": "Pommes · Chicken Nuggets",
+    "pending": "Aktuelle Speisekarte wird ergänzt"
+  },
+  "fulfillment": {
+    "eyebrow": "SO EINFACH GEHT’S",
+    "title": "ANRUFEN.",
+    "accent": "ABHOLEN ODER LIEFERN LASSEN.",
+    "delivery": "Lieferung",
+    "pickup": "Abholung",
+    "phone": "Telefon",
+    "address": "Adresse",
+    "hours": "Öffnungszeiten",
+    "pending": "Angaben folgen in Kürze",
+    "call": "Jetzt telefonisch bestellen"
+  },
+  "footer": {
+    "tagline": "Pizza. Döner. Yufka. Für deinen Hunger.",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "back": "Nach oben",
+    "placeholder": "Rechtliche Angaben folgen vor Veröffentlichung."
+  },
+  "ui": {
+    "disabledPhone": "Telefonnummer wird ergänzt",
+    "halal": "HALAL",
+    "halalWarning": "Nur nach Bestätigung durch den Betrieb veröffentlichen"
+  }
+}

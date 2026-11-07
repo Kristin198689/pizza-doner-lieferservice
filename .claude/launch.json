@@ -1,0 +1,1 @@
+{"version":"0.0.1","configurations":[{"name":"pizza-dev","runtimeExecutable":"npm","runtimeArgs":["--prefix","07_SITE_STARTER","run","dev"],"port":3000}]}

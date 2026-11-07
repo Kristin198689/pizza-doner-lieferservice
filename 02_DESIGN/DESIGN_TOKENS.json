@@ -1,0 +1,43 @@
+{
+  "color": {
+    "ink": "#09090B",
+    "inkRaised": "#171719",
+    "warmWhite": "#F6F2E9",
+    "red": "#F21D32",
+    "yellow": "#FFBF36",
+    "lime": "#C9FF27",
+    "kraft": "#C79A68",
+    "muted": "#C6C6C2"
+  },
+  "font": {
+    "display": "Oswald 700",
+    "accent": "Roboto Condensed 900 italic",
+    "body": "Manrope 400/500/600/700",
+    "note": "Use next/font/google; support de/en/uk; NEVER ship binary font files"
+  },
+  "layout": {
+    "contentMaxPx": 1520,
+    "desktopGutter": "clamp(24px,4vw,84px)",
+    "desktopSectionPadding": "clamp(112px,10vw,176px)",
+    "tabletSectionPadding": "80px",
+    "mobileSectionPadding": "clamp(64px,10vw,88px)",
+    "buttonRadiusPx": 100,
+    "cardUse": "minimal; editorial rows preferred"
+  },
+  "animation": {
+    "desktopHeroScrollVh": 285,
+    "maxDesktopToppings": 18,
+    "maxMobileToppings": 9,
+    "easing": "power2.inOut / power3.out",
+    "reducedMotion": "static frame + clear CTA",
+    "boxEffect": "masked reveal; real hinge only after separate lid/base or GLB"
+  },
+  "breakpointsPx": [
+    360,
+    390,
+    768,
+    1024,
+    1440,
+    1920
+  ]
+}

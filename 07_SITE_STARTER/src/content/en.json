@@ -1,0 +1,82 @@
+{
+  "nav": {
+    "home": "Home",
+    "menu": "Menu",
+    "delivery": "Delivery",
+    "pickup": "Pickup",
+    "contact": "Contact",
+    "call": "Call to order",
+    "languages": "Choose language"
+  },
+  "hero": {
+    "eyebrow": "PIZZA · DÖNER · YUFKA",
+    "title": "YOUR FAVORITE FOOD.",
+    "accent": "DELIVERED FRESH.",
+    "caption": "Hot. Fresh. Straight to you.",
+    "pickup": "Pickup",
+    "delivery": "Delivery",
+    "scroll": "SCROLL TO DISCOVER",
+    "shot2eyebrow": "FRESH FROM THE OVEN",
+    "shot2title": "MORE THAN PIZZA.",
+    "shot2accent": "A FEELING."
+  },
+  "runway": {
+    "eyebrow": "THREE CLASSICS",
+    "title": "THREE FAVORITES.",
+    "accent": "ONE APPETITE.",
+    "description": "Pizza, döner and yufka — freshly made for you.",
+    "pizza": "PIZZA",
+    "doner": "DÖNER",
+    "yufka": "YUFKA"
+  },
+  "box": {
+    "eyebrow": "HOT. FRESH. PACKED.",
+    "title": "STRAIGHT FROM THE BOX.",
+    "body": "Freshly prepared. Ready for pickup or delivery."
+  },
+  "lime": {
+    "eyebrow": "READY FOR THE NEXT BITE?",
+    "title": "ROLL IT.",
+    "accent": "LOVE IT.",
+    "body": "Yufka — fresh, hearty and easy to enjoy."
+  },
+  "menu": {
+    "eyebrow": "WHAT WE OFFER",
+    "title": "WHAT ARE YOU CRAVING?",
+    "body": "Full menu details and prices will be added once confirmed by the business.",
+    "categories": {
+      "pizza": "Pizza",
+      "doner": "Döner",
+      "yufka": "Yufka",
+      "burger": "Burgers",
+      "snacks": "Snacks & sides",
+      "drinks": "Drinks"
+    },
+    "snacksHint": "Fries · Chicken nuggets",
+    "pending": "Full menu coming after confirmation"
+  },
+  "fulfillment": {
+    "eyebrow": "SIMPLE AS THAT",
+    "title": "CALL.",
+    "accent": "PICK UP OR GET IT DELIVERED.",
+    "delivery": "Delivery",
+    "pickup": "Pickup",
+    "phone": "Phone",
+    "address": "Address",
+    "hours": "Opening hours",
+    "pending": "Details will be added soon",
+    "call": "Order by phone"
+  },
+  "footer": {
+    "tagline": "Pizza. Döner. Yufka. Made for your cravings.",
+    "imprint": "Imprint",
+    "privacy": "Privacy",
+    "back": "Back to top",
+    "placeholder": "Legal information required before launch."
+  },
+  "ui": {
+    "disabledPhone": "Phone number coming soon",
+    "halal": "HALAL",
+    "halalWarning": "Publish only after owner verification"
+  }
+}

@@ -1,0 +1,312 @@
+[
+  {
+    "file": "backgrounds/black_slate_provisional.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "transparent": false,
+    "status": "provisional",
+    "notes": ""
+  },
+  {
+    "file": "backgrounds/charred_wood_provisional.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "transparent": false,
+    "status": "provisional",
+    "notes": ""
+  },
+  {
+    "file": "backgrounds/kraft_cardboard.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "transparent": false,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "effects/smoke_overlay.png",
+    "dimensions": [
+      1300,
+      1000
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "food/cheeseburger.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "food/doner_sandwich.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "food/doner_spit_provisional.png",
+    "dimensions": [
+      267,
+      507
+    ],
+    "transparent": true,
+    "status": "provisional",
+    "notes": ""
+  },
+  {
+    "file": "food/fries.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "food/nuggets.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "food/pizza_hero_assembled.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "food/pizza_slice_cheese_pull.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "food/pizza_toppings_airborne_reference.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "transparent": true,
+    "status": "reference-only",
+    "notes": ""
+  },
+  {
+    "file": "food/yufka_wrap.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "ingredients/basil_leaf_single.png",
+    "dimensions": [
+      325,
+      297
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "ingredients/basil_sprig.png",
+    "dimensions": [
+      360,
+      316
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "ingredients/beef_turkey_style_topping_UNVERIFIED.png",
+    "dimensions": [
+      356,
+      311
+    ],
+    "transparent": true,
+    "status": "provisional",
+    "notes": "Not a certified halal product claim"
+  },
+  {
+    "file": "ingredients/black_olives.png",
+    "dimensions": [
+      360,
+      292
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "ingredients/cherry_tomatoes.png",
+    "dimensions": [
+      357,
+      329
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "ingredients/mixed_herbs_spices.png",
+    "dimensions": [
+      366,
+      319
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "ingredients/mozzarella_shreds.png",
+    "dimensions": [
+      378,
+      298
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "ingredients/mushroom_slice.png",
+    "dimensions": [
+      359,
+      297
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "ingredients/mushrooms_group.png",
+    "dimensions": [
+      364,
+      304
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "ingredients/red_onion_ring.png",
+    "dimensions": [
+      348,
+      283
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "ingredients/red_pepper_rings.png",
+    "dimensions": [
+      378,
+      301
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "ingredients/tomato_half.png",
+    "dimensions": [
+      304,
+      277
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "packaging/kraft_bag_provisional.png",
+    "dimensions": [
+      273,
+      316
+    ],
+    "transparent": true,
+    "status": "provisional",
+    "notes": ""
+  },
+  {
+    "file": "packaging/pizza_box_open_steam.png",
+    "dimensions": [
+      1448,
+      1086
+    ],
+    "transparent": true,
+    "status": "usable-preview",
+    "notes": ""
+  },
+  {
+    "file": "references/HERO_APPROVED_SCREENSHOT_IMG_1945.jpeg",
+    "dimensions": [
+      707,
+      1536
+    ],
+    "transparent": false,
+    "status": "reference-only",
+    "notes": ""
+  },
+  {
+    "file": "references/HERO_CONCEPT_WIDE.png",
+    "dimensions": [
+      1672,
+      941
+    ],
+    "transparent": false,
+    "status": "reference-only",
+    "notes": ""
+  },
+  {
+    "file": "references/ingredient_sprites_source_sheet.png",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "transparent": true,
+    "status": "reference-only",
+    "notes": ""
+  },
+  {
+    "file": "references/long_landing_concept.png",
+    "dimensions": [
+      941,
+      1672
+    ],
+    "transparent": false,
+    "status": "reference-only",
+    "notes": ""
+  }
+]

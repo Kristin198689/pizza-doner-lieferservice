@@ -1,0 +1,11 @@
+node_modules
+.next
+.env*
+!.env.example
+.DS_Store
+*.log
+.claude/settings.local.json
+.graphify/cache/
+.graphify/branch.json
+.graphify/worktree.json
+.graphify/needs_update
