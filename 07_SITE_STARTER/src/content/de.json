@@ -200,5 +200,13 @@
     "a": "FRISCH",
     "b": "HEISS",
     "label": "Frisch. Heiß."
+  },
+  "doner": {
+    "eyebrow": "VOM SPIESS",
+    "title": "FRISCH",
+    "accent": "GESCHNITTEN.",
+    "text": "Dönerfleisch vom Drehspieß – im Brot, als Teller oder in der Box.",
+    "alt": "Dreidimensionaler Döner-Drehspieß, der sich dreht",
+    "sandwichAlt": "Döner im Fladenbrot"
   }
 }

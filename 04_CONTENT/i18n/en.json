@@ -200,5 +200,13 @@
     "a": "FRESH",
     "b": "HOT",
     "label": "Fresh. Hot."
+  },
+  "doner": {
+    "eyebrow": "OFF THE SPIT",
+    "title": "FRESHLY",
+    "accent": "CARVED.",
+    "text": "Döner meat off the rotating spit – in bread, as a plate or in a box.",
+    "alt": "Three-dimensional rotating döner kebab spit",
+    "sandwichAlt": "Döner in flatbread"
   }
 }
