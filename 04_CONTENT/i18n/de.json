@@ -65,48 +65,12 @@
     "body": "Yufka – herzhaft, frisch, unkompliziert."
   },
   "menu": {
-    "eyebrow": "UNSER ANGEBOT",
+    "eyebrow": "SPEISEKARTE",
     "title": "WORAUF HAST DU HUNGER?",
     "body": "Alle Gerichte und Preise folgen, sobald der Betrieb sie bestätigt hat.",
-    "pending": "Aktuelle Speisekarte wird ergänzt.",
-    "items": [
-      {
-        "key": "pizza",
-        "name": "Pizza",
-        "hint": "Klassiker & Spezialitäten",
-        "alt": "Pizzastück"
-      },
-      {
-        "key": "doner",
-        "name": "Döner",
-        "hint": "Im Brot, als Teller oder Box",
-        "alt": "Döner"
-      },
-      {
-        "key": "yufka",
-        "name": "Yufka",
-        "hint": "Gerollt, warm, frisch",
-        "alt": "Yufka"
-      },
-      {
-        "key": "burger",
-        "name": "Burger",
-        "hint": "Saftig & frisch gegrillt",
-        "alt": "Cheeseburger"
-      },
-      {
-        "key": "snacks",
-        "name": "Snacks & Beilagen",
-        "hint": "Pommes · Chicken Nuggets",
-        "alt": "Pommes und Nuggets"
-      },
-      {
-        "key": "drinks",
-        "name": "Getränke",
-        "hint": "Eiskalt zu jedem Gericht",
-        "alt": "Getränke"
-      }
-    ]
+    "pricePending": "Preis folgt",
+    "demoNote": "Beispielinhalte – die echte Karte folgt nach Bestätigung durch den Betrieb.",
+    "pending": "Aktuelle Speisekarte wird ergänzt."
   },
   "fulfillment": {
     "eyebrow": "SO EINFACH GEHT’S",
@@ -179,5 +143,62 @@
         ]
       ]
     }
+  },
+  "orbit": {
+    "eyebrow": "WAS GIBT’S HEUTE?",
+    "label": "Gerichte auswählen",
+    "prev": "Vorheriges Gericht",
+    "next": "Nächstes Gericht",
+    "toMenu": "Zur Speisekarte",
+    "drag": "Ziehen oder wischen",
+    "dishes": [
+      {
+        "key": "pizza",
+        "menuId": "pizza",
+        "name": "Pizza",
+        "hint": "Steinofen-Rand, viel Käse.",
+        "alt": "Pizzastück"
+      },
+      {
+        "key": "doner",
+        "menuId": "doner",
+        "name": "Döner",
+        "hint": "Frisch vom Spieß.",
+        "alt": "Döner im Fladenbrot"
+      },
+      {
+        "key": "yufka",
+        "menuId": "yufka",
+        "name": "Yufka",
+        "hint": "Warm gerollt, herzhaft gefüllt.",
+        "alt": "Yufka-Rolle"
+      },
+      {
+        "key": "burger",
+        "menuId": "burger",
+        "name": "Burger",
+        "hint": "Saftig und frisch gegrillt.",
+        "alt": "Cheeseburger"
+      },
+      {
+        "key": "pommes",
+        "menuId": "snacks",
+        "name": "Pommes",
+        "hint": "Knusprig, heiß, frisch.",
+        "alt": "Pommes frites"
+      },
+      {
+        "key": "nuggets",
+        "menuId": "snacks",
+        "name": "Nuggets",
+        "hint": "Goldbraun und knusprig.",
+        "alt": "Chicken Nuggets"
+      }
+    ]
+  },
+  "takeover": {
+    "a": "FRISCH",
+    "b": "HEISS",
+    "label": "Frisch. Heiß."
   }
 }

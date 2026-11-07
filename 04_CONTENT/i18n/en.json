@@ -65,48 +65,12 @@
     "body": "Yufka – hearty, fresh, uncomplicated."
   },
   "menu": {
-    "eyebrow": "WHAT WE OFFER",
+    "eyebrow": "MENU",
     "title": "WHAT ARE YOU HUNGRY FOR?",
     "body": "All dishes and prices will follow once the restaurant has confirmed them.",
-    "pending": "Current menu to be added.",
-    "items": [
-      {
-        "key": "pizza",
-        "name": "Pizza",
-        "hint": "Classics & specialties",
-        "alt": "Pizza slice"
-      },
-      {
-        "key": "doner",
-        "name": "Döner",
-        "hint": "In bread, as a plate or box",
-        "alt": "Döner"
-      },
-      {
-        "key": "yufka",
-        "name": "Yufka",
-        "hint": "Rolled, warm, fresh",
-        "alt": "Yufka"
-      },
-      {
-        "key": "burger",
-        "name": "Burgers",
-        "hint": "Juicy & freshly grilled",
-        "alt": "Cheeseburger"
-      },
-      {
-        "key": "snacks",
-        "name": "Snacks & sides",
-        "hint": "Fries · Chicken nuggets",
-        "alt": "Fries and nuggets"
-      },
-      {
-        "key": "drinks",
-        "name": "Drinks",
-        "hint": "Ice-cold with every dish",
-        "alt": "Drinks"
-      }
-    ]
+    "pricePending": "Price to follow",
+    "demoNote": "Sample content – the real menu follows once confirmed by the restaurant.",
+    "pending": "Current menu to be added."
   },
   "fulfillment": {
     "eyebrow": "IT’S THAT EASY",
@@ -179,5 +143,62 @@
         ]
       ]
     }
+  },
+  "orbit": {
+    "eyebrow": "WHAT’S FOR TODAY?",
+    "label": "Choose a dish",
+    "prev": "Previous dish",
+    "next": "Next dish",
+    "toMenu": "See the menu",
+    "drag": "Drag or swipe",
+    "dishes": [
+      {
+        "key": "pizza",
+        "menuId": "pizza",
+        "name": "Pizza",
+        "hint": "Stone-oven crust, plenty of cheese.",
+        "alt": "Pizza slice"
+      },
+      {
+        "key": "doner",
+        "menuId": "doner",
+        "name": "Döner",
+        "hint": "Fresh off the spit.",
+        "alt": "Döner in flatbread"
+      },
+      {
+        "key": "yufka",
+        "menuId": "yufka",
+        "name": "Yufka",
+        "hint": "Rolled warm, generously filled.",
+        "alt": "Yufka wrap"
+      },
+      {
+        "key": "burger",
+        "menuId": "burger",
+        "name": "Burger",
+        "hint": "Juicy and freshly grilled.",
+        "alt": "Cheeseburger"
+      },
+      {
+        "key": "pommes",
+        "menuId": "snacks",
+        "name": "Fries",
+        "hint": "Crispy, hot, fresh.",
+        "alt": "French fries"
+      },
+      {
+        "key": "nuggets",
+        "menuId": "snacks",
+        "name": "Nuggets",
+        "hint": "Golden and crispy.",
+        "alt": "Chicken nuggets"
+      }
+    ]
+  },
+  "takeover": {
+    "a": "FRESH",
+    "b": "HOT",
+    "label": "Fresh. Hot."
   }
 }

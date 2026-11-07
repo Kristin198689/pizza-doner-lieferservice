@@ -195,5 +195,10 @@
         "alt": "Chicken nuggets"
       }
     ]
+  },
+  "takeover": {
+    "a": "FRESH",
+    "b": "HOT",
+    "label": "Fresh. Hot."
   }
 }
