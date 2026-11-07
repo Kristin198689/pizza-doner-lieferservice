@@ -1,0 +1,422 @@
+{
+  "_readme": "Single source for the full menu. price: null = 'Preis folgt'. Set isDemoContent=false and pricesConfirmed=true only after the owner approved items and prices. Never invent prices.",
+  "currency": "EUR",
+  "isDemoContent": true,
+  "pricesConfirmed": false,
+  "categories": [
+    {
+      "id": "pizza",
+      "name": {
+        "de": "Pizza",
+        "en": "Pizza",
+        "uk": "Піца"
+      },
+      "note": {
+        "de": "Klassiker und Spezialitäten",
+        "en": "Classics and specialties",
+        "uk": "Класика та авторські"
+      },
+      "image": "food/pizza_slice_cheese_pull.png",
+      "items": [
+        {
+          "id": "margherita",
+          "name": {
+            "de": "Margherita",
+            "en": "Margherita",
+            "uk": "Маргарита"
+          },
+          "description": {
+            "de": "Tomatensoße, Mozzarella, Basilikum",
+            "en": "Tomato sauce, mozzarella, basil",
+            "uk": "Томатний соус, моцарела, базилік"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [],
+          "available": true
+        },
+        {
+          "id": "funghi",
+          "name": {
+            "de": "Funghi",
+            "en": "Funghi",
+            "uk": "Фунгі"
+          },
+          "description": {
+            "de": "Champignons, Tomatensoße, Mozzarella",
+            "en": "Mushrooms, tomato sauce, mozzarella",
+            "uk": "Печериці, томатний соус, моцарела"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [],
+          "available": true
+        },
+        {
+          "id": "vegetaria",
+          "name": {
+            "de": "Vegetaria",
+            "en": "Vegetaria",
+            "uk": "Вегетаріа"
+          },
+          "description": {
+            "de": "Paprika, Zwiebeln, Oliven, Mozzarella",
+            "en": "Peppers, onions, olives, mozzarella",
+            "uk": "Перець, цибуля, оливки, моцарела"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [],
+          "available": true
+        },
+        {
+          "id": "haehnchen",
+          "name": {
+            "de": "Hähnchen",
+            "en": "Chicken",
+            "uk": "Курча"
+          },
+          "description": {
+            "de": "Hähnchenfleisch, Paprika, Mozzarella",
+            "en": "Chicken, peppers, mozzarella",
+            "uk": "Курятина, перець, моцарела"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "doner",
+      "name": {
+        "de": "Döner",
+        "en": "Döner",
+        "uk": "Донер"
+      },
+      "note": {
+        "de": "Frisch vom Spieß",
+        "en": "Fresh off the spit",
+        "uk": "Щойно з рожна"
+      },
+      "image": "food/doner_sandwich.png",
+      "items": [
+        {
+          "id": "doner-brot",
+          "name": {
+            "de": "Döner im Fladenbrot",
+            "en": "Döner in flatbread",
+            "uk": "Донер у лаваші"
+          },
+          "description": {
+            "de": "Dönerfleisch, Salat, Tomaten, Zwiebeln, Soße",
+            "en": "Döner meat, salad, tomatoes, onions, sauce",
+            "uk": "М’ясо донер, салат, помідори, цибуля, соус"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        },
+        {
+          "id": "doner-teller",
+          "name": {
+            "de": "Dönerteller",
+            "en": "Döner plate",
+            "uk": "Донер на тарілці"
+          },
+          "description": {
+            "de": "Dönerfleisch mit Beilage und Salat",
+            "en": "Döner meat with side and salad",
+            "uk": "М’ясо донер із гарніром і салатом"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        },
+        {
+          "id": "doner-box",
+          "name": {
+            "de": "Döner-Box",
+            "en": "Döner box",
+            "uk": "Донер-бокс"
+          },
+          "description": {
+            "de": "Dönerfleisch mit Pommes und Soße",
+            "en": "Döner meat with fries and sauce",
+            "uk": "М’ясо донер із картоплею фрі та соусом"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "yufka",
+      "name": {
+        "de": "Yufka",
+        "en": "Yufka",
+        "uk": "Юфка"
+      },
+      "note": {
+        "de": "Gerollt, warm, frisch",
+        "en": "Rolled, warm, fresh",
+        "uk": "Гаряча, свіжа, у рулеті"
+      },
+      "image": "food/yufka_wrap.png",
+      "items": [
+        {
+          "id": "yufka-doner",
+          "name": {
+            "de": "Yufka mit Dönerfleisch",
+            "en": "Yufka with döner meat",
+            "uk": "Юфка з м’ясом донер"
+          },
+          "description": {
+            "de": "Dünnes Yufka-Brot, Salat, Soße",
+            "en": "Thin yufka bread, salad, sauce",
+            "uk": "Тонка юфка, салат, соус"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        },
+        {
+          "id": "yufka-veg",
+          "name": {
+            "de": "Yufka vegetarisch",
+            "en": "Yufka vegetarian",
+            "uk": "Юфка вегетаріанська"
+          },
+          "description": {
+            "de": "Gemüse, Käse, Soße",
+            "en": "Vegetables, cheese, sauce",
+            "uk": "Овочі, сир, соус"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [],
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "burger",
+      "name": {
+        "de": "Burger",
+        "en": "Burgers",
+        "uk": "Бургери"
+      },
+      "note": {
+        "de": "Saftig und frisch gegrillt",
+        "en": "Juicy and freshly grilled",
+        "uk": "Соковиті, щойно з грилю"
+      },
+      "image": "food/cheeseburger.png",
+      "items": [
+        {
+          "id": "cheeseburger",
+          "name": {
+            "de": "Cheeseburger",
+            "en": "Cheeseburger",
+            "uk": "Чізбургер"
+          },
+          "description": {
+            "de": "Brötchen, Käse, Salat, Tomaten, Soße",
+            "en": "Bun, cheese, lettuce, tomatoes, sauce",
+            "uk": "Булочка, сир, салат, помідори, соус"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "snacks",
+      "name": {
+        "de": "Snacks & Beilagen",
+        "en": "Snacks & sides",
+        "uk": "Закуски та гарніри"
+      },
+      "note": {
+        "de": "Pommes · Chicken Nuggets",
+        "en": "Fries · Chicken nuggets",
+        "uk": "Картопля фрі · Курячі нагетси"
+      },
+      "image": "food/fries.png",
+      "items": [
+        {
+          "id": "pommes",
+          "name": {
+            "de": "Pommes frites",
+            "en": "French fries",
+            "uk": "Картопля фрі"
+          },
+          "description": {
+            "de": "Knusprig, mit Soße nach Wahl",
+            "en": "Crispy, with a sauce of your choice",
+            "uk": "Хрустка, із соусом на вибір"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [],
+          "available": true
+        },
+        {
+          "id": "nuggets",
+          "name": {
+            "de": "Chicken Nuggets",
+            "en": "Chicken nuggets",
+            "uk": "Курячі нагетси"
+          },
+          "description": {
+            "de": "Knusprig paniert, mit Dip",
+            "en": "Crispy breaded, with a dip",
+            "uk": "Хрусткі в паніровці, з дипом"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        }
+      ]
+    },
+    {
+      "id": "drinks",
+      "name": {
+        "de": "Getränke",
+        "en": "Drinks",
+        "uk": "Напої"
+      },
+      "note": {
+        "de": "Eiskalt zu jedem Gericht",
+        "en": "Ice-cold with every dish",
+        "uk": "Холодні до кожної страви"
+      },
+      "image": null,
+      "items": [
+        {
+          "id": "softdrinks",
+          "name": {
+            "de": "Softdrinks",
+            "en": "Soft drinks",
+            "uk": "Безалкогольні напої"
+          },
+          "description": {
+            "de": "Verschiedene Sorten, gekühlt",
+            "en": "Various kinds, chilled",
+            "uk": "Різні види, охолоджені"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        },
+        {
+          "id": "wasser",
+          "name": {
+            "de": "Wasser",
+            "en": "Water",
+            "uk": "Вода"
+          },
+          "description": {
+            "de": "Still oder mit Kohlensäure",
+            "en": "Still or sparkling",
+            "uk": "Негазована або газована"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        }
+      ]
+    }
+  ]
+}

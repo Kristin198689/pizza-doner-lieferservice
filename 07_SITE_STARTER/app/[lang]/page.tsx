@@ -3,7 +3,8 @@ import { HeroMotion } from '@/components/HeroMotion';
 import { Runway } from '@/components/Runway';
 import { LimeScene } from '@/components/LimeScene';
 import { BoxScene } from '@/components/BoxScene';
-import { MenuList } from '@/components/MenuList';
+import { EditorialMenu } from '@/components/EditorialMenu';
+import { FoodOrbit } from '@/components/FoodOrbit';
 import { Fulfillment } from '@/components/Fulfillment';
 import { Footer } from '@/components/Footer';
 import { ScrollFx } from '@/components/ScrollFx';
@@ -19,9 +20,10 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       <main>
         <HeroMotion t={t.hero} order={t.order} quick={t.quick} />
         <Runway t={t.runway} />
+        <FoodOrbit t={t.orbit} />
         <LimeScene t={t.lime} alt={t.runway.yufkaAlt} />
         <BoxScene t={t.box} />
-        <MenuList t={t.menu} />
+        <EditorialMenu t={t.menu} locale={locale} />
         <Fulfillment t={t.fulfillment} order={t.order} />
       </main>
       <Footer t={t.footer} locale={locale} />
