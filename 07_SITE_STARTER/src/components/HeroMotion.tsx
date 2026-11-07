@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRef } from 'react';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { IconBag, IconMoped, IconSlice, IconSpit, IconWrap } from './Icons';
-import { HalalBadge } from './HalalBadge';
+import { HalalSeal } from './HalalSeal';
 import { OrderButtons } from './OrderButtons';
 import { SmokeField, type SmokeControl } from './SmokeField';
 import type { Messages } from '@/lib/i18n';
@@ -56,6 +56,7 @@ export function HeroMotion({ t, order, quick }: Props) {
         el.dataset.mode = 'pinned';
         el.dataset.scene = '1';
         gsap.set(q('.fx'), { transformPerspective: 900 });
+        gsap.set(q('.fxl'), { transformOrigin: '56% 78%' });
 
         // intro (time based): smoke breathes in, pizza rises out of the black, type masks open
         gsap
@@ -69,7 +70,7 @@ export function HeroMotion({ t, order, quick }: Props) {
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
           scrollTrigger: {
-            trigger: el, start: 'top top', end: '+=330%', scrub: 0.9, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
+            trigger: el, start: 'top top', end: '+=210%', scrub: 0.6, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
             onUpdate: (self) => { el.dataset.scene = self.progress > 0.56 ? '2' : '1'; },
           },
         });
@@ -80,9 +81,10 @@ export function HeroMotion({ t, order, quick }: Props) {
         // B (1–4) one composition lifts: depth layers rise at different speeds, turn in 3D, hang
         FX.forEach((f, i) => {
           const lift = (7 + f.d * 7) / 100;
-          tl.to(`.fx-s1-${i}`, { y: () => -stageH() * lift, rotationY: (i % 2 ? 1 : -1) * 34 * f.d, rotationX: (i % 3 ? 1 : -1) * 18, rotation: `+=${(i % 2 ? 1 : -1) * 16}`, scale: 1 + f.d * 0.1, duration: 2.4 + f.d * 0.4, ease: 'power3.out' }, 1 + (1.6 - f.d) * 0.35 + i * 0.02);
+          tl.to(`.fx-s1-${i}`, { y: () => -stageH() * lift, rotationY: (i % 2 ? 1 : -1) * 34 * f.d, rotationX: (i % 3 ? 1 : -1) * 18, rotation: `+=${(i % 2 ? 1 : -1) * 16}`, scale: 1 + f.d * 0.1, duration: 2.4 + f.d * 0.4, ease: 'back.out(1.25)' }, 1 + (1.6 - f.d) * 0.35 + i * 0.02);
         });
         tl.to(q('.hero__pizza'), { scale: 1.05, yPercent: 1.5, duration: 3 }, 1);
+        [[0, -4, 0.9], [1, 5, 1.04], [2, -8, 1.1]].forEach(([L, r, s]) => tl.to(q(`.fxl-${L}`), { rotation: r, scale: s, duration: 3.4, ease: 'sine.inOut' }, 1));
         tl.to(smokeBack.current, { v: 1.5, duration: 3 }, 1);
         tl.to(smokeFront.current, { v: 0.7, duration: 3 }, 1);
 
@@ -96,11 +98,9 @@ export function HeroMotion({ t, order, quick }: Props) {
         tl.to(q('.hero__track'), { rotation: 0.7, duration: 1.7, ease: 'sine.inOut', transformOrigin: '50% 50%' }, 5.2);
         tl.to(q('.hero__track'), { rotation: 0, duration: 1.7, ease: 'sine.inOut' }, 6.9);
         tl.to(q('.hero__copy'), { x: () => -vw() * 0.16, opacity: 0, duration: 2.6, ease: 'power2.in' }, 5.2);
-        tl.to(q('.hero__stage-inner'), { x: () => -vw() * 0.1, scale: 1.08, duration: 3.4, ease: 'power2.inOut' }, 5.2);
+        tl.to(q('.hero__stage-inner'), { x: () => -vw() * 0.1, duration: 3.4, ease: 'power2.inOut' }, 5.2);
         FX.forEach((f, i) => tl.to(`.fx-s1-${i}`, { x: () => -vw() * (0.04 + f.d * 0.16), rotation: `+=${(i % 2 ? 1 : -1) * 20 * f.d}`, duration: 3.4, ease: 'power2.inOut' }, 5.2));
-        tl.to(smokeFront.current, { v: 1.6, duration: 1.7, ease: 'power2.inOut' }, 5.4);
-        tl.to(smokeFront.current, { v: 0.5, duration: 1.7, ease: 'power2.out' }, 7.1);
-
+        
         // E (7–12) the new place: another light, another pizza, a mirrored composition
         tl.fromTo(q('.hero__s2-pizza'), { x: () => vw() * 0.2, scale: 0.94, rotation: 6 }, { x: 0, scale: 1, rotation: 0, duration: 3.2, ease: 'power3.out' }, 5.6);
         tl.fromTo(q('.hero__s2-copy'), { x: () => vw() * 0.22 }, { x: 0, duration: 3.2, ease: 'power3.out' }, 5.6);
@@ -162,7 +162,7 @@ export function HeroMotion({ t, order, quick }: Props) {
       {/* ---------------- Scene 1: pure black, huge pizza ---------------- */}
       <div className="hero__s1">
         <div className="hero__glow" aria-hidden="true" />
-        <SmokeField control={smokeBack} className="smoke--back" count={36} originX={0.68} originY={0.72} spread={0.6} seed={3} />
+        <SmokeField control={smokeBack} className="smoke--back" count={26} originX={0.66} originY={0.58} spread={0.5} seed={3} />
 
         <div className="hero__copy">
           <p className="eyebrow hero__fade">{t.eyebrow}</p>
@@ -174,18 +174,22 @@ export function HeroMotion({ t, order, quick }: Props) {
           <ul className="hero__modes hero__fade">
             <li><IconMoped className="hero__modeicon" />{t.delivery}</li>
             <li><IconBag className="hero__modeicon" />{t.pickup}</li>
-            <li><HalalBadge /></li>
           </ul>
           <OrderButtons order={order} className="hero__order hero__fade" />
         </div>
 
         <div className="hero__stage">
           <div className="hero__stage-inner">
-            <Image className="hero__pizza" src="/assets/food/pizza_hero_assembled.png" alt={t.pizzaAlt} width={1254} height={1254} priority sizes="(max-width: 767px) 130vw, 78vw" />
-            {FX.map((f, i) => (
-              <span key={i} className={`fx fx--s1 fx-s1-${i}${i >= 10 ? ' fx--desktop' : ''}`} aria-hidden="true" style={{ left: `${f.x}%`, top: `${f.y}%`, width: `${f.size}%`, zIndex: f.d > 1 ? 4 : f.d > 0.7 ? 3 : 2, opacity: f.d < 0.7 ? 0.8 : 1 }}>
-                <Image className="fx__img" src={`/assets/ingredients/${f.src}.png`} alt="" width={360} height={320} sizes="200px" style={{ rotate: `${f.rot}deg`, animationDelay: `${-i * 0.43}s` }} />
-              </span>
+            <Image className="hero__pizza" src="/assets/food/pizza_hero_assembled.png" alt={t.pizzaAlt} width={1254} height={1254} priority quality={95} sizes="(max-width: 767px) 130vw, 78vw" />
+            <HalalSeal className="seal--hero" />
+            {[0, 1, 2].map((L) => (
+              <div key={L} className={`fxl fxl-${L}`}>
+                {FX.map((f, i) => ((f.d < 0.7 ? 0 : f.d < 1.3 ? 1 : 2) === L ? (
+                  <span key={i} className={`fx fx--s1 fx-s1-${i}${i >= 10 ? ' fx--desktop' : ''}`} aria-hidden="true" style={{ left: `${f.x}%`, top: `${f.y}%`, width: `${f.size}%`, opacity: f.d < 0.7 ? 0.85 : 1 }}>
+                    <Image className="fx__img" src={`/assets/ingredients/${f.src}.png`} alt="" width={360} height={320} sizes="200px" style={{ rotate: `${f.rot}deg`, animationDelay: `${-i * 0.43}s` }} />
+                  </span>
+                ) : null))}
+              </div>
             ))}
           </div>
         </div>
@@ -210,7 +214,8 @@ export function HeroMotion({ t, order, quick }: Props) {
           <OrderButtons order={order} className="hero__s2-order hero__s2-fade" />
         </div>
         <div className="hero__s2-stage">
-          <Image className="hero__s2-pizza" src="/assets/food/pizza_toppings_airborne_reference.png" alt={t.sliceAlt} width={1254} height={1254} sizes="(max-width: 767px) 120vw, 80vw" />
+          <Image className="hero__s2-pizza" src="/assets/food/pizza_toppings_airborne_reference.png" alt={t.sliceAlt} width={1254} height={1254} quality={95} sizes="(max-width: 767px) 120vw, 80vw" />
+          <HalalSeal className="seal--s2" />
           {S2.map((f, i) => (
             <span key={i} className={`fx fx--s2 fx-s2-${i}`} aria-hidden="true" style={{ left: `${f.x}%`, top: `${f.y}%`, width: `${f.size}%` }}>
               <Image className="fx__img" src={`/assets/ingredients/${f.src}.png`} alt="" width={360} height={320} sizes="200px" style={{ rotate: `${f.rot}deg` }} />
@@ -221,7 +226,6 @@ export function HeroMotion({ t, order, quick }: Props) {
 
       </div>
 
-      <SmokeField control={smokeFront} className="smoke--front" count={18} originX={0.6} originY={0.95} spread={0.9} seed={7} />
     </section>
   );
 }

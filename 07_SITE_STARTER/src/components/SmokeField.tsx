@@ -66,7 +66,7 @@ export function SmokeField({
       q.y = (originY + (rnd() - 0.2) * 0.35) * H;
       q.vx = (rnd() - 0.5) * 8;
       q.vy = -(10 + rnd() * 22);
-      q.r = (0.1 + rnd() * 0.17) * Math.max(W, H);
+      q.r = (0.06 + rnd() * 0.1) * Math.max(W, H);
       q.life = fresh ? rnd() : 0;
       q.sp = 0.035 + rnd() * 0.05;
       q.rot = rnd() * 6.28;
@@ -103,7 +103,7 @@ export function SmokeField({
         p.y += p.vy * dt * 0.5;
         p.rot += p.vr * dt;
         const r = p.r * (0.55 + p.life * 0.95);
-        ctx.globalAlpha = Math.min(0.4, a * 0.17 * k);
+        ctx.globalAlpha = Math.min(0.22, a * 0.1 * k);
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.rot);

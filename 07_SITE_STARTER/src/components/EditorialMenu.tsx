@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { DrinksArt } from './DrinksArt';
-import { HalalBadge } from './HalalBadge';
+import { HalalSeal } from './HalalSeal';
 import { formatPrice, menuData } from '@/lib/menu';
 import type { Locale, Messages } from '@/lib/i18n';
 
@@ -23,7 +23,7 @@ export function EditorialMenu({ t, locale }: { t: Messages['menu']; locale: Loca
         <h2 className="display">{t.title}</h2>
         <p className="pms__lead">{t.body}</p>
         <div className="pms__tags">
-          <HalalBadge className="halal--ink" />
+          <HalalSeal className="seal--menu" />
           {isDemoContent && <p className="pms__demo" role="note">{t.demoNote}</p>}
         </div>
       </header>
