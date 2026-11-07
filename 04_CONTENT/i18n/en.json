@@ -1,82 +1,183 @@
 {
+  "meta": {
+    "title": "Pizza · Döner · Yufka – Delivery & Pickup",
+    "description": "Pizza, döner and yufka – freshly made, delivered hot or ready for pickup. Order by phone."
+  },
   "nav": {
-    "home": "Home",
     "menu": "Menu",
     "delivery": "Delivery",
     "pickup": "Pickup",
-    "contact": "Contact",
-    "call": "Call to order",
-    "languages": "Choose language"
+    "call": "Call now",
+    "languages": "Choose language",
+    "open": "Open menu",
+    "close": "Close menu"
   },
   "hero": {
     "eyebrow": "PIZZA · DÖNER · YUFKA",
     "title": "YOUR FAVORITE FOOD.",
-    "accent": "DELIVERED FRESH.",
+    "accent": "DELIVERED.",
     "caption": "Hot. Fresh. Straight to you.",
-    "pickup": "Pickup",
     "delivery": "Delivery",
-    "scroll": "SCROLL TO DISCOVER",
+    "pickup": "Pickup",
+    "scroll": "SCROLL & DISCOVER",
     "shot2eyebrow": "FRESH FROM THE OVEN",
     "shot2title": "MORE THAN PIZZA.",
-    "shot2accent": "A FEELING."
+    "shot2accent": "A FEELING.",
+    "pizzaAlt": "Hot pizza with mozzarella, mushrooms, tomatoes and basil",
+    "sliceAlt": "Pizza slice with long cheese pulls"
+  },
+  "order": {
+    "call": "Call now",
+    "callLong": "Order by phone now",
+    "lieferando": "Order on Lieferando",
+    "lieferandoSoon": "Lieferando · coming soon",
+    "phonePending": "Phone number to be added"
+  },
+  "quick": {
+    "pizza": "Pizza",
+    "doner": "Döner",
+    "yufka": "Yufka"
   },
   "runway": {
     "eyebrow": "THREE CLASSICS",
     "title": "THREE FAVORITES.",
-    "accent": "ONE APPETITE.",
-    "description": "Pizza, döner and yufka — freshly made for you.",
+    "accent": "ONE HUNGER.",
     "pizza": "PIZZA",
+    "pizzaText": "Stone-oven crust, plenty of cheese, fresh toppings.",
     "doner": "DÖNER",
-    "yufka": "YUFKA"
+    "donerText": "Off the spit, freshly sliced, in bread.",
+    "yufka": "YUFKA",
+    "yufkaText": "Thin, warm, rolled and generously filled.",
+    "donerAlt": "Döner in flatbread",
+    "spitAlt": "Döner kebab spit",
+    "yufkaAlt": "Grilled yufka wrap"
   },
   "box": {
-    "eyebrow": "HOT. FRESH. PACKED.",
+    "eyebrow": "WARM. FRESH. PACKED.",
     "title": "STRAIGHT FROM THE BOX.",
-    "body": "Freshly prepared. Ready for pickup or delivery."
+    "body": "Freshly prepared. For pickup or delivery.",
+    "alt": "Open pizza box with steaming pizza"
   },
   "lime": {
     "eyebrow": "READY FOR THE NEXT BITE?",
-    "title": "ROLL IT.",
-    "accent": "LOVE IT.",
-    "body": "Yufka — fresh, hearty and easy to enjoy."
+    "title": "WRAP IT.",
+    "accent": "BITE IT.",
+    "body": "Yufka – hearty, fresh, uncomplicated."
   },
   "menu": {
     "eyebrow": "WHAT WE OFFER",
-    "title": "WHAT ARE YOU CRAVING?",
-    "body": "Full menu details and prices will be added once confirmed by the business.",
-    "categories": {
-      "pizza": "Pizza",
-      "doner": "Döner",
-      "yufka": "Yufka",
-      "burger": "Burgers",
-      "snacks": "Snacks & sides",
-      "drinks": "Drinks"
-    },
-    "snacksHint": "Fries · Chicken nuggets",
-    "pending": "Full menu coming after confirmation"
+    "title": "WHAT ARE YOU HUNGRY FOR?",
+    "body": "All dishes and prices will follow once the restaurant has confirmed them.",
+    "pending": "Current menu to be added.",
+    "items": [
+      {
+        "key": "pizza",
+        "name": "Pizza",
+        "hint": "Classics & specialties",
+        "alt": "Pizza slice"
+      },
+      {
+        "key": "doner",
+        "name": "Döner",
+        "hint": "In bread, as a plate or box",
+        "alt": "Döner"
+      },
+      {
+        "key": "yufka",
+        "name": "Yufka",
+        "hint": "Rolled, warm, fresh",
+        "alt": "Yufka"
+      },
+      {
+        "key": "burger",
+        "name": "Burgers",
+        "hint": "Juicy & freshly grilled",
+        "alt": "Cheeseburger"
+      },
+      {
+        "key": "snacks",
+        "name": "Snacks & sides",
+        "hint": "Fries · Chicken nuggets",
+        "alt": "Fries and nuggets"
+      },
+      {
+        "key": "drinks",
+        "name": "Drinks",
+        "hint": "Ice-cold with every dish",
+        "alt": "Drinks"
+      }
+    ]
   },
   "fulfillment": {
-    "eyebrow": "SIMPLE AS THAT",
+    "eyebrow": "IT’S THAT EASY",
     "title": "CALL.",
     "accent": "PICK UP OR GET IT DELIVERED.",
     "delivery": "Delivery",
+    "deliveryText": "Straight to your home or office.",
     "pickup": "Pickup",
+    "pickupText": "Order ahead and collect it hot.",
+    "noSeats": "Delivery and pickup only – no seating.",
     "phone": "Phone",
     "address": "Address",
     "hours": "Opening hours",
-    "pending": "Details will be added soon",
-    "call": "Order by phone"
+    "pending": "Details coming soon",
+    "bagAlt": "Takeaway paper bag"
   },
   "footer": {
-    "tagline": "Pizza. Döner. Yufka. Made for your cravings.",
-    "imprint": "Imprint",
+    "tagline": "Pizza. Döner. Yufka. For your hunger.",
+    "imprint": "Legal notice",
     "privacy": "Privacy",
     "back": "Back to top",
-    "placeholder": "Legal information required before launch."
+    "placeholder": "Legal details will follow before launch."
   },
-  "ui": {
-    "disabledPhone": "Phone number coming soon",
-    "halal": "HALAL",
-    "halalWarning": "Publish only after owner verification"
+  "legal": {
+    "back": "Back to home",
+    "draft": "DRAFT – needs legal review before publication.",
+    "imprint": {
+      "title": "Legal notice",
+      "blocks": [
+        [
+          "Information pursuant to § 5 DDG",
+          "[Operator / company name – to be added]\n[Street, postcode, city – to be added]"
+        ],
+        [
+          "Contact",
+          "Phone: [to be added]\nEmail: [to be added]"
+        ],
+        [
+          "VAT ID / register",
+          "[if applicable – to be added]"
+        ]
+      ]
+    },
+    "privacy": {
+      "title": "Privacy policy",
+      "blocks": [
+        [
+          "Controller",
+          "[Operator name and address – to be added]"
+        ],
+        [
+          "Hosting and server logs",
+          "When you visit this site, the hosting provider processes technically necessary access data (e.g. IP address, time, page requested). [Provider and legal basis – to be added]"
+        ],
+        [
+          "Cookies and tracking",
+          "This website sets no cookies and uses no analytics or tracking services. Fonts are served from our own server."
+        ],
+        [
+          "Ordering by phone",
+          "Orders are placed by phone. Data shared during the call is used only to process the order. [Details – to be added]"
+        ],
+        [
+          "External links",
+          "The Lieferando link leads to a third-party site governed by its own privacy policy."
+        ],
+        [
+          "Your rights",
+          "Access, rectification, erasure, restriction, objection and complaint to a supervisory authority."
+        ]
+      ]
+    }
   }
 }

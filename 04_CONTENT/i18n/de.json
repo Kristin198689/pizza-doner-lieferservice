@@ -1,38 +1,62 @@
 {
+  "meta": {
+    "title": "Pizza · Döner · Yufka – Lieferung & Abholung",
+    "description": "Pizza, Döner und Yufka – heiß zubereitet, frisch geliefert oder zur Abholung. Bestellung per Telefon."
+  },
   "nav": {
-    "home": "Start",
     "menu": "Speisekarte",
     "delivery": "Lieferung",
     "pickup": "Abholung",
-    "contact": "Kontakt",
     "call": "Jetzt anrufen",
-    "languages": "Sprache wählen"
+    "languages": "Sprache wählen",
+    "open": "Menü öffnen",
+    "close": "Menü schließen"
   },
   "hero": {
     "eyebrow": "PIZZA · DÖNER · YUFKA",
-    "title": "DEIN LIEBLINGS-ESSEN.",
-    "accent": "FRISCH GELIEFERT.",
+    "title": "DEIN LIEBLINGS­ESSEN.",
+    "accent": "LIEFERT.",
     "caption": "Heiß. Frisch. Direkt zu dir.",
-    "pickup": "Abholung",
     "delivery": "Lieferung",
+    "pickup": "Abholung",
     "scroll": "SCROLLEN & ENTDECKEN",
     "shot2eyebrow": "FRISCH AUS DEM OFEN",
     "shot2title": "MEHR ALS NUR PIZZA.",
-    "shot2accent": "EIN GEFÜHL."
+    "shot2accent": "EIN GEFÜHL.",
+    "pizzaAlt": "Heiße Pizza mit Mozzarella, Pilzen, Tomaten und Basilikum",
+    "sliceAlt": "Pizzastück mit langen Käsefäden"
+  },
+  "order": {
+    "call": "Jetzt anrufen",
+    "callLong": "Jetzt telefonisch bestellen",
+    "lieferando": "Auf Lieferando bestellen",
+    "lieferandoSoon": "Lieferando · bald verfügbar",
+    "phonePending": "Telefonnummer wird ergänzt"
+  },
+  "quick": {
+    "pizza": "Pizza",
+    "doner": "Döner",
+    "yufka": "Yufka"
   },
   "runway": {
     "eyebrow": "DREI KLASSIKER",
     "title": "DREI LIEBLINGE.",
     "accent": "EIN HUNGER.",
-    "description": "Pizza, Döner und Yufka – frisch für dich vorbereitet.",
     "pizza": "PIZZA",
+    "pizzaText": "Steinofen-Rand, viel Käse, frische Beläge.",
     "doner": "DÖNER",
-    "yufka": "YUFKA"
+    "donerText": "Vom Spieß, frisch geschnitten, im Brot.",
+    "yufka": "YUFKA",
+    "yufkaText": "Dünn, warm gerollt und herzhaft gefüllt.",
+    "donerAlt": "Döner im Fladenbrot",
+    "spitAlt": "Döner-Drehspieß",
+    "yufkaAlt": "Gegrillte Yufka-Rolle"
   },
   "box": {
     "eyebrow": "WARM. FRISCH. VERPACKT.",
     "title": "DIREKT AUS DER BOX.",
-    "body": "Frisch zubereitet. Zum Mitnehmen oder Liefern lassen."
+    "body": "Frisch zubereitet. Zum Mitnehmen oder liefern lassen.",
+    "alt": "Offener Pizzakarton mit dampfender Pizza"
   },
   "lime": {
     "eyebrow": "BEREIT FÜR DEN NÄCHSTEN BISS?",
@@ -43,29 +67,61 @@
   "menu": {
     "eyebrow": "UNSER ANGEBOT",
     "title": "WORAUF HAST DU HUNGER?",
-    "body": "Unser vollständiges Angebot und die Preise folgen nach Bestätigung durch den Betrieb.",
-    "categories": {
-      "pizza": "Pizza",
-      "doner": "Döner",
-      "yufka": "Yufka",
-      "burger": "Burger",
-      "snacks": "Snacks & Beilagen",
-      "drinks": "Getränke"
-    },
-    "snacksHint": "Pommes · Chicken Nuggets",
-    "pending": "Aktuelle Speisekarte wird ergänzt"
+    "body": "Alle Gerichte und Preise folgen, sobald der Betrieb sie bestätigt hat.",
+    "pending": "Aktuelle Speisekarte wird ergänzt.",
+    "items": [
+      {
+        "key": "pizza",
+        "name": "Pizza",
+        "hint": "Klassiker & Spezialitäten",
+        "alt": "Pizzastück"
+      },
+      {
+        "key": "doner",
+        "name": "Döner",
+        "hint": "Im Brot, als Teller oder Box",
+        "alt": "Döner"
+      },
+      {
+        "key": "yufka",
+        "name": "Yufka",
+        "hint": "Gerollt, warm, frisch",
+        "alt": "Yufka"
+      },
+      {
+        "key": "burger",
+        "name": "Burger",
+        "hint": "Saftig & frisch gegrillt",
+        "alt": "Cheeseburger"
+      },
+      {
+        "key": "snacks",
+        "name": "Snacks & Beilagen",
+        "hint": "Pommes · Chicken Nuggets",
+        "alt": "Pommes und Nuggets"
+      },
+      {
+        "key": "drinks",
+        "name": "Getränke",
+        "hint": "Eiskalt zu jedem Gericht",
+        "alt": "Getränke"
+      }
+    ]
   },
   "fulfillment": {
     "eyebrow": "SO EINFACH GEHT’S",
     "title": "ANRUFEN.",
     "accent": "ABHOLEN ODER LIEFERN LASSEN.",
     "delivery": "Lieferung",
+    "deliveryText": "Direkt zu dir nach Hause oder ins Büro.",
     "pickup": "Abholung",
+    "pickupText": "Vorbestellen und warm abholen.",
+    "noSeats": "Reiner Liefer- und Abholservice – keine Sitzplätze.",
     "phone": "Telefon",
     "address": "Adresse",
     "hours": "Öffnungszeiten",
     "pending": "Angaben folgen in Kürze",
-    "call": "Jetzt telefonisch bestellen"
+    "bagAlt": "Papiertüte zum Mitnehmen"
   },
   "footer": {
     "tagline": "Pizza. Döner. Yufka. Für deinen Hunger.",
@@ -74,9 +130,54 @@
     "back": "Nach oben",
     "placeholder": "Rechtliche Angaben folgen vor Veröffentlichung."
   },
-  "ui": {
-    "disabledPhone": "Telefonnummer wird ergänzt",
-    "halal": "HALAL",
-    "halalWarning": "Nur nach Bestätigung durch den Betrieb veröffentlichen"
+  "legal": {
+    "back": "Zurück zur Startseite",
+    "draft": "ENTWURF – vor Veröffentlichung rechtlich prüfen lassen (Needs legal review).",
+    "imprint": {
+      "title": "Impressum",
+      "blocks": [
+        [
+          "Angaben gemäß § 5 DDG",
+          "[Name des Betreibers / Firma – noch einzutragen]\n[Straße Hausnummer, PLZ Ort – noch einzutragen]"
+        ],
+        [
+          "Kontakt",
+          "Telefon: [noch einzutragen]\nE-Mail: [noch einzutragen]"
+        ],
+        [
+          "Umsatzsteuer-ID / Register",
+          "[falls vorhanden – noch einzutragen]"
+        ]
+      ]
+    },
+    "privacy": {
+      "title": "Datenschutzerklärung",
+      "blocks": [
+        [
+          "Verantwortlicher",
+          "[Name und Anschrift des Betreibers – noch einzutragen]"
+        ],
+        [
+          "Hosting und Server-Logfiles",
+          "Beim Aufruf dieser Seite verarbeitet der Hosting-Anbieter technisch notwendige Zugriffsdaten (z. B. IP-Adresse, Zeitpunkt, aufgerufene Seite). [Anbieter und Rechtsgrundlage – noch einzutragen]"
+        ],
+        [
+          "Cookies und Tracking",
+          "Diese Website setzt keine Cookies und verwendet keine Analyse- oder Tracking-Dienste. Schriftarten werden vom eigenen Server geladen."
+        ],
+        [
+          "Bestellung per Telefon",
+          "Bestellungen erfolgen telefonisch. Die dabei übermittelten Daten werden nur zur Abwicklung der Bestellung verwendet. [Details – noch einzutragen]"
+        ],
+        [
+          "Externe Links",
+          "Der Link zu Lieferando führt auf eine Seite eines Dritten, für die dessen Datenschutzerklärung gilt."
+        ],
+        [
+          "Ihre Rechte",
+          "Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch und Beschwerde bei einer Aufsichtsbehörde."
+        ]
+      ]
+    }
   }
 }

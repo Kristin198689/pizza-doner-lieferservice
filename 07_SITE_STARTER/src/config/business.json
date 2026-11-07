@@ -16,5 +16,6 @@
   "menuAndPricesConfirmed": false,
   "legalPagesApproved": false,
   "publishReady": false,
-  "note": "Placeholders. Never publish invented menu, prices, phone or halal certification."
+  "note": "Placeholders. Never publish invented menu, prices, phone, halal certification or Lieferando URL. lieferandoUrl: set to the real https://www.lieferando.de/... page to turn the placeholder chip into a link.",
+  "lieferandoUrl": ""
 }
