@@ -4,6 +4,8 @@ import { biz, getMessages, locales } from '@/lib/i18n';
 import '@fontsource-variable/oswald';
 import '@fontsource-variable/manrope';
 import '@fontsource/roboto-condensed/900-italic.css';
+import '@fontsource/anton';
+import '@fontsource/playfair-display/900-italic.css';
 import '../globals.css';
 
 

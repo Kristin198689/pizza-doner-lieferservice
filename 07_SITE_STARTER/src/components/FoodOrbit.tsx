@@ -6,7 +6,8 @@ import { IconArrow } from './Icons';
 import type { Messages } from '@/lib/i18n';
 
 const SRC: Record<string, string> = {
-  pizza: 'food/pizza_slice_cheese_pull.png',
+  pizza: 'food/pizza_hero_assembled.png',
+  slice: 'food/pizza_slice_cheese_pull.png',
   doner: 'food/doner_sandwich.png',
   yufka: 'food/yufka_wrap.png',
   burger: 'food/cheeseburger.png',
@@ -40,6 +41,7 @@ export function FoodOrbit({ t }: { t: Messages['orbit'] }) {
   const size = useRef({ w: 1200, h: 600 });
   const drag = useRef<{ id: number; x0: number; p0: number; moved: boolean; t0: number; i0: number } | null>(null);
   const tween = useRef<gsap.core.Tween | null>(null);
+  const auto = useRef({ resumeAt: 0, hover: false, idx: 0 });
   const [active, setActive] = useState(0);
   const [reduced, setReduced] = useState(false);
 
@@ -66,6 +68,7 @@ export function FoodOrbit({ t }: { t: Messages['orbit'] }) {
       let delta = (((target - cur) % n) + n) % n;
       if (delta > n / 2) delta -= n;
       const to = cur + delta;
+      auto.current.resumeAt = performance.now() + 2600;
       setActive((((Math.round(to) % n) + n) % n));
       if (reduced) {
         pos.current.p = to;
@@ -93,6 +96,47 @@ export function FoodOrbit({ t }: { t: Messages['orbit'] }) {
       tween.current?.kill();
     };
   }, [render]);
+
+  /* continuous "round dance": all dishes keep travelling along the oval while visible */
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const el = stage.current;
+    if (!el) return;
+    let raf = 0;
+    let last = 0;
+    let visible = false;
+    const tick = (now: number) => {
+      raf = 0;
+      if (!visible) return;
+      const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
+      last = now;
+      const a = auto.current;
+      if (!drag.current && !a.hover && now > a.resumeAt && !(tween.current && tween.current.isActive())) {
+        pos.current.p += dt * 0.2;
+        render();
+        const idx = (((Math.round(pos.current.p) % n) + n) % n);
+        if (idx !== a.idx) {
+          a.idx = idx;
+          setActive(idx);
+        }
+      } else {
+        a.idx = (((Math.round(pos.current.p) % n) + n) % n);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible && !raf) {
+        last = performance.now();
+        raf = requestAnimationFrame(tick);
+      }
+    });
+    io.observe(el);
+    return () => {
+      cancelAnimationFrame(raf);
+      io.disconnect();
+    };
+  }, [n, render]);
 
   const onDown = (e: React.PointerEvent) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
@@ -125,6 +169,7 @@ export function FoodOrbit({ t }: { t: Messages['orbit'] }) {
     const v = dx / Math.max(1, performance.now() - d.t0); // px per ms
     let target = Math.round(pos.current.p - v * 0.9);
     target = Math.max(d.i0 - 1, Math.min(d.i0 + 1, target));
+    auto.current.resumeAt = performance.now() + 2600;
     goTo(target);
   };
   const onKey = (e: React.KeyboardEvent) => {
@@ -154,6 +199,8 @@ export function FoodOrbit({ t }: { t: Messages['orbit'] }) {
         onPointerMove={onMove}
         onPointerUp={onUp}
         onPointerCancel={onUp}
+        onPointerEnter={(e) => { if (e.pointerType === 'mouse') auto.current.hover = true; }}
+        onPointerLeave={() => { auto.current.hover = false; }}
       >
         <span className="orbit__glow" aria-hidden="true" />
         {t.dishes.map((dish, i) => (

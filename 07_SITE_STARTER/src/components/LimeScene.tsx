@@ -29,8 +29,8 @@ export function LimeScene({ t, alt, word }: { t: Messages['lime']; alt: string; 
         });
         // it rolls: translation + several turns that settle into its resting pose
         tl.fromTo(q('.lime__wrap'), { xPercent: 125, rotation: -420 }, { xPercent: 0, rotation: 0, ease: 'power2.out', duration: 1.4 }, 0);
-        tl.fromTo(q('.lime__l1'), { xPercent: 0 }, { xPercent: -5, ease: 'power2.inOut', duration: 0.9 }, 0.7);
-        tl.fromTo(q('.lime__l2'), { xPercent: 0 }, { xPercent: 2, ease: 'power2.inOut', duration: 0.9 }, 0.75);
+        tl.fromTo(q('.lime__l1'), { xPercent: 0 }, { xPercent: -3, ease: 'power2.inOut', duration: 0.9 }, 0.7);
+        tl.fromTo(q('.lime__l2'), { xPercent: 0 }, { xPercent: 0, ease: 'power2.inOut', duration: 0.9 }, 0.75);
         tl.fromTo(q('.lime__row--a'), { xPercent: 0 }, { xPercent: -26, duration: 2.4 }, 0);
         tl.fromTo(q('.lime__row--b'), { xPercent: -26 }, { xPercent: 0, duration: 2.4 }, 0);
         tl.fromTo(q('.lime__body'), { y: 40, opacity: 0 }, { y: 0, opacity: 1, ease: 'power3.out', duration: 0.6 }, 1.3);

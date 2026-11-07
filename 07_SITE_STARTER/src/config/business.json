@@ -11,11 +11,11 @@
   "deliveryAreas": [],
   "socialLinks": {},
   "domain": "",
-  "halalConfirmedByOwner": false,
+  "halalConfirmedByOwner": true,
   "hasIndependentHalalCertification": false,
   "menuAndPricesConfirmed": false,
   "legalPagesApproved": false,
   "publishReady": false,
-  "note": "Placeholders. Never publish invented menu, prices, phone, halal certification or Lieferando URL. lieferandoUrl: set to the real https://www.lieferando.de/... page to turn the placeholder chip into a link.",
+  "note": "Placeholders. Never publish invented menu, prices, phone, halal certification or Lieferando URL. lieferandoUrl: set to the real https://www.lieferando.de/... page to turn the placeholder chip into a link. halalConfirmedByOwner is TRUE only for the demo: set it to false for every client who has not confirmed halal status.",
   "lieferandoUrl": ""
 }

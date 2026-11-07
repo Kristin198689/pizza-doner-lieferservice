@@ -30,7 +30,6 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
         tl.to(s, { heat: 1, duration: 3 }, 0);
         tl.fromTo(q('.dn__word'), { yPercent: 10, xPercent: -4 }, { yPercent: -10, xPercent: 4, duration: 5 }, 0);
         tl.fromTo(q('.dn__copy > *'), { y: 60, opacity: 0 }, { y: 0, opacity: 1, ease: 'power3.out', duration: 0.9, stagger: 0.18 }, 0.2);
-        tl.fromTo(q('.dn__sandwich'), { xPercent: 70, rotation: 14, opacity: 0 }, { xPercent: 0, rotation: -4, opacity: 1, ease: 'power3.out', duration: 1.4 }, 3.4);
         tl.to({}, { duration: 0.6 }, 5);
       });
 
@@ -269,9 +268,10 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
         const draw = (time: number) => {
           const aspect = camera.aspect;
           const k = aspect < 1.1 ? 1.1 / aspect : 1;
-          const baseZ = 9.6 * Math.pow(k, 0.55);
-          camera.position.set(0, 0.15 + s.dolly * 0.1, baseZ - s.dolly * baseZ * 0.14);
+          const baseZ = 6.9 * Math.pow(k, 0.5);
+          camera.position.set(0, 0.15 + s.dolly * 0.1, baseZ - s.dolly * baseZ * 0.1);
           camera.lookAt(0, 0.05, 0);
+          spit.position.x = Math.min(2.4, Math.max(0, (aspect - 1.15) * 3.4));
           spit.rotation.y = s.rot + 0.7 + (reduce ? 0 : time * 0.28);
           const f = 0.82 + 0.18 * Math.sin(time * 9.1) * Math.sin(time * 5.3 + 1) + 0.15 * Math.sin(time * 23);
           fireL.intensity = (10 + s.heat * 16) * f;
@@ -355,9 +355,6 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
           <em>{t.accent}</em>
         </h2>
         <p className="dn__text">{t.text}</p>
-      </div>
-      <div className="dn__sandwich">
-        <Image src="/assets/food/doner_sandwich.png" alt={t.sandwichAlt} width={1254} height={1254} sizes="(max-width: 767px) 70vw, 34vw" />
       </div>
     </section>
   );

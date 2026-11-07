@@ -15,14 +15,14 @@
   "hero": {
     "eyebrow": "PIZZA · DÖNER · YUFKA",
     "title": "YOUR FAVORITE FOOD.",
-    "accent": "DELIVERED.",
+    "accent": "Delivered.",
     "caption": "Hot. Fresh. Straight to you.",
     "delivery": "Delivery",
     "pickup": "Pickup",
     "scroll": "SCROLL & DISCOVER",
     "shot2eyebrow": "FRESH FROM THE OVEN",
     "shot2title": "MORE THAN PIZZA.",
-    "shot2accent": "A FEELING.",
+    "shot2accent": "A feeling.",
     "pizzaAlt": "Hot pizza with mozzarella, mushrooms, tomatoes and basil",
     "sliceAlt": "Pizza slice with long cheese pulls"
   },
@@ -157,6 +157,13 @@
         "menuId": "pizza",
         "name": "Pizza",
         "hint": "Stone-oven crust, plenty of cheese.",
+        "alt": "Pizza"
+      },
+      {
+        "key": "slice",
+        "menuId": "pizza",
+        "name": "Pizza slice",
+        "hint": "With long cheese pulls.",
         "alt": "Pizza slice"
       },
       {
@@ -198,7 +205,7 @@
   },
   "takeover": {
     "a": "FRESH",
-    "b": "HOT",
+    "b": "Hot.",
     "label": "Fresh. Hot."
   },
   "doner": {
