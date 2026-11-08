@@ -59,13 +59,22 @@ export function IngredientTunnel({ word }: { word: string }) {
       const run = (count: number, end: string) => {
         const items = nodes.map((node, i) => ({ node, s: SPRITES[i], on: i < count, last: -1, vis: false }));
         nodes.forEach((n, i) => { if (i >= count) n.style.display = 'none'; });
-        const p = { t: 0 };
-        const apply = () => {
+        // p.pre = gentle pre-roll while the section is still scrolling INTO view (so the ingredients are never static), p.main = the pinned travel
+        const p = { pre: 0, main: 0, t: 0 };
+        const PRE = TRAVEL * 0.2;
+        let clock = 0; // seconds, drives an always-on slow sway of the whole field while it is on screen
+        const setWorld = () => {
           const vw = window.innerWidth / 100;
           const vh = window.innerHeight / 100;
           const prog = p.t / TRAVEL;
-          // camera: slow roll + sideways swirl drift
-          world.style.transform = `translate3d(${(Math.sin(prog * Math.PI * 4) * 3.2 * vw).toFixed(1)}px,${(Math.cos(prog * Math.PI * 3) * 1.8 * vh).toFixed(1)}px,${p.t.toFixed(1)}px) rotateZ(${(prog * 28 + Math.sin(prog * 12.56) * 5).toFixed(2)}deg)`;
+          // camera: slow roll + sideways swirl drift (+ idle sway so nothing is ever perfectly still)
+          world.style.transform = `translate3d(${(Math.sin(prog * Math.PI * 4) * 3.2 * vw + Math.sin(clock * 0.7) * 0.9 * vw).toFixed(1)}px,${(Math.cos(prog * Math.PI * 3) * 1.8 * vh + Math.cos(clock * 0.55) * 0.9 * vh).toFixed(1)}px,${p.t.toFixed(1)}px) rotateZ(${(prog * 28 + Math.sin(prog * 12.56) * 5 + Math.sin(clock * 0.45) * 1.6).toFixed(2)}deg)`;
+        };
+        const apply = () => {
+          const vw = window.innerWidth / 100;
+          const vh = window.innerHeight / 100;
+          p.t = p.pre + p.main;
+          setWorld();
           for (const it of items) {
             if (!it.on) continue;
             const s = it.s;
@@ -88,8 +97,22 @@ export function IngredientTunnel({ word }: { word: string }) {
           onUpdate: apply,
           scrollTrigger: { trigger: el, start: 'top top', end, scrub: 0.6, pin: true, invalidateOnRefresh: true, onRefresh: apply },
         });
-        tl.to(p, { t: TRAVEL, duration: 10 }, 0);
-        return () => nodes.forEach((n) => { n.style.display = ''; });
+        tl.to(p, { main: TRAVEL - PRE, duration: 10 }, 0);
+        // pre-roll: starts as soon as the section's top edge enters the screen, ends exactly when the pin starts (continuous hand-over)
+        const pre = gsap.to(p, { pre: PRE, ease: 'none', onUpdate: apply, scrollTrigger: { trigger: el, start: 'top bottom', end: 'top top', scrub: 0.5, invalidateOnRefresh: true } });
+        // idle sway while on screen (one transform on the world element only: cheap)
+        let live = false;
+        const io = new IntersectionObserver(([e]) => { live = e.isIntersecting; });
+        io.observe(el);
+        const tick = (_t: number, dt: number) => { if (!live) return; clock += dt / 1000; setWorld(); };
+        gsap.ticker.add(tick);
+        return () => {
+          gsap.ticker.remove(tick);
+          io.disconnect();
+          pre.scrollTrigger?.kill();
+          pre.kill();
+          nodes.forEach((n) => { n.style.display = ''; });
+        };
       };
 
       mm.add('(prefers-reduced-motion: no-preference) and (min-width: 1024px) and (min-height: 600px)', () => run(COUNT, '+=340%'));

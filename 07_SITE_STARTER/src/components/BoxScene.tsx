@@ -25,20 +25,24 @@ export function BoxScene({ t }: { t: Messages['box'] }) {
         const ownColors = Array.from(txt as HTMLElement[]).map((n) => getComputedStyle(n).color);
         gsap.set(el, { backgroundColor: '#f6f2e9' });
         gsap.set(txt, { color: '#09090b' });
-        gsap.fromTo(q('.box__ink'), { clipPath: 'circle(0% at 50% 66%)' }, { clipPath: 'circle(150% at 50% 66%)', ease: 'power1.inOut', scrollTrigger: { trigger: el, start: 'top 82%', end: 'top 8%', scrub: 0.5 } });
-        (txt as HTMLElement[]).forEach((n, i) => gsap.fromTo(n, { color: '#09090b' }, { color: ownColors[i], ease: 'none', scrollTrigger: { trigger: el, start: 'top 48%', end: 'top 14%', scrub: 0.5 } }));
         const desktop = w >= 900 && w >= h && h > 520;
         const shortLand = w > h && h <= 520;
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
           scrollTrigger: desktop
-            ? { trigger: el, start: 'top top', end: '+=190%', scrub: 0.8, pin: true, invalidateOnRefresh: true }
-            : { trigger: el, start: 'top top', end: shortLand ? '+=300%' : '+=210%', scrub: 0.6, pin: true, invalidateOnRefresh: true },
+            ? { trigger: el, start: 'top top', end: '+=330%', scrub: 0.8, pin: true, invalidateOnRefresh: true }
+            : { trigger: el, start: 'top top', end: shortLand ? '+=450%' : '+=320%', scrub: 0.6, pin: true, invalidateOnRefresh: true },
         });
         // mobile: same beats, stretched so the lid opening takes ~40% of a long pinned scroll, plus a hold at the end
         const k = desktop
           ? { lid: 0.2, lidD: 1.5, glow: 0.8, pz: 0.9, pzD: 1.4, st: 1.2, stD: 1.8, hl: 0.5, hlD: 1.4, nx: 2.4, col: 3.0, hold: 3.2 }
           : { lid: 0.1, lidD: 2.8, glow: 1.2, pz: 1.9, pzD: 1.8, st: 2.5, stD: 2.2, hl: 0.5, hlD: 2.2, nx: 4.2, col: 4.8, hold: 5.9 };
+        // 1) the cream scene is HELD first so 'Direkt aus der Box' can be read; 2) only then the ink circle grows from the box (text colour swaps with it); 3) then the lid opens
+        const S = (desktop ? 1.6 : 2.2) + 1.2;
+        (Object.keys(k) as Array<keyof typeof k>).forEach((key) => { if (key !== 'lidD' && key !== 'pzD' && key !== 'stD' && key !== 'hlD') k[key] += S; });
+        const g0 = desktop ? 1.6 : 2.2;
+        tl.fromTo(q('.box__ink'), { clipPath: 'circle(0% at 50% 66%)' }, { clipPath: 'circle(150% at 50% 66%)', ease: 'power1.inOut', duration: 1.6 }, g0);
+        (txt as HTMLElement[]).forEach((n, i) => tl.fromTo(n, { color: '#09090b' }, { color: ownColors[i], ease: 'none', duration: 0.7 }, g0 + 0.5));
         tl.fromTo(q('.cbox__lid'), { rotationX: 0 }, { rotationX: 118, ease: 'power2.inOut', duration: k.lidD }, k.lid);
         tl.fromTo(q('.cbox__lidlight'), { opacity: 0 }, { opacity: 0.6, duration: k.lidD - 0.1 }, k.lid);
         tl.fromTo(q('.cbox__glow'), { opacity: 0 }, { opacity: 1, duration: 1.2 }, k.glow);

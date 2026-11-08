@@ -22,13 +22,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const boxWords = t.box.eyebrow.split(/[.\s]+/).filter(Boolean).filter((w) => w.length > 2).slice(0, 2);
   return (
     <>
+      <span id="top" className="page-top" aria-hidden="true" />
       <Header locale={locale} nav={t.nav} phonePending={t.order.phonePending} tel={telHref} />
       <main>
         <HeroMotion t={t.hero} order={t.order} limeT={t.lime} yufkaAlt={t.runway.yufkaAlt} />
         <TypographyTakeover t={t.takeover} sliceAlt={t.hero.sliceAlt} />
         <SectionBreak variant="words" from="red" short words={[t.takeover.a, t.takeover.b]} />
         <Runway t={t.runway} />
-        <SectionBreak variant="roll" from="cream" words={[t.runway.pizza]} sprite="tomato_half.png" spriteSize={[304, 277]} />
+        <SectionBreak variant="roll" from="ink" words={[t.runway.pizza]} sprite="tomato_half.png" spriteSize={[304, 277]} />
         <DonerRotation t={t.doner} />
         <IngredientTunnel word={t.doner.accent} />
         <ProductRail t={t.orbit} />

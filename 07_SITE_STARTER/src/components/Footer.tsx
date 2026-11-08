@@ -29,7 +29,7 @@ export function Footer({ t, locale }: { t: Messages['footer']; locale: Locale })
       <nav className="ft__nav" aria-label="Legal">
         <Link href={`/${locale}/impressum`}>{t.imprint}</Link>
         <Link href={`/${locale}/datenschutz`}>{t.privacy}</Link>
-        <a href="#top" className="ft__top">
+        <a href="#top" className="ft__top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior }); }}>
           {t.back}
           <svg className="ft__arrow" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
             <path d="M12 20V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />

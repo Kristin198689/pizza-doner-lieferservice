@@ -24,6 +24,8 @@ const rfCyr = localFont({ src: '../../src/fonts/roboto-flex-cyrillic-full-normal
 
 export const viewport: Viewport = { themeColor: '#09090b', width: 'device-width', initialScale: 1, viewportFit: 'cover' };
 
+export const dynamicParams = false; // unknown /xyz paths are a real 404, not a copy of the homepage
+
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }

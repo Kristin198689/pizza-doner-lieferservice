@@ -326,7 +326,7 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
 
   const marquee = Array.from({ length: 8 }, () => t.yufka[0]).join('  ');
   return (
-    <section className="hero" ref={root} id="top" data-mode="static" aria-label={t.eyebrow}>
+    <section className="hero" ref={root} data-mode="static" aria-label={t.eyebrow}>
       <div className="hero__stage">
         <div className="hero__pizza">
           <div className="pz-wrap">
