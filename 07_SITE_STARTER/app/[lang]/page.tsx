@@ -6,6 +6,7 @@ import { BoxScene } from '@/components/BoxScene';
 import { EditorialMenu } from '@/components/EditorialMenu';
 import { DonerRotation } from '@/components/DonerRotation';
 import { ProductRail } from '@/components/ProductRail';
+import { EightTimes } from '@/components/EightTimes';
 import { IngredientTunnel } from '@/components/IngredientTunnel';
 import { SectionBreak } from '@/components/SectionBreak';
 import { DepthLayers } from '@/components/DepthLayers';
@@ -25,12 +26,13 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       <main>
         <HeroMotion t={t.hero} order={t.order} limeT={t.lime} yufkaAlt={t.runway.yufkaAlt} />
         <TypographyTakeover t={t.takeover} sliceAlt={t.hero.sliceAlt} />
-        <SectionBreak variant="words" from="red" words={[t.takeover.a, t.takeover.b]} />
+        <SectionBreak variant="words" from="red" short words={[t.takeover.a, t.takeover.b]} />
         <Runway t={t.runway} />
         <SectionBreak variant="roll" from="cream" words={[t.runway.pizza]} sprite="tomato_half.png" spriteSize={[304, 277]} />
         <DonerRotation t={t.doner} />
         <IngredientTunnel word={t.doner.accent} />
         <ProductRail t={t.orbit} />
+        <EightTimes t={t.eight} />
         <SectionBreak variant="words" from="lime" words={boxWords} />
         <BoxScene t={t.box} />
         <DepthLayers t={t.depth} />

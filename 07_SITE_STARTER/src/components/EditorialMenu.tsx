@@ -5,6 +5,7 @@ import { YufkaUnroll } from './fx/YufkaUnroll';
 import { SnacksDrop } from './fx/SnacksDrop';
 import { DrinksWave } from './fx/DrinksWave';
 import { TiltImage } from './fx/TiltImage';
+import { IngredientFloat } from './fx/IngredientFloat';
 import { formatPrice, menuData } from '@/lib/menu';
 import type { Locale, Messages } from '@/lib/i18n';
 
@@ -45,6 +46,7 @@ export function EditorialMenu({ t, locale }: { t: Messages['menu']; locale: Loca
                 {look.imgs.map((src, k) => (
                   <TiltImage key={src} className={`pm__img pm__img--${k}`} src={`/assets/${src}`} alt="" width={1254} height={1254} sizes="(max-width: 899px) 100vw, 64vw" data-parallax={k ? '-30' : '30'} />
                 ))}
+                <IngredientFloat id={cat.id} />
               </div>
             )}
             <div className="pm__body" data-reveal>

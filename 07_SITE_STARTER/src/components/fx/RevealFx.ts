@@ -6,11 +6,11 @@ const VIS = (el: Element, k = 0.88) => el.getBoundingClientRect().top < window.i
 /** Mask-style rise for big headings: clip-path wipe + small lift (transform/clip only). */
 function headings(small: boolean) {
   document.querySelectorAll<HTMLElement>(HEADINGS).forEach((h) => {
-    if (VIS(h)) return;
+    if (VIS(h, 0.78)) return;
     gsap.set(h, { clipPath: 'inset(0 0 100% 0)', yPercent: small ? 22 : 38 });
     ScrollTrigger.create({
-      trigger: h, start: 'top 88%', once: true,
-      onEnter: () => gsap.to(h, { clipPath: 'inset(-12% -3% -12% -3%)', yPercent: 0, duration: small ? 0.8 : 1.1, ease: 'expo.out', clearProps: 'clipPath,transform' }),
+      trigger: h, start: 'top 78%', once: true,
+      onEnter: () => gsap.to(h, { clipPath: 'inset(-12% -3% -12% -3%)', yPercent: 0, duration: small ? 1.1 : 1.3, ease: 'power3.out', clearProps: 'clipPath,transform' }),
     });
   });
 }
@@ -42,7 +42,7 @@ function rows() {
       io.unobserve(e.target);
       (e.target as HTMLElement).classList.add('fx-in');
     });
-  }, { rootMargin: '0px 0px -6% 0px', threshold: 0.2 });
+  }, { rootMargin: '0px 0px -22% 0px', threshold: 0.2 });
   lists.forEach((ul) => Array.from(ul.children).forEach((li, i) => {
     (li as HTMLElement).style.setProperty('--i', String(Math.min(i, 6)));
     io.observe(li);
@@ -58,14 +58,14 @@ function ticks() {
     const final = el.textContent || '';
     if (!final) return;
     ScrollTrigger.create({
-      trigger: el, start: 'top 90%', once: true,
+      trigger: el, start: 'top 80%', once: true,
       onEnter: () => {
         let n = 0;
         const id = window.setInterval(() => {
           n++;
           if (n >= 7) { window.clearInterval(id); el.textContent = final; return; }
           el.textContent = final.replace(/\d/g, () => String(Math.floor(Math.random() * 10)));
-        }, 55);
+        }, 90);
         timers.push(id);
       },
     });

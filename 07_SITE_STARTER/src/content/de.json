@@ -12,7 +12,8 @@
     "open": "Menü öffnen",
     "close": "Menü schließen",
     "viewMenu": "SPEISEKARTE ANSEHEN",
-    "tagline": "Pizza. Döner. Yufka. Für deinen Hunger."
+    "tagline": "Pizza. Döner. Yufka. Für deinen Hunger.",
+    "title": "Navigation", "products": "Klassiker", "doner": "Döner", "today": "Heute", "fulfillment": "Lieferung & Abholung", "hours": "Öffnungszeiten", "address": "Adresse"
   },
   "hero": {
     "eyebrow": "PIZZA / DÖNER / YUFKA",
@@ -109,7 +110,10 @@
     "imprint": "Impressum",
     "privacy": "Datenschutz",
     "back": "Nach oben",
-    "placeholder": "Rechtliche Angaben folgen vor Veröffentlichung."
+    "placeholder": "Rechtliche Angaben folgen vor Veröffentlichung.",
+    "rights": "Alle Rechte vorbehalten",
+    "dev": "Entwickelt von",
+    "devName": "Volodina Web Studio"
   },
   "legal": {
     "back": "Zurück zur Startseite",
@@ -226,6 +230,17 @@
     "b": "Heiß",
     "label": "Frisch. Heiß.",
     "caption": "PIZZA / DÖNER / YUFKA"
+  },
+  "eight": {
+    "eyebrow": "Pizza in acht Stücken",
+    "title": [
+      "ACHT",
+      "MAL",
+      "GLÜCK"
+    ],
+    "line": "Ein Ofen. Acht Stücke. Null Reue.",
+    "label": "Pizza in acht Stücken, Stück für Stück zusammengesetzt",
+    "alt": "Ganze Pizza aus acht Stücken"
   },
   "depth": {
     "word": "FRISCH",

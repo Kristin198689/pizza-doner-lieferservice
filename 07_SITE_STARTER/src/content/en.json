@@ -12,7 +12,8 @@
     "open": "Open menu",
     "close": "Close menu",
     "viewMenu": "VIEW THE MENU",
-    "tagline": "Pizza. Döner. Yufka. For your hunger."
+    "tagline": "Pizza. Döner. Yufka. For your hunger.",
+    "title": "Navigation", "products": "Classics", "doner": "Döner", "today": "Today", "fulfillment": "Delivery & pickup", "hours": "Opening hours", "address": "Address"
   },
   "hero": {
     "eyebrow": "PIZZA / DÖNER / YUFKA",
@@ -109,7 +110,10 @@
     "imprint": "Legal notice",
     "privacy": "Privacy",
     "back": "Back to top",
-    "placeholder": "Legal details will follow before launch."
+    "placeholder": "Legal details will follow before launch.",
+    "rights": "All rights reserved",
+    "dev": "Developed by",
+    "devName": "Volodina Web Studio"
   },
   "legal": {
     "back": "Back to home",
@@ -226,6 +230,17 @@
     "b": "Hot",
     "label": "Fresh. Hot.",
     "caption": "PIZZA / DÖNER / YUFKA"
+  },
+  "eight": {
+    "eyebrow": "Pizza in eight slices",
+    "title": [
+      "EIGHT",
+      "TIMES",
+      "HAPPY"
+    ],
+    "line": "One oven. Eight slices. Zero regrets.",
+    "label": "Pizza in eight slices, assembled slice by slice",
+    "alt": "Whole pizza made of eight slices"
   },
   "depth": {
     "word": "FRESH",

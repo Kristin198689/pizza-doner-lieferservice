@@ -18,12 +18,14 @@ export function BoxScene({ t }: { t: Messages['box'] }) {
       const mm = gsap.matchMedia();
 
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const desktop = window.matchMedia('(min-width: 768px)').matches;
+        const w = window.innerWidth, h = window.innerHeight;
+        const desktop = w >= 900 && w >= h && h > 520;
+        const shortLand = w > h && h <= 520;
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
           scrollTrigger: desktop
             ? { trigger: el, start: 'top top', end: '+=230%', scrub: 0.8, pin: true, anticipatePin: 1, invalidateOnRefresh: true }
-            : { trigger: el, start: 'top top', end: '+=210%', scrub: 0.6, pin: true, anticipatePin: 1, invalidateOnRefresh: true },
+            : { trigger: el, start: 'top top', end: shortLand ? '+=300%' : '+=210%', scrub: 0.6, pin: true, anticipatePin: 1, invalidateOnRefresh: true },
         });
         // mobile: same beats, stretched so the lid opening takes ~40% of a long pinned scroll, plus a hold at the end
         const k = desktop

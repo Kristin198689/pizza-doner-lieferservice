@@ -23,7 +23,7 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
       const s = state.current;
       const mm = gsap.matchMedia();
 
-      mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+      mm.add('(prefers-reduced-motion: no-preference) and ((min-width: 600px) or ((max-height: 500px) and (orientation: landscape)))', () => {
         const tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: el, start: 'top top', end: '+=260%', scrub: 0.8, pin: true, anticipatePin: 1, invalidateOnRefresh: true } });
         tl.to(s, { rot: Math.PI * 3.2, duration: 5 }, 0);
         tl.to(s, { dolly: 1, ease: 'power1.inOut', duration: 5 }, 0);
@@ -34,7 +34,7 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
         tl.to({}, { duration: 0.6 }, 5);
       });
 
-      mm.add('(max-width: 767px) and (prefers-reduced-motion: no-preference)', () => {
+      mm.add('(prefers-reduced-motion: no-preference) and (max-width: 599px) and (not ((max-height: 500px) and (orientation: landscape)))', () => {
         const tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 0.7 } });
         tl.to(s, { rot: Math.PI * 2.2, duration: 1 }, 0);
         tl.to(s, { dolly: 0.8, duration: 1, ease: 'power1.inOut' }, 0);
@@ -240,7 +240,7 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
         sg.fillStyle = rg;
         sg.fillRect(0, 0, 128, 128);
         const smokeTex = new THREE.CanvasTexture(sc);
-        const small = window.innerWidth < 768;
+        const small = window.innerWidth < 900 || window.innerHeight < 500;
         const puffs = Array.from({ length: small ? 8 : 16 }, (_, i) => {
           const mat = new THREE.SpriteMaterial({ map: smokeTex, transparent: true, depthWrite: false, opacity: 0 });
           const sp = new THREE.Sprite(mat);
@@ -399,13 +399,13 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
         /* --- sizing + loop --- */
         const resize = () => {
           const w = cv.clientWidth || 1, h = cv.clientHeight || 1;
-          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1.5 : 2));
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 900 || window.innerHeight < 500 ? 1.5 : 2));
           renderer.setSize(w, h, false);
           camera.aspect = w / h;
           camera.updateProjectionMatrix();
           const asp = camera.aspect;
           const kk = asp < 1.1 ? 1.1 / asp : 1;
-          const bz = 6.9 * Math.pow(kk, 0.5);
+          const bz = 7.6 * Math.pow(kk, 0.5);
           const halfH = Math.tan((32 / 2) * (Math.PI / 180)) * (bz - 0.9);
           const halfW = halfH * asp;
           const ps = (halfH * 0.37) / 0.95;
@@ -430,7 +430,7 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
         const draw = (time: number) => {
           const aspect = camera.aspect;
           const k = aspect < 1.1 ? 1.1 / aspect : 1;
-          const baseZ = 6.9 * Math.pow(k, 0.5);
+          const baseZ = 7.6 * Math.pow(k, 0.5);
           camera.position.set(0, 0.15 + s.dolly * 0.1, baseZ - s.dolly * baseZ * 0.1);
           camera.lookAt(0, 0.05, 0);
           spit.position.x = spitBaseX;

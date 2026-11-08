@@ -22,7 +22,7 @@
   .dw__wave { transform-origin: 50% 100%; animation: dw-slosh2 3.6s ease-in-out infinite, dw-heave 1.8s ease-in-out infinite; animation-play-state: paused; }
   .dw__wave--b { animation: dw-slosh3 3.6s ease-in-out infinite -0.6s, dw-heave 2.2s ease-in-out infinite -0.7s; animation-play-state: paused; }
   .dw__wave--c { animation: dw-slosh2 3.6s ease-in-out infinite -1.2s, dw-heave 2.6s ease-in-out infinite -1.3s; animation-play-state: paused; }
-  .dw__bub { animation: dw-rise 8s ease-in infinite; animation-play-state: paused; }
+  .dw__bub { animation: dw-rise 8s ease-out infinite; animation-play-state: paused; }
   .dw.is-live .dw__liquid, .dw.is-live .dw__wave, .dw.is-live .dw__bub { animation-play-state: running; }
 }
 @media (prefers-reduced-motion: reduce) { .dw__bub { opacity: 0.6; } }
@@ -48,3 +48,17 @@
 .fx-tilt__inner { position: relative; transform-style: preserve-3d; will-change: transform; }
 .fx-tilt__img { display: block; width: 100%; height: auto; }
 .fx-tilt__shadow { position: absolute; left: 14%; right: 14%; bottom: 4%; height: 16%; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)); will-change: transform; pointer-events: none; }
+
+/* ---------- D. ingredient bits resting on a product photo: idle wiggle, transform only ---------- */
+.fxi { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.fxi__bit { position: absolute; display: block; transform: rotate(var(--r0, 0deg)); will-change: transform; }
+.fxi__bit img { display: block; width: 100%; height: auto; filter: drop-shadow(0 6px 8px rgba(9, 9, 11, 0.35)); -webkit-user-drag: none; user-select: none; }
+@keyframes fxi-wig {
+  0%, 100% { transform: translate3d(calc(var(--tx) * -1), calc(var(--ty) * -1), 0) rotate(calc(var(--r0) - var(--ra))); }
+  50% { transform: translate3d(var(--tx), var(--ty), 0) rotate(calc(var(--r0) + var(--ra))); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fxi__bit { animation: fxi-wig var(--dur, 4s) ease-in-out var(--dl, 0s) infinite; animation-play-state: paused; }
+  .fxi.is-live .fxi__bit { animation-play-state: running; }
+}
+@media (max-width: 899px) { .fxi__bit--d { display: none; } .fxi__bit { --tx: 3px !important; --ty: 3px !important; } }

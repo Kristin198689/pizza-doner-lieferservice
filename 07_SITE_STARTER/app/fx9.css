@@ -1,0 +1,27 @@
+/* ============ Hero: fresh toppings (pyramid on the pizza's upper edge) + thin steam. transform/opacity only ============ */
+.pz-tops, .pz-steam { position: absolute; inset: 0; pointer-events: none; }
+.pz-tops { z-index: 4; }
+.pz-steam { z-index: 6; }
+.pz-top { position: absolute; display: block; translate: -50% -50%; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.45)); }
+.pz-top__f { display: block; transform: translate3d(0, 0, 0) rotate(var(--r, 0deg)); }
+.pz-top img { display: block; width: 100%; height: auto; }
+.pz-wisp { position: absolute; bottom: 74%; opacity: 0; overflow: visible; transform-origin: 50% 100%; }
+@media (max-width: 899px) { .pz-top--lg { display: none; } }
+/* low screens: keep the apex out of the header / the sub line */
+@media (orientation: landscape) and (max-height: 500px) { .pz-top--mid { display: none; } }
+@media (orientation: landscape) and (max-height: 500px), (orientation: portrait) and (max-height: 700px) { .pz-top--hi { display: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .pz-tops.is-live .pz-top__f { animation: pz-float var(--dur, 4.5s) ease-in-out var(--d, 0s) infinite alternate; }
+  .pz-wisp { animation: pz-steam var(--dur, 6.5s) ease-in-out var(--d, 0s) infinite; }
+}
+@keyframes pz-float {
+  from { transform: translate3d(calc(var(--tx) * -1), calc(var(--ty) * -1), 0) rotate(calc(var(--r) - 6deg)); }
+  to { transform: translate3d(var(--tx), var(--ty), 0) rotate(calc(var(--r) + 6deg)); }
+}
+@keyframes pz-steam {
+  0% { opacity: 0; transform: translate3d(0, 28%, 0) scale(0.8, 0.85); }
+  20% { opacity: var(--o, 0.4); }
+  60% { opacity: calc(var(--o, 0.4) * 0.8); }
+  100% { opacity: 0; transform: translate3d(8%, -42%, 0) scale(1.15, 1.05); }
+}
+@media (prefers-reduced-motion: reduce) { .pz-steam { display: none; } }

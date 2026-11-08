@@ -12,6 +12,9 @@ import '../fx3.css';
 import '../fx4.css';
 import '../fx5.css';
 import '../fx6.css';
+import '../fx7.css';
+import '../fx8.css';
+import '../fx9.css';
 
 // Roboto Flex (variable: weight 100–1000 + width axis), self-hosted by next/font: no requests to Google at runtime.
 const rfLatin = localFont({ src: '../../src/fonts/roboto-flex-latin-wdth-normal.woff2', weight: '100 1000', display: 'swap', variable: '--font-rf-latin', adjustFontFallback: false });

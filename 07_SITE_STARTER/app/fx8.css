@@ -1,0 +1,75 @@
+/* fx8: footer compact layout + reusable .pizza-text (photo-filled XXL letters) */
+
+/* ---- .pizza-text: set --pt-img to change the photo ---- */
+.pizza-text {
+  --pt-img: url('/assets/hero/pizza_whole.webp');
+  --pt-size: 210% auto;
+  --pt-dim: 0.12;
+  color: #F6F2E9; /* fallback: no background-clip:text, solid letters */
+}
+.pizza-text--doner { --pt-img: url('/assets/food/doner_sandwich.png'); }
+.pizza-text--slice { --pt-img: url('/assets/food/pizza_slice_cheese_pull.png'); }
+.pizza-text--yufka { --pt-img: url('/assets/food/yufka_wrap.png'); }
+.pizza-text--hero { --pt-img: url('/assets/food/pizza_hero_assembled.png'); }
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .pizza-text {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-color: #09090B; /* dark underlay: letters stay legible on bright/transparent areas */
+    background-image:
+      linear-gradient(rgba(9, 9, 11, var(--pt-dim)), rgba(9, 9, 11, var(--pt-dim))),
+      var(--pt-img);
+    background-size: 100% 100%, var(--pt-size);
+    background-repeat: no-repeat;
+    background-position: 0 0, 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-stroke: 1px rgba(246, 242, 233, 0.22);
+    animation: pt-drift 18s ease-in-out infinite alternate;
+  }
+  .pizza-text .ft__amp { -webkit-text-fill-color: #F30009; color: #F30009; -webkit-text-stroke: 0; }
+}
+@keyframes pt-drift {
+  from { background-position: 0 0, 15% 42%; }
+  to { background-position: 0 0, 85% 58%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pizza-text { animation: none; background-position: 0 0, 50% 50%; }
+}
+
+/* ---- two photo layers drifting in opposite directions (used by the box headline) ---- */
+.pizza-text.pizza-text--duo, .box .box__title.pizza-text {
+  --pt-img: url('/assets/hero/pizza_whole.webp');
+  --pt-img2: url('/assets/food/pizza_hero_assembled.png');
+  background-image: linear-gradient(rgba(9, 9, 11, var(--pt-dim)), rgba(9, 9, 11, var(--pt-dim))), var(--pt-img2), var(--pt-img);
+  background-size: 100% 100%, 150% auto, 200% auto;
+  background-position: 0 0, 70% 65%, 30% 35%;
+}
+@keyframes pt-drift-duo {
+  from { background-position: 0 0, 72% 68%, 28% 32%; background-size: 100% 100%, 140% auto, 210% auto; }
+  to { background-position: 0 0, 28% 32%, 72% 68%; background-size: 100% 100%, 175% auto, 170% auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pizza-text.pizza-text--duo, .box .box__title.pizza-text { animation: none; background-position: 0 0, 60% 55%, 40% 45%; }
+}
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .box .box__title.pizza-text { color: #F6F2E9; }
+}
+
+/* ---- footer: content-driven height, glued to page end ---- */
+.ft.ft { padding: clamp(8px, 1.5vw, 20px) var(--gutter) clamp(16px, 2vw, 28px); gap: clamp(14px, 2vw, 24px); min-height: 0; }
+.ft.ft .ft__mark { padding: 0; margin: 0; line-height: 1; }
+.ft.ft .ft__word { font-size: calc(100cqw / 7.4); line-height: 0.9; padding: 0.24em 0 0.02em; margin: 0 0 -0.04em; }
+.ft.ft .ft__nav a { min-height: 40px; }
+.ft.ft .ft__credit { padding: 2px 6px; margin: 0 -6px; border-radius: 4px; color: var(--white); text-decoration: none; transition: background-color 0.2s, color 0.2s; }
+.ft.ft .ft__credit:focus-visible { background: #EFFF00; color: #09090B; outline: 0; }
+@media (hover: hover) { .ft.ft .ft__legal a.ft__credit:hover { background: #EFFF00; color: #09090B; } }
+/* dividers: wordmark | links | legal row */
+.ft.ft .ft__rule { height: 1px; background: rgba(246, 242, 233, 0.3); margin: 0; }
+.ft.ft .ft__rule--legal { margin-top: clamp(0px, 0.5vw, 6px); }
+.ft.ft .ft__legal { align-items: baseline; }
+/* no leftover black band: the wood CTA section above ends close to its content */
+.cta.cta { padding-bottom: clamp(32px, 5vw, 72px); }
+.ft.ft { padding-bottom: calc(clamp(16px, 2vw, 28px) + env(safe-area-inset-bottom, 0px)); }
+@media (max-width: 767px) { body:has(.stickycall) .ft.ft { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); } }

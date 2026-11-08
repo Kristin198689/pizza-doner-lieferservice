@@ -104,3 +104,55 @@
 .runway { padding-top: calc(var(--section) * 1.15); padding-bottom: calc(var(--section) * 1.15); }
 .ful { padding-top: calc(var(--section) * 1.2); padding-bottom: calc(var(--section) * 1.2); }
 .footer { margin-top: 0; }
+
+/* ============ FLUID PASS: rail panels, box scene ============ */
+.rail__panel { height: clamp(460px, 84svh, 800px); }
+.rail__hint { font-size: clamp(0.95rem, 1.2cqw + 0.6rem, 1.5rem); }
+@media (max-width: 767px) { .rail__fig { bottom: max(25%, 150px); } }
+@media (min-width: 768px) { .rail__panel { height: clamp(520px, min(80svh, 100vw), 820px); } }
+@media (min-width: 600px) and (max-width: 767px) { .rail__track { padding-inline: 7vw; scroll-padding-inline: 7vw; } .rail__panel { flex-basis: 86vw; } }
+@media (orientation: landscape) and (max-height: 520px) {
+  .rail { padding-top: 84px; padding-bottom: 40px; }
+  .rail__head { margin-bottom: 12px; grid-template-columns: auto 1fr auto; gap: 8px 20px; }
+  .rail__head .rail__swipe { grid-column: 2; grid-row: 1; }
+  .rail__ctrl { grid-column: 3; grid-row: 1; }
+  .rail__panel { }
+  .rail__panel { height: clamp(250px, 74svh, 360px); }
+  .rail__fig { left: 2%; right: auto; width: 46%; top: 6%; bottom: 6%; }
+  .rail__name { left: 50%; right: 4%; top: 9%; text-align: left; font-size: min(calc(44cqw / (var(--n) * 0.74)), 30svh, 4.5rem); transform: translate3d(calc(var(--p) * -12%), 0, 0); }
+  .rail__foot { left: 50%; right: 0; bottom: 0; flex-direction: column; align-items: flex-start; gap: 8px; padding: 0 clamp(14px, 3cqw, 32px) 14px 0; }
+  .rail__hint { font-size: 0.9rem; max-width: 26ch; }
+  .rail__link { min-height: 44px; padding: 0 18px; }
+}
+
+.box { padding: clamp(80px, 13svh, 120px) var(--gutter) clamp(16px, 4svh, 48px); }
+@media (max-width: 899px) { .box { min-height: 100svh; } }
+@media (max-aspect-ratio: 1/1) {
+  .box { align-content: center; }
+  .cbox { --W: min(92vw, 720px, 48svh); }
+  .box__body { margin-top: clamp(0.8rem, 2.6svh, 1.4rem); font-size: clamp(1rem, 1vw + 0.8rem, 1.35rem); }
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .box { padding: 78px var(--gutter) 12px; min-height: 100svh; }
+  .box__inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 1fr auto auto auto 1fr; column-gap: 4vw; align-items: center; text-align: left; }
+  .box__inner > .eyebrow { grid-column: 1; grid-row: 2; align-self: end; }
+  .box__inner > .box__title { grid-column: 1; grid-row: 3; }
+  .box__inner > .box__body { grid-column: 1; grid-row: 4; margin-top: 0.6rem; font-size: 0.95rem; align-self: start; }
+  .box__inner > .cbox { grid-column: 2; grid-row: 1 / -1; --W: min(46vw, calc((100svh - 96px) * 1.12)); margin: 0; }
+}
+
+/* box scene: pizza sits fully inside the box, nothing peeks out under the front lip */
+.cbox__pizza { bottom: -4%; filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.5)); }
+
+/* box headline: XXL solid letters, fills the width on portrait, one line on desktop */
+.box__inner { container-type: inline-size; }
+.box .box__title { font-family: var(--font-display); font-weight: 900; font-variation-settings: var(--wdth-xxl); letter-spacing: -0.03em; line-height: 0.9; padding: 0.06em 0 0.02em; text-wrap: balance; font-size: min(calc(100cqw / 4.9), 10.5svh); }
+@media (min-width: 900px) and (min-aspect-ratio: 1/1) and (min-height: 521px) {
+  .box { padding-top: clamp(76px, 11svh, 110px); }
+  .cbox { --W: min(92vw, 820px, 54svh); }
+  .box .box__title { font-size: min(calc(100cqw / 10.4), 14svh); white-space: nowrap; }
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .box .box__title { font-size: min(9.6vw, 15svh); white-space: normal; }
+}
+@media (max-width: 899px) and (max-aspect-ratio: 1/1) and (max-height: 700px) { .box { padding-top: 84px; padding-bottom: 20px; } .box .box__title { font-size: min(calc(100cqw / 4.9), 9.4svh); } }

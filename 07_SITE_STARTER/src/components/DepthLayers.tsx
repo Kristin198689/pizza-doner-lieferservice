@@ -6,11 +6,11 @@ import type { Messages } from '@/lib/i18n';
 
 /**
  * Layered depth section. Layers (back to front): giant word, ingredients, hero box,
- * side dishes that fly past the lens, blurred foreground bits. Each layer scales and
+ * side dishes that fly past the lens (all crisp, no blur). Each layer scales and
  * travels at its own rate = camera dolly. Only transform/opacity are animated.
  */
 type Item = {
-  src: string; layer: 1 | 2 | 3 | 4;
+  src: string; layer: 1 | 2 | 3;
   x: number; y: number;      // centre, % of stage
   w: number; wm: number;     // width in vw (desktop / mobile)
   s0: number; s1: number;    // scale start / end
@@ -19,7 +19,6 @@ type Item = {
   d: number;                 // pointer parallax depth
   skipMobile?: boolean;
   alt?: string;
-  blur?: number;
 };
 
 const A = (f: string) => `/assets/${f}.png`;
@@ -36,10 +35,6 @@ const ITEMS: Item[] = [
   // L3: side dishes fly past the lens
   { src: A('food/doner_sandwich'), layer: 3, x: 13, y: 70, w: 24, wm: 42, s0: 0.45, s1: 1.3, y0: 10, y1: -10, r: -8, d: 1.6 },
   { src: A('food/yufka_wrap'), layer: 3, x: 87, y: 66, w: 22, wm: 40, s0: 0.45, s1: 1.3, y0: 10, y1: -10, r: 9, d: 1.6 },
-  // L4 front: blurred bits
-  { src: A('ingredients/basil_leaf_single'), layer: 4, x: 6, y: 20, w: 15, wm: 34, s0: 1, s1: 2.6, y0: 0, y1: -30, r: -25, d: 2.4, blur: 7 },
-  { src: A('ingredients/cherry_tomatoes'), layer: 4, x: 95, y: 82, w: 16, wm: 34, s0: 1, s1: 2.6, y0: 0, y1: -20, r: 15, d: 2.4, blur: 8 },
-  { src: A('ingredients/red_onion_ring'), layer: 4, x: 92, y: 14, w: 12, wm: 28, s0: 1, s1: 2.4, y0: 0, y1: -20, r: 30, d: 2.2, blur: 6, skipMobile: true },
 ];
 
 export function DepthLayers({ t }: { t: Messages['depth'] }) {
@@ -51,10 +46,12 @@ export function DepthLayers({ t }: { t: Messages['depth'] }) {
       const mm = gsap.matchMedia();
       const q = <T extends HTMLElement>(s: string) => Array.from(el.querySelectorAll<T>(s));
 
-      const build = (end: string, pointer: boolean) => {
+      // pin length by shape: desktop landscape 260%, tablet portrait 200%, phone portrait 160%, short landscape 260% (px are small there anyway)
+      const pinLen = () => { const w = window.innerWidth, h = window.innerHeight; if (w <= h) return w >= 600 ? 200 : 160; return 260; };
+      const build = (pointer: boolean) => {
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
-          scrollTrigger: { trigger: el, start: 'top top', end, scrub: 0.6, pin: true, anticipatePin: 1, invalidateOnRefresh: true },
+          scrollTrigger: { trigger: el, start: 'top top', end: () => `+=${pinLen()}%`, scrub: 0.6, pin: true, anticipatePin: 1, invalidateOnRefresh: true },
         });
         tl.fromTo('.dl__word', { scale: 0.72, yPercent: 8 }, { scale: 1.35, yPercent: -6 }, 0);
         q('.dl__s').forEach((s) => {
@@ -80,8 +77,7 @@ export function DepthLayers({ t }: { t: Messages['depth'] }) {
         return () => el.removeEventListener('pointermove', onMove);
       };
 
-      mm.add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => build('+=260%', window.matchMedia('(hover: hover)').matches));
-      mm.add('(prefers-reduced-motion: no-preference) and (max-width: 767px)', () => build('+=160%', false));
+      mm.add('(prefers-reduced-motion: no-preference)', () => build(window.matchMedia('(hover: hover) and (pointer: fine)').matches));
     },
     { scope: root },
   );
@@ -95,10 +91,10 @@ export function DepthLayers({ t }: { t: Messages['depth'] }) {
             key={i}
             className={`dl__p dl__p--l${it.layer}${it.skipMobile ? ' dl__p--d' : ''}`}
             data-d={it.d}
-            style={{ '--x': `${it.x}%`, '--y': `${it.y}%`, '--w': `${it.w}vw`, '--wm': `${it.wm}vw`, '--b': `${it.blur ?? 0}px` } as React.CSSProperties}
+            style={{ '--x': `${it.x}%`, '--y': `${it.y}%`, '--w': `${it.w}vw`, '--wm': `${it.wm}vw` } as React.CSSProperties}
           >
             <div className="dl__s" data-i={i} style={{ transform: `scale(${it.s1 > 1.2 ? 1 : (it.s0 + it.s1) / 2}) rotate(${it.r}deg)` }}>
-              <Image src={it.src} alt={it.layer === 2 ? t.boxAlt : ''} width={it.layer >= 2 && it.layer < 4 ? 1254 : 380} height={it.layer === 2 ? 941 : it.layer === 3 ? 1254 : 330} sizes="(max-width: 767px) 60vw, 30vw" draggable={false} />
+              <Image src={it.src} alt={it.layer === 2 ? t.boxAlt : ''} width={it.layer >= 2 ? 1254 : 380} height={it.layer === 2 ? 941 : it.layer === 3 ? 1254 : 330} sizes="(max-width: 767px) 60vw, 30vw" draggable={false} />
             </div>
           </div>
         ))}

@@ -17,11 +17,13 @@ type Props = {
   /** ingredient file under /assets/ingredients (roll only) */
   sprite?: string;
   spriteSize?: [number, number];
+  /** compact transition band (e.g. the short red beat after a pinned scene) */
+  short?: boolean;
 };
 
 const TXT: Record<Tone, string> = { ink: 'cream', red: 'ink', lime: 'ink', cream: 'ink', green: 'ink' };
 
-export function SectionBreak({ variant, from, to = 'red', words, sprite, spriteSize = [320, 290] }: Props) {
+export function SectionBreak({ variant, from, to = 'red', words, sprite, spriteSize = [320, 290], short }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -52,7 +54,7 @@ export function SectionBreak({ variant, from, to = 'red', words, sprite, spriteS
   const fg = TXT[variant === 'wipe' ? to : from];
 
   return (
-    <div ref={ref} className={`sb sb--${variant} sb--bg-${from} sb--to-${to} sb--fg-${fg}`} aria-hidden="true" style={{ '--n': w1.length } as React.CSSProperties}>
+    <div ref={ref} className={`sb sb--${variant} sb--bg-${from} sb--to-${to} sb--fg-${fg}${short ? ' sb--short' : ''}`} aria-hidden="true" style={{ '--n': w1.length } as React.CSSProperties}>
       {variant === 'words' && (
         <div className="sb__lines">
           <div className="sb__l1">{rep(w1)}</div>

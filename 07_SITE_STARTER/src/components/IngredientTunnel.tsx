@@ -11,8 +11,8 @@ const FILES = [
 
 const COUNT = 168;
 const PHONE_COUNT = 72;
+const TABLET_COUNT = 120;
 const DEPTH = 6000;
-const WORD_Z = -6400;
 const TRAVEL = 6700;
 
 type Sprite = { src: string; x: number; y: number; z: number; w: number; r: number; rx: number; ry: number; k: number; sx: number; sy: number; sz: number };
@@ -53,20 +53,19 @@ export function IngredientTunnel({ word }: { word: string }) {
     () => {
       const el = root.current!;
       const world = el.querySelector<HTMLElement>('.it__world')!;
-      const wordEl = el.querySelector<HTMLElement>('.it__word')!;
       const nodes = Array.from(el.querySelectorAll<HTMLElement>('.it__s'));
       const mm = gsap.matchMedia();
 
       const run = (count: number, end: string) => {
         const items = nodes.map((node, i) => ({ node, s: SPRITES[i], on: i < count, last: -1, vis: false }));
-        const p = { t: 0, wo: 0 };
+        nodes.forEach((n, i) => { if (i >= count) n.style.display = 'none'; });
+        const p = { t: 0 };
         const apply = () => {
           const vw = window.innerWidth / 100;
           const vh = window.innerHeight / 100;
           const prog = p.t / TRAVEL;
           // camera: slow roll + sideways swirl drift
           world.style.transform = `translate3d(${(Math.sin(prog * Math.PI * 4) * 3.2 * vw).toFixed(1)}px,${(Math.cos(prog * Math.PI * 3) * 1.8 * vh).toFixed(1)}px,${p.t.toFixed(1)}px) rotateZ(${(prog * 28 + Math.sin(prog * 12.56) * 5).toFixed(2)}deg)`;
-          wordEl.style.opacity = p.wo.toFixed(3);
           for (const it of items) {
             if (!it.on) continue;
             const s = it.s;
@@ -90,14 +89,14 @@ export function IngredientTunnel({ word }: { word: string }) {
           scrollTrigger: { trigger: el, start: 'top top', end, scrub: 0.6, pin: true, anticipatePin: 1, invalidateOnRefresh: true, onRefresh: apply },
         });
         tl.to(p, { t: TRAVEL, duration: 10 }, 0);
-        tl.to(p, { wo: 1, duration: 1.6 }, 0.4);
-        tl.to(p, { wo: 0, duration: 0.9, ease: 'power1.in' }, 9.1);
+        return () => nodes.forEach((n) => { n.style.display = ''; });
       };
 
-      mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => run(COUNT, '+=400%'));
-      mm.add('(max-width: 767px) and (prefers-reduced-motion: no-preference)', () => run(PHONE_COUNT, '+=240%'));
+      mm.add('(prefers-reduced-motion: no-preference) and (min-width: 1024px) and (min-height: 600px)', () => run(COUNT, '+=340%'));
+      mm.add('(prefers-reduced-motion: no-preference) and (min-width: 600px) and (max-width: 1023px) and (min-height: 501px)', () => run(TABLET_COUNT, '+=280%'));
+      mm.add('(prefers-reduced-motion: no-preference) and (min-width: 1024px) and (max-height: 599px) and (min-height: 501px)', () => run(TABLET_COUNT, '+=280%'));
+      mm.add('(prefers-reduced-motion: no-preference) and ((max-width: 599px) or (max-height: 500px))', () => run(PHONE_COUNT, '+=200%'));
       mm.add('(prefers-reduced-motion: reduce)', () => {
-        wordEl.style.opacity = '1';
         nodes.slice(0, 10).forEach((n, i) => {
           const s = SPRITES[i];
           n.style.opacity = '0.9';
@@ -113,9 +112,6 @@ export function IngredientTunnel({ word }: { word: string }) {
     <section ref={root} className="it" aria-label={word}>
       <div className="it__stage" aria-hidden="true">
         <div className="it__world">
-          <p className="it__word" role="presentation" style={{ transform: `translate3d(-50%,-50%,${WORD_Z}px)` }}>
-            {word}
-          </p>
           {SPRITES.map((s, i) => (
             <div key={i} className={`it__s${i >= PHONE_COUNT ? ' it__s--far' : ''}`} style={{ '--w': `${s.w}px`, opacity: 0 } as React.CSSProperties}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
