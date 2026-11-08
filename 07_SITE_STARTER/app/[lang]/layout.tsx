@@ -45,7 +45,8 @@ const OG_LOCALE: Record<string, string> = { de: 'de_DE', en: 'en_US', uk: 'uk_UA
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const { t, locale } = getMessages(lang);
-  const ogImage = { url: `/og/og-${locale}.png`, width: 1200, height: 630, alt: t.meta.title };
+  // JPEG under ~250 KB on purpose: WhatsApp silently drops og:image files larger than ~300 KB (Telegram does not)
+  const ogImage = { url: `/og/og-${locale}.jpg`, width: 1200, height: 630, type: 'image/jpeg', alt: t.meta.title };
   return {
     metadataBase: new URL(siteUrl()),
     title: t.meta.title,
