@@ -14,6 +14,22 @@ const tier = () => {
 };
 
 export function ScrollFx() {
+  // Pin-spacers are added by JS AFTER the browser has already restored the previous scroll offset (in pixels, on the still-short page).
+  // Once the pins grow the page by thousands of px, that same offset lands in a different section ("the page jumped by itself").
+  // So: never let the browser restore scroll (iOS also reloads tabs under memory pressure), start at the top, and resolve #anchors
+  // ourselves once the triggers have been measured.
+  useEffect(() => {
+    try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch { /* ignore */ }
+    const id = decodeURIComponent(window.location.hash.replace(/^#/, ''));
+    let moved = false;
+    const mark = () => { moved = true; };
+    window.addEventListener('touchstart', mark, { once: true, passive: true });
+    window.addEventListener('wheel', mark, { once: true, passive: true });
+    if (!id) { window.scrollTo(0, 0); return () => { window.removeEventListener('touchstart', mark); window.removeEventListener('wheel', mark); }; }
+    const go = () => { if (moved) return; document.getElementById(id)?.scrollIntoView(); };
+    const t = [700, 1800, 3500].map((ms) => window.setTimeout(go, ms));
+    return () => { t.forEach((x) => window.clearTimeout(x)); window.removeEventListener('touchstart', mark); window.removeEventListener('wheel', mark); };
+  }, []);
   // Rotating a phone or switching the device emulator re-flows every pinned scene (each one chose its timeline for the
   // old tier). Rebuilding them all in place is fragile, so crossing a tier simply reloads the page (scroll is restored by
   // the browser). Ordinary window resizing inside one tier is handled by ScrollTrigger as before.

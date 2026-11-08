@@ -36,3 +36,11 @@ html, body { scroll-behavior: auto; overflow-anchor: none; } /* no scroll anchor
 
 /* roll break on brand lime: the big word is solid ink (not a grey ghost) and fits the width whatever its length */
 .sb--roll.sb--bg-lime .sb__bgword { color: var(--ink); opacity: 1; font-size: calc(min(calc(92vw / (var(--n) * 0.74)), 26vw, 38svh) * var(--xf)); }
+
+/* iOS WebKit paints a visible rotated rectangle behind a spinning image that has `filter: drop-shadow` (seen on the rolling tomato).
+   On touch devices drop the filter and fake the shadow with a soft oval underneath. */
+@media (hover: none) {
+  .sb__sprite img { filter: none; }
+  .sb__sprite { isolation: isolate; }
+  .sb__sprite::before { content: ''; position: absolute; left: 14%; right: 14%; bottom: -4%; height: 18%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0)); }
+}

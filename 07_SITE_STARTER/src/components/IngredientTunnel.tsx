@@ -141,7 +141,7 @@ export function IngredientTunnel({ word }: { word: string }) {
           {SPRITES.map((s, i) => (
             <div key={i} className={`it__s${i >= PHONE_COUNT ? ' it__s--far' : ''}`} style={{ '--w': `${s.w}px`, opacity: 0 } as React.CSSProperties}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={s.src} alt="" aria-hidden="true" loading="lazy" decoding="async" draggable={false} />
+              <img src={s.src} alt="" aria-hidden="true" decoding="async" draggable={false} />
             </div>
           ))}
         </div>
