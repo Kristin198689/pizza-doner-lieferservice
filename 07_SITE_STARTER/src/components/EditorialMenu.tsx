@@ -1,6 +1,10 @@
 import Image from 'next/image';
-import { DrinksArt } from './DrinksArt';
 import { HalalSeal } from './HalalSeal';
+import { BurgerExplode } from './fx/BurgerExplode';
+import { YufkaUnroll } from './fx/YufkaUnroll';
+import { SnacksDrop } from './fx/SnacksDrop';
+import { DrinksWave } from './fx/DrinksWave';
+import { TiltImage } from './fx/TiltImage';
 import { formatPrice, menuData } from '@/lib/menu';
 import type { Locale, Messages } from '@/lib/i18n';
 
@@ -14,8 +18,11 @@ const LOOK: Record<string, { theme: string; side: 'l' | 'r'; imgs: string[] }> =
   drinks: { theme: 'green', side: 'r', imgs: [] },
 };
 
+/** categories with a dedicated animated art component (each owns its own markup inside the section) */
+const ART: Record<string, React.ComponentType<{ label: string }>> = { burger: BurgerExplode, yufka: YufkaUnroll, snacks: SnacksDrop, drinks: DrinksWave };
+
 export function EditorialMenu({ t, locale }: { t: Messages['menu']; locale: Locale }) {
-  const { categories, pricesConfirmed, currency, isDemoContent } = menuData;
+  const { categories, pricesConfirmed, currency } = menuData;
   return (
     <div className="pms" id="menu">
       <header className="pms__head" data-reveal>
@@ -24,23 +31,22 @@ export function EditorialMenu({ t, locale }: { t: Messages['menu']; locale: Loca
         <p className="pms__lead">{t.body}</p>
         <div className="pms__tags">
           <HalalSeal className="seal--menu" />
-          {isDemoContent && <p className="pms__demo" role="note">{t.demoNote}</p>}
         </div>
       </header>
 
       {categories.map((cat, ci) => {
         const look = LOOK[cat.id] ?? { theme: 'cream', side: 'l' as const, imgs: [] };
+        const Art = ART[cat.id];
         return (
-          <section className={`pm pm--${look.theme} pm--${look.side}`} id={`menu-${cat.id}`} key={cat.id} aria-labelledby={`h-${cat.id}`}>
-            <div className="pm__art" aria-hidden={cat.id === 'drinks' ? undefined : 'true'}>
-              {cat.id === 'drinks' ? (
-                <DrinksArt className="pm__drinks" />
-              ) : (
-                look.imgs.map((src, k) => (
-                  <Image key={src} className={`pm__img pm__img--${k}`} src={`/assets/${src}`} alt="" width={1254} height={1254} sizes="(max-width: 899px) 100vw, 64vw" data-parallax={k ? '-30' : '30'} />
-                ))
-              )}
-            </div>
+          <section className={`pm pm--${look.theme} pm--${look.side}${look.imgs.length ? '' : ' pm--type'}`} id={`menu-${cat.id}`} key={cat.id} aria-labelledby={`h-${cat.id}`}>
+            {Art && <Art label={cat.name[locale]} />}
+            {!Art && look.imgs.length > 0 && (
+              <div className="pm__art" aria-hidden="true">
+                {look.imgs.map((src, k) => (
+                  <TiltImage key={src} className={`pm__img pm__img--${k}`} src={`/assets/${src}`} alt="" width={1254} height={1254} sizes="(max-width: 899px) 100vw, 64vw" data-parallax={k ? '-30' : '30'} />
+                ))}
+              </div>
+            )}
             <div className="pm__body" data-reveal>
               <span className="pm__no" aria-hidden="true">{String(ci + 1).padStart(2, '0')}</span>
               <h3 id={`h-${cat.id}`}>{cat.name[locale]}</h3>

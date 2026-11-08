@@ -1,9 +1,21 @@
 import type { Metadata, Viewport } from 'next';
 import { biz, getMessages, locales } from '@/lib/i18n';
-// Self-hosted fonts (no requests to Google at runtime).
-import '@fontsource-variable/inter-tight';
-import '@fontsource-variable/inter';
+import localFont from 'next/font/local';
 import '../globals.css';
+import '../hero.css';
+import '../header.css';
+import '../takeover.css';
+import '../sections.css';
+import '../fx1.css';
+import '../fx2.css';
+import '../fx3.css';
+import '../fx4.css';
+import '../fx5.css';
+import '../fx6.css';
+
+// Roboto Flex (variable: weight 100–1000 + width axis), self-hosted by next/font: no requests to Google at runtime.
+const rfLatin = localFont({ src: '../../src/fonts/roboto-flex-latin-wdth-normal.woff2', weight: '100 1000', display: 'swap', variable: '--font-rf-latin', adjustFontFallback: false });
+const rfCyr = localFont({ src: '../../src/fonts/roboto-flex-cyrillic-full-normal.woff2', weight: '100 1000', display: 'swap', variable: '--font-rf-cyr', preload: false, adjustFontFallback: false });
 
 
 export const viewport: Viewport = { themeColor: '#09090b', width: 'device-width', initialScale: 1, viewportFit: 'cover' };
@@ -28,7 +40,7 @@ export default async function RootLayout({ children, params }: { children: React
   const { lang } = await params;
   const { locale } = getMessages(lang);
   return (
-    <html lang={locale}>
+    <html lang={locale} className={`${rfLatin.variable} ${rfCyr.variable}`}>
       <body>{children}</body>
     </html>
   );

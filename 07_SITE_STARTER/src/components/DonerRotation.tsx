@@ -6,13 +6,13 @@ import { gsap, useGSAP } from '@/lib/gsap';
 import { WoodBackground } from './WoodBackground';
 import type { Messages } from '@/lib/i18n';
 
-type State = { rot: number; dolly: number; heat: number };
+type State = { rot: number; dolly: number; heat: number; peel: number };
 
 /** Real 3D geometry (stacked, displaced cone of meat on a metal rod), procedural texture and flickering firelight. */
 export function DonerRotation({ t }: { t: Messages['doner'] }) {
   const root = useRef<HTMLElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
-  const state = useRef<State>({ rot: 0, dolly: 0, heat: 0.55 });
+  const state = useRef<State>({ rot: 0, dolly: 0, heat: 0.55, peel: 0 });
   const [failed, setFailed] = useState(false);
 
   /* ---------------- scroll choreography ---------------- */
@@ -28,6 +28,7 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
         tl.to(s, { rot: Math.PI * 3.2, duration: 5 }, 0);
         tl.to(s, { dolly: 1, ease: 'power1.inOut', duration: 5 }, 0);
         tl.to(s, { heat: 1, duration: 3 }, 0);
+        tl.to(s, { peel: 1, duration: 3.1 }, 2);
         tl.fromTo(q('.dn__word'), { yPercent: 10, xPercent: -4 }, { yPercent: -10, xPercent: 4, duration: 5 }, 0);
         tl.fromTo(q('.dn__copy > *'), { y: 60, opacity: 0 }, { y: 0, opacity: 1, ease: 'power3.out', duration: 0.9, stagger: 0.18 }, 0.2);
         tl.to({}, { duration: 0.6 }, 5);
@@ -38,12 +39,14 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
         tl.to(s, { rot: Math.PI * 2.2, duration: 1 }, 0);
         tl.to(s, { dolly: 0.8, duration: 1, ease: 'power1.inOut' }, 0);
         tl.to(s, { heat: 1, duration: 0.6 }, 0);
+        tl.to(s, { peel: 1, duration: 0.5 }, 0.3);
         tl.fromTo(q('.dn__word'), { yPercent: 6 }, { yPercent: -6, duration: 1 }, 0);
       });
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
         s.rot = 0.7;
         s.heat = 0.8;
+        s.peel = 1;
       });
       return () => mm.revert();
     },
@@ -252,6 +255,147 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
         const sparkMat = new THREE.PointsMaterial({ color: 0xffa040, size: 0.045, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false });
         scene.add(new THREE.Points(sparkGeo, sparkMat));
 
+
+        /* --- slices peeling off the spit onto a plate --- */
+        const NS = small ? 6 : 9;
+        const SU = 24, SV = 4, SL = 1.3, SR = 0.7, SH = 0.17, STH = 0.032;
+        const sNv = (SU + 1) * (SV + 1);
+        const sPos = new Float32Array(sNv * 2 * 3), sUv = new Float32Array(sNv * 2 * 2), sCol = new Float32Array(sNv * 2 * 3);
+        for (let layer = 0; layer < 2; layer++) {
+          for (let iu = 0; iu <= SU; iu++) {
+            for (let iv = 0; iv <= SV; iv++) {
+              const vi = layer * sNv + iu * (SV + 1) + iv;
+              const u = iu / SU, v = (iv / SV) * 2 - 1;
+              const th = (u - 0.5) * SL;
+              const e = Math.max(1 - (2 * u - 1) * (2 * u - 1), 0);
+              const hh = SH * Math.pow(e, 0.55) + 0.014;
+              const rad = SR + 0.03 * Math.sin(u * 9 + v * 2.2) + (layer === 0 ? 1 : -1) * 0.5 * STH * (0.3 + 0.7 * e);
+              sPos[vi * 3] = rad * Math.sin(th);
+              sPos[vi * 3 + 1] = v * hh + 0.022 * Math.sin(u * 7.5) * (1 - 0.3 * Math.abs(v));
+              sPos[vi * 3 + 2] = rad * Math.cos(th) - SR;
+              sUv[vi * 2] = u * 0.2 + 0.05;
+              sUv[vi * 2 + 1] = (v * 0.5 + 0.5) * 0.12 + 0.3;
+              const sh = layer === 0 ? 0.9 + 0.1 * Math.abs(v) : 1;
+              sCol[vi * 3] = sh;
+              sCol[vi * 3 + 1] = layer === 0 ? 0.78 * sh : 0.95;
+              sCol[vi * 3 + 2] = layer === 0 ? 0.6 * sh : 0.86;
+            }
+          }
+        }
+        const sIdx: number[] = [];
+        const vid = (layer: number, iu: number, iv: number) => layer * sNv + iu * (SV + 1) + iv;
+        for (let iu = 0; iu < SU; iu++) {
+          for (let iv = 0; iv < SV; iv++) {
+            const a = vid(0, iu, iv), b = vid(0, iu + 1, iv), c = vid(0, iu, iv + 1), d = vid(0, iu + 1, iv + 1);
+            sIdx.push(a, b, c, b, d, c);
+            const a2 = vid(1, iu, iv), b2 = vid(1, iu + 1, iv), c2i = vid(1, iu, iv + 1), d2 = vid(1, iu + 1, iv + 1);
+            sIdx.push(a2, c2i, b2, b2, c2i, d2);
+          }
+          const o0 = vid(0, iu, SV), o1 = vid(0, iu + 1, SV), i0 = vid(1, iu, SV), i1 = vid(1, iu + 1, SV);
+          sIdx.push(o0, o1, i0, o1, i1, i0);
+          const p0 = vid(0, iu, 0), p1 = vid(0, iu + 1, 0), r0 = vid(1, iu, 0), r1 = vid(1, iu + 1, 0);
+          sIdx.push(p0, r0, p1, p1, r0, r1);
+        }
+        const shGeo = new THREE.BufferGeometry();
+        shGeo.setAttribute('position', new THREE.BufferAttribute(sPos, 3));
+        shGeo.setAttribute('uv', new THREE.BufferAttribute(sUv, 2));
+        shGeo.setAttribute('color', new THREE.BufferAttribute(sCol, 3));
+        shGeo.setIndex(sIdx);
+        shGeo.computeVertexNormals();
+        const shMat = new THREE.MeshStandardMaterial({ map, bumpMap: map, bumpScale: 2, vertexColors: true, roughness: 0.62, metalness: 0, emissive: new THREE.Color(0x6a3a18), emissiveIntensity: 0.32 });
+
+        const plateProf = [[0, 0.045], [0.52, 0.045], [0.7, 0.075], [0.92, 0.138], [0.975, 0.152], [0.995, 0.14], [0.99, 0.122], [0.95, 0.112], [0.78, 0.05], [0.5, 0.004], [0, 0]].map(([x, y]) => new THREE.Vector2(x, y));
+        const plateGeo = new THREE.LatheGeometry(plateProf, 72);
+        const plateMat = new THREE.MeshStandardMaterial({ color: 0xf6f2e9, roughness: 0.32, metalness: 0, side: THREE.DoubleSide, emissive: new THREE.Color(0x2a2218), emissiveIntensity: 0.1 });
+        const plate = new THREE.Group();
+        /* plate removed: geometry kept only as scale/landing reference */
+        const shc = document.createElement('canvas');
+        shc.width = shc.height = 64;
+        const shg = shc.getContext('2d')!;
+        const shr = shg.createRadialGradient(32, 32, 2, 32, 32, 31);
+        shr.addColorStop(0, 'rgba(30,14,4,0.62)');
+        shr.addColorStop(0.6, 'rgba(30,14,4,0.3)');
+        shr.addColorStop(1, 'rgba(30,14,4,0)');
+        shg.fillStyle = shr;
+        shg.fillRect(0, 0, 64, 64);
+        const plShTex = new THREE.CanvasTexture(shc);
+        const plShGeo = new THREE.PlaneGeometry(1.15, 1.15);
+        const plShMat = new THREE.MeshBasicMaterial({ map: plShTex, transparent: true, depthWrite: false });
+        const plShadow = new THREE.Mesh(plShGeo, plShMat);
+        plShadow.rotation.x = -Math.PI / 2;
+        plShadow.position.y = 0.049;
+                plate.rotation.x = 0.42;
+        plate.visible = false;
+        scene.add(plate);
+        const plateL = new THREE.PointLight(0xffb070, 1.6, 5, 1.5);
+        scene.add(plateL);
+
+        const UP = new THREE.Vector3(0, 1, 0);
+        const mBasis = new THREE.Matrix4();
+        const vA = new THREE.Vector3(), vB = new THREE.Vector3(), vC = new THREE.Vector3();
+        const shavs = Array.from({ length: NS }, (_, i) => {
+          const y = 1.05 - (i / (NS - 1)) * 1.5;
+          const tt = (y + H / 2) / H;
+          const r = 0.56 + 0.47 * Math.pow(tt, 0.85) + 0.03;
+          const al = 0.5 + (hash(i * 3 + 1) - 0.5) * 0.6;
+          const n = new THREE.Vector3(Math.sin(al), 0, Math.cos(al));
+          const tg = new THREE.Vector3(Math.cos(al), 0, -Math.sin(al));
+          const q0 = new THREE.Quaternion().setFromRotationMatrix(mBasis.makeBasis(tg, UP, n));
+          const qCurl = new THREE.Quaternion().setFromEuler(new THREE.Euler(-0.95 - hash(i + 4) * 0.4, (hash(i + 8) - 0.5) * 1.1, (hash(i + 12) - 0.5) * 0.6));
+          const mesh = new THREE.Mesh(shGeo, shMat);
+          mesh.visible = false;
+          scene.add(mesh);
+          const layer = i < NS - 4 ? 0 : i < NS - 1 ? 1 : 2;
+          const idxInLayer = layer === 0 ? i : layer === 1 ? i - (NS - 4) : 0;
+          const cnt = layer === 0 ? NS - 4 : layer === 1 ? 3 : 1;
+          const ang = (idxInLayer / cnt) * 6.2832 + hash(i + 20) * 0.9 + layer * 0.8;
+          const rr = layer === 0 ? 0.3 : layer === 1 ? 0.14 : 0;
+          const lp = new THREE.Vector3(Math.cos(ang) * rr, 0.052 + layer * 0.066 + 0.02, Math.sin(ang) * rr);
+          const ql = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, -ang + Math.PI / 2 + (hash(i + 30) - 0.5) * 1.1, 0))
+            .multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI / 2 + (hash(i + 40) - 0.5) * 0.5, 0, (hash(i + 50) - 0.5) * 0.4)));
+          return {
+            mesh, q0, qCurl, ax: n.x * r, ay: y, az: n.z * r, nx: n.x, nz: n.z, tx: tg.x, tz: tg.z,
+            s0: (r / SR) * 0.85, start: 0.02 + (i / (NS - 1)) * 0.56, dur: 0.4,
+            apex: 0.8 + hash(i + 60) * 0.5,
+            tumAx: new THREE.Vector3(hash(i + 70) - 0.5, 0.4, hash(i + 80) - 0.5).normalize(), tum: (hash(i + 90) - 0.5) * 3.2,
+            lp, ql, T: new THREE.Vector3(), qL: new THREE.Quaternion(),
+          };
+        });
+        const qa = new THREE.Quaternion(), qb = new THREE.Quaternion();
+        let landS = 0.6, spitBaseX = 0;
+        const sm = (x: number) => x * x * (3 - 2 * x);
+        const clamp01 = (x: number) => (x < 0 ? 0 : x > 1 ? 1 : x);
+        const updateShavings = (peel: number) => {
+          plate.visible = false;
+          for (const d of shavs) d.mesh.visible = false;
+          if (peel > -1) return;
+          for (let i = 0; i < NS; i++) {
+            const d = shavs[i];
+            const p = (peel - d.start) / d.dur;
+            if (p <= 0.001) { d.mesh.visible = false; continue; }
+            d.mesh.visible = true;
+            const c = sm(clamp01(p / 0.26));
+            const u = clamp01((p - 0.26) / 0.74);
+            const x1 = spit.position.x + d.ax + d.nx * 0.34 * c + d.tx * 0.14 * c;
+            const y1 = d.ay + 0.08 * c;
+            const z1 = d.az + d.nz * 0.34 * c + d.tz * 0.14 * c;
+            qa.identity().slerp(d.qCurl, c);
+            qb.copy(d.q0).multiply(qa);
+            const grow = 0.3 + 0.7 * c;
+            if (u <= 0) {
+              d.mesh.position.set(x1, y1, z1);
+              d.mesh.quaternion.copy(qb);
+              d.mesh.scale.setScalar(d.s0 * grow);
+            } else {
+              d.mesh.position.set(x1 + (d.T.x - x1) * u, y1 + (d.T.y - y1) * u + d.apex * 4 * u * (1 - u), z1 + (d.T.z - z1) * u);
+              d.mesh.quaternion.slerpQuaternions(qb, d.qL, sm(u));
+              qa.setFromAxisAngle(d.tumAx, d.tum * Math.sin(Math.PI * u));
+              d.mesh.quaternion.premultiply(qa);
+              d.mesh.scale.setScalar(d.s0 + (landS - d.s0) * sm(u));
+            }
+          }
+        };
+
         /* --- sizing + loop --- */
         const resize = () => {
           const w = cv.clientWidth || 1, h = cv.clientHeight || 1;
@@ -259,6 +403,24 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
           renderer.setSize(w, h, false);
           camera.aspect = w / h;
           camera.updateProjectionMatrix();
+          const asp = camera.aspect;
+          const kk = asp < 1.1 ? 1.1 / asp : 1;
+          const bz = 6.9 * Math.pow(kk, 0.5);
+          const halfH = Math.tan((32 / 2) * (Math.PI / 180)) * (bz - 0.9);
+          const halfW = halfH * asp;
+          const ps = (halfH * 0.37) / 0.95;
+          spitBaseX = Math.min(2.4, Math.max(0, (asp - 1.15) * 3.4));
+          const pr = 0.99 * ps;
+          plate.scale.setScalar(ps);
+          plate.position.set(Math.min(spitBaseX + 1.15, halfW - pr - 0.5), -halfH - 0.3 + pr * 0.95 + 0.34, 0.9);
+          plate.updateMatrixWorld(true);
+          landS = ps * 1.1;
+          for (const d of shavs) {
+            d.T.copy(d.lp);
+            plate.localToWorld(d.T);
+            d.qL.copy(plate.quaternion).multiply(d.ql);
+          }
+          plateL.position.set(plate.position.x - 0.4, plate.position.y + 1.3, plate.position.z + 1);
         };
         const ro = new ResizeObserver(() => { resize(); draw(clock.getElapsedTime()); });
         ro.observe(cv);
@@ -271,7 +433,7 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
           const baseZ = 6.9 * Math.pow(k, 0.5);
           camera.position.set(0, 0.15 + s.dolly * 0.1, baseZ - s.dolly * baseZ * 0.1);
           camera.lookAt(0, 0.05, 0);
-          spit.position.x = Math.min(2.4, Math.max(0, (aspect - 1.15) * 3.4));
+          spit.position.x = spitBaseX;
           spit.rotation.y = s.rot + 0.7 + (reduce ? 0 : time * 0.28);
           const f = 0.82 + 0.18 * Math.sin(time * 9.1) * Math.sin(time * 5.3 + 1) + 0.15 * Math.sin(time * 23);
           fireL.intensity = (10 + s.heat * 16) * f;
@@ -294,6 +456,7 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
           }
           sparkGeo.attributes.position.needsUpdate = true;
           sparkMat.opacity = 0.35 + s.heat * 0.55;
+          updateShavings(s.peel);
           renderer.render(scene, camera);
         };
 
@@ -317,9 +480,9 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
           io.disconnect();
           ro.disconnect();
           cancelAnimationFrame(raf);
-          [geo, rod.geometry, topCap.geometry, botPlate.geometry, finial.geometry, heater.geometry, sparkGeo].forEach((x) => x.dispose());
-          [meatMat, metal, heaterMat, sparkMat, ...puffs.map((p) => p.mat)].forEach((x) => x.dispose());
-          [map, heaterTex, smokeTex, envTex].forEach((x) => x.dispose());
+          [shGeo, plateGeo, plShGeo, geo, rod.geometry, topCap.geometry, botPlate.geometry, finial.geometry, heater.geometry, sparkGeo].forEach((x) => x.dispose());
+          [shMat, plateMat, plShMat, meatMat, metal, heaterMat, sparkMat, ...puffs.map((p) => p.mat)].forEach((x) => x.dispose());
+          [plShTex, map, heaterTex, smokeTex, envTex].forEach((x) => x.dispose());
           pmrem.dispose();
           renderer.dispose();
           renderer.forceContextLoss();

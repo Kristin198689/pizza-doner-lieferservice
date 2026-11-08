@@ -1,5 +1,6 @@
 'use client';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
+import { initRevealFx, initMagnetic } from './fx/RevealFx';
 
 /** Global, lightweight scroll effects: IntersectionObserver reveals + transform-only parallax. */
 export function ScrollFx() {
@@ -33,11 +34,16 @@ export function ScrollFx() {
         gsap.fromTo(el, { y: -v }, { y: v, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true } });
       });
 
+      const cleanFx = initRevealFx(small);
+
       return () => {
+        cleanFx();
         io.disconnect();
         delete root.dataset.motion;
       };
     });
+
+    mm.add('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)', () => initMagnetic());
 
     const refresh = () => ScrollTrigger.refresh();
     window.addEventListener('load', refresh, { once: true });

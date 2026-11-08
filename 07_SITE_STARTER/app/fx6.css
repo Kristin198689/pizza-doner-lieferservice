@@ -1,0 +1,36 @@
+/* fx6: global micro-techniques (headings, images, menu rows, magnetic buttons, footer wordmark). Transform/opacity/clip-path only. */
+[data-magnetic] { translate: var(--mx, 0px) var(--my, 0px); }
+
+.pm__no { font-variant-numeric: tabular-nums; }
+
+/* menu rows: hidden only once JS flags motion; always visible without JS / reduced motion */
+html[data-fx6='on'] .pm__list > li { position: relative; isolation: isolate; }
+html[data-fx6='on'] .pm__list > li:not(.fx-in) { opacity: 0; }
+html[data-fx6='on'] .pm__list > li.fx-in { animation: fx6-row 0.8s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 70ms); }
+html[data-fx6='on'] .pm__list > li::after {
+  content: ''; position: absolute; inset: -2px -8px; z-index: 1; pointer-events: none; background: var(--sweep, var(--lime)); transform: scaleX(0); transform-origin: 0 50%; opacity: 0;
+}
+html[data-fx6='on'] .pm__list > li.fx-in::after { animation: fx6-sweep 0.9s cubic-bezier(0.77, 0, 0.175, 1) both; animation-delay: calc(var(--i, 0) * 70ms); }
+.pm--ink, .pm--red { --sweep: var(--lime); }
+.pm--cream, .pm--lime { --sweep: var(--ink); }
+.pm--green { --sweep: var(--ink); }
+@keyframes fx6-row { 0%, 45% { opacity: 0; transform: translateY(14px); } 100% { opacity: 1; transform: none; } }
+@keyframes fx6-sweep {
+  0% { transform: scaleX(0); transform-origin: 0 50%; opacity: 1; }
+  50% { transform: scaleX(1); transform-origin: 0 50%; opacity: 1; }
+  50.1% { transform: scaleX(1); transform-origin: 100% 50%; opacity: 1; }
+  100% { transform: scaleX(0); transform-origin: 100% 50%; opacity: 1; }
+}
+@media (max-width: 767px) {
+  /* lighter on phones: simple fade-rise, no sweep bar */
+  html[data-fx6='on'] .pm__list > li::after { display: none; }
+  @keyframes fx6-row { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: none; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-fx6] .pm__list > li { opacity: 1 !important; animation: none !important; }
+  html[data-fx6] .pm__list > li::after { display: none; }
+}
+
+/* footer wordmark: big, clipped reveal */
+.footer { overflow: hidden; }
+.footer__brand { font-size: clamp(2.2rem, 9.5vw, 9rem); line-height: 0.95; letter-spacing: -0.03em; text-transform: uppercase; overflow-wrap: anywhere; }

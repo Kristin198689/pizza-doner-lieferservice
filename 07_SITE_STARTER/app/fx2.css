@@ -1,0 +1,50 @@
+/* effects agent 2: drinks liquid, snacks box drop, cursor tilt */
+
+/* ---------- A. drinks liquid: sloshing in a glass (standing wave, tilting surface), not sea waves ---------- */
+.pm--green .pm__body { position: relative; z-index: 2; }
+.dw { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.dw__liquid { position: absolute; left: -35%; right: -35%; top: 0; height: 100%; transform: translateY(38%); transform-origin: 50% 0; will-change: transform; }
+.dw__body { position: absolute; inset: 0; background: var(--white, #F6F2E9); overflow: hidden; }
+.dw__waves { position: absolute; left: 0; right: 0; top: -99px; height: 100px; }
+/* 400% wide = about one gentle swell across the screen; positioned so the middle shows */
+.dw__wave { position: absolute; left: -150%; top: 0; width: 400%; height: 100px; fill: #F6F2E9; }
+.dw__wave--a { opacity: 1; }
+.dw__wave--b { opacity: 0.55; top: -10px; }
+.dw__wave--c { opacity: 0.3; top: -20px; }
+.dw__bub { position: absolute; border-radius: 50%; border: 2px solid rgba(9, 9, 11, 0.22); opacity: 0; }
+@keyframes dw-slosh { 0%, 100% { rotate: -3.4deg; } 50% { rotate: 3.4deg; } }
+@keyframes dw-slosh2 { 0%, 100% { translate: -7% 0; } 50% { translate: 7% 0; } }
+@keyframes dw-slosh3 { 0%, 100% { translate: 6% 0; } 50% { translate: -6% 0; } }
+@keyframes dw-heave { 0%, 100% { scale: 1 0.7; } 50% { scale: 1 1.15; } }
+@keyframes dw-rise { 0% { transform: translate3d(0, 0, 0) scale(0.7); opacity: 0; } 15% { opacity: 0.9; } 85% { opacity: 0.7; } 100% { transform: translate3d(14px, -200px, 0) scale(1.1); opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .dw__liquid { animation: dw-slosh 3.6s ease-in-out infinite; animation-play-state: paused; }
+  .dw__wave { transform-origin: 50% 100%; animation: dw-slosh2 3.6s ease-in-out infinite, dw-heave 1.8s ease-in-out infinite; animation-play-state: paused; }
+  .dw__wave--b { animation: dw-slosh3 3.6s ease-in-out infinite -0.6s, dw-heave 2.2s ease-in-out infinite -0.7s; animation-play-state: paused; }
+  .dw__wave--c { animation: dw-slosh2 3.6s ease-in-out infinite -1.2s, dw-heave 2.6s ease-in-out infinite -1.3s; animation-play-state: paused; }
+  .dw__bub { animation: dw-rise 8s ease-in infinite; animation-play-state: paused; }
+  .dw.is-live .dw__liquid, .dw.is-live .dw__wave, .dw.is-live .dw__bub { animation-play-state: running; }
+}
+@media (prefers-reduced-motion: reduce) { .dw__bub { opacity: 0.6; } }
+
+/* ---------- B. snacks box ---------- */
+.sd { aspect-ratio: 1 / 0.9; }
+.sd__scene { position: absolute; top: 0; bottom: 0; left: 6%; right: 6%; }
+@media (min-width: 900px) { .sd { aspect-ratio: 1.15 / 1; } .sd__scene { left: 15%; right: 2%; } }
+.sd__back, .sd__front { position: absolute; left: 4%; width: 92%; background-color: #B98B57; background-image: url('/assets/backgrounds/kraft_cardboard.jpg'); background-size: 70% auto; }
+.sd__back { bottom: 7%; height: 38%; z-index: 0; clip-path: polygon(0 0, 100% 0, 91% 100%, 9% 100%); filter: brightness(0.55); }
+.sd__front { bottom: 7%; height: 22%; z-index: 20; clip-path: polygon(0 0, 100% 0, 91.5% 100%, 8.5% 100%); }
+/* rim highlight + fold shade on the front lip (static gradients) */
+.sd__front::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 14%; background: linear-gradient(rgba(255, 244, 220, 0.38), rgba(255, 244, 220, 0)); }
+.sd__front::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0) 22%, rgba(0, 0, 0, 0) 78%, rgba(0, 0, 0, 0.28)), linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3)); }
+.sd__item { position: absolute; will-change: transform; }
+.sd__img { display: block; width: 100%; height: auto; rotate: var(--r, 0deg); scale: var(--f, 1) 1; }
+.sd .pm__img { filter: none; }
+@media (max-width: 899px) { .sd { margin-bottom: 0; } }
+
+/* ---------- C. cursor tilt ---------- */
+.fx-tilt.pm__img { filter: none; }
+.fx-tilt__stage { position: relative; width: 100%; }
+.fx-tilt__inner { position: relative; transform-style: preserve-3d; will-change: transform; }
+.fx-tilt__img { display: block; width: 100%; height: auto; }
+.fx-tilt__shadow { position: absolute; left: 14%; right: 14%; bottom: 4%; height: 16%; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)); will-change: transform; pointer-events: none; }

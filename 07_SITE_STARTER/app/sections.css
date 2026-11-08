@@ -1,0 +1,106 @@
+/* ============ Product rail (replaces the old auto-rotating orbit) ============ */
+.rail { position: relative; background: var(--ink); color: var(--white); padding: var(--section) 0 clamp(72px, 9vw, 150px); overflow: hidden; }
+.rail__head { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 14px 20px; padding: 0 var(--gutter); margin-bottom: clamp(20px, 3vw, 44px); }
+.rail__eyebrow { margin: 0; }
+.rail__ctrl { display: flex; align-items: center; gap: 10px; }
+.rail__count { font-weight: 650; font-variation-settings: var(--wdth-ui); letter-spacing: 0.12em; font-size: 0.95rem; margin-right: 6px; font-variant-numeric: tabular-nums; color: var(--muted); }
+.rail__count b { color: var(--white); font-weight: 900; }
+.rail__arrow { width: 52px; height: 52px; border-radius: 50%; border: 2px solid rgba(246, 242, 233, 0.4); background: none; color: var(--white); display: grid; place-items: center; cursor: pointer; touch-action: manipulation; transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s var(--ease-out), opacity 0.2s; }
+.rail__arrow:active:not(:disabled) { transform: scale(0.94); }
+.rail__arrow:disabled { opacity: 0.3; cursor: default; }
+.rail__arrow-icon { width: 22px; height: 22px; }
+.rail__arrow-icon--flip { transform: scaleX(-1); }
+@media (hover: hover) and (pointer: fine) { .rail__arrow:hover:not(:disabled) { background: var(--lime); border-color: var(--lime); color: var(--ink); } }
+.rail__bar { grid-column: 1 / -1; display: block; height: 4px; background: rgba(246, 242, 233, 0.16); border-radius: 99px; overflow: hidden; }
+.rail__bar i { display: block; height: 100%; width: 100%; background: var(--lime); transform-origin: left; transform: scaleX(calc(0.14 + var(--prog, 0) * 0.86)); }
+
+.rail__track { position: relative; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; padding-inline: 0; cursor: grab; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; outline-offset: -4px; }
+.rail__track::-webkit-scrollbar { display: none; }
+.rail__track.is-drag { scroll-snap-type: none; cursor: grabbing; user-select: none; -webkit-user-select: none; }
+.rail__track:focus-visible { outline: 3px solid var(--lime); }
+
+.rail__panel { --p: 0; position: relative; flex: 0 0 100%; height: clamp(540px, 84svh, 800px); overflow: hidden; scroll-snap-align: center; container-type: inline-size; isolation: isolate; background: var(--bg); color: var(--fg); }
+.rail__panel--red { --bg: var(--red); --fg: var(--white); --nm: var(--ink); --btn: var(--ink); --btn-fg: var(--white); }
+.rail__panel--lime { --bg: var(--lime); --fg: var(--ink); --nm: var(--red); --btn: var(--ink); --btn-fg: var(--lime); }
+.rail__panel--ink { --bg: var(--ink); --fg: var(--white); --nm: var(--lime); --btn: var(--lime); --btn-fg: var(--ink); }
+.rail__panel--cream { --bg: var(--white); --fg: var(--ink); --nm: var(--red); --btn: var(--ink); --btn-fg: var(--white); }
+.rail__panel--green { --bg: var(--green); --fg: var(--ink); --nm: var(--ink); --btn: var(--ink); --btn-fg: var(--green); }
+
+.rail__name { position: absolute; z-index: 0; left: 0; right: 0; top: 5%; margin: 0; text-align: center; white-space: nowrap; color: var(--nm); font-size: min(calc(94cqw / (var(--n) * 0.74)), 17rem, 30svh); line-height: 0.9; letter-spacing: -0.035em; transform: translate3d(calc(var(--p) * -24%), 0, 0); will-change: transform; }
+.rail__fig { position: absolute; z-index: 1; left: 4%; right: 4%; top: 15%; bottom: 25%; display: grid; place-items: center; transform: translate3d(calc(var(--p) * 10%), 0, 0) scale(calc(1 - var(--p) * var(--p) * 0.08)); will-change: transform; }
+.rail__fig img { height: 100%; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 28px 30px rgba(0, 0, 0, 0.45)); -webkit-user-drag: none; user-select: none; pointer-events: none; }
+.rail__foot { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 0 clamp(20px, 4cqw, 56px) clamp(20px, 3cqw, 40px); }
+.rail__hint { margin: 0; max-width: 30ch; font-size: clamp(1rem, 1.5cqw + 0.55rem, 1.5rem); font-weight: 650; line-height: 1.25; }
+.rail__link { display: inline-flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 24px; border-radius: 99px; background: var(--btn); color: var(--btn-fg); font-weight: 800; font-variation-settings: var(--wdth-h); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.85rem; touch-action: manipulation; transition: transform 0.2s var(--ease-out); }
+.rail__link:active { transform: scale(0.97); }
+.rail__link-icon { width: 18px; height: 18px; }
+.rail__drag { display: none; margin: 18px var(--gutter) 0; font-size: 0.7rem; letter-spacing: 0.28em; text-transform: uppercase; font-weight: 800; color: var(--muted); }
+@media (hover: hover) and (pointer: fine) { .rail__link:hover { transform: translateY(-2px); } .rail__drag { display: block; } }
+
+@media (min-width: 768px) {
+  .rail__track { padding-inline: 7vw; scroll-padding-inline: 7vw; gap: 0; }
+  .rail__panel { flex-basis: 86vw; height: clamp(560px, 80svh, 820px); }
+  .rail__name { top: 4%; }
+  .rail__fig { top: 12%; bottom: 14%; left: 8%; right: 8%; }
+  .rail__foot { flex-direction: row; align-items: center; justify-content: space-between; gap: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rail__name, .rail__fig { transform: none; will-change: auto; }
+  .rail__track { scroll-behavior: auto; }
+}
+
+/* swipe hint + mobile peek (shows the next panel so the rail reads as scrollable) */
+.rail__swipe { display: none; grid-column: 1 / -1; margin: 0; align-items: center; gap: 10px; font-weight: 800; font-variation-settings: var(--wdth-ui); text-transform: uppercase; letter-spacing: 0.22em; font-size: 0.78rem; color: var(--lime); transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out); }
+.rail__swipe-icon { width: 20px; height: 20px; animation: rail-nudge 1.4s var(--ease-out) infinite; }
+.rail__swipe.is-gone { opacity: 0; transform: translateY(-4px); pointer-events: none; }
+@keyframes rail-nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
+@media (hover: none), (max-width: 767px) { .rail__swipe { display: flex; } }
+@media (max-width: 767px) {
+  .rail__track { padding-inline: 5vw; scroll-padding-inline: 5vw; gap: 10px; }
+  .rail__panel { flex-basis: 88vw; }
+}
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) { section.box { min-height: 100svh; } }
+@media (prefers-reduced-motion: reduce) { .rail__swipe-icon { animation: none; } .rail__swipe { transition: none; } }
+
+/* ============ Section breaks ============ */
+.sb { --sb-h: clamp(260px, 54vh, 620px); position: relative; height: min(var(--sb-h), 55svh); overflow: hidden; isolation: isolate; contain: paint; background: var(--c); }
+.sb--bg-ink { --c: var(--ink); } .sb--bg-red { --c: var(--red); } .sb--bg-lime { --c: var(--lime); } .sb--bg-cream { --c: var(--white); } .sb--bg-green { --c: var(--green); }
+.sb--fg-ink { --t: var(--ink); } .sb--fg-cream { --t: var(--white); }
+
+/* words: two huge lines in opposite directions */
+.sb__lines { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 0.02em; font-size: min(22vw, 26svh); }
+.sb__l1, .sb__l2 { display: flex; gap: 0.35em; width: max-content; white-space: nowrap; font-family: var(--font-display); font-weight: 900; font-variation-settings: var(--wdth-xxl); text-transform: uppercase; line-height: 0.92; letter-spacing: -0.035em; color: var(--t); will-change: transform; }
+.sb__l1 { transform: translate3d(-2%, 0, 0); }
+.sb__l2 { transform: translate3d(-34%, 0, 0); opacity: 0.92; }
+
+/* roll: one ingredient crosses the break, spinning */
+.sb--roll { --sb-h: clamp(220px, 40vh, 460px); }
+.sb__bgword { position: absolute; inset: 0; display: grid; place-items: center; white-space: nowrap; font-family: var(--font-display); font-weight: 900; font-variation-settings: var(--wdth-xxl); text-transform: uppercase; letter-spacing: -0.035em; line-height: 1; font-size: min(26vw, 38svh); color: var(--t); opacity: 0.12; }
+.sb__sprite { position: absolute; left: 0; top: 50%; width: clamp(110px, 20vw, 300px); margin-top: calc(clamp(110px, 20vw, 300px) * -0.45); transform: translate3d(-30vw, 0, 0); will-change: transform; }
+.sb__sprite img { width: 100%; height: auto; filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.35)); }
+
+/* wipe: the next section's colour rises over the previous one */
+.sb--wipe { --sb-h: clamp(300px, 62vh, 700px); }
+.sb--to-ink { --c2: var(--ink); } .sb--to-red { --c2: var(--red); } .sb--to-lime { --c2: var(--lime); } .sb--to-cream { --c2: var(--white); } .sb--to-green { --c2: var(--green); }
+.sb__panel { position: absolute; inset: 0; background: var(--c2); transform-origin: 50% 100%; will-change: transform; }
+.sb__word { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: var(--t); font-family: var(--font-display); font-weight: 900; font-variation-settings: var(--wdth-xxl); text-transform: uppercase; letter-spacing: -0.035em; line-height: 1; white-space: nowrap; padding: 0 3vw; font-size: min(calc(92vw / (var(--n) * 0.74)), 20vw, 34svh); will-change: transform, opacity; }
+
+@media (max-width: 767px) {
+  .sb { --sb-h: 44svh; }
+  .sb--roll { --sb-h: 32svh; }
+}
+/* reduced motion: static coloured spacer, word fully visible */
+@media (prefers-reduced-motion: reduce) {
+  .sb { --sb-h: clamp(200px, 36svh, 380px); }
+  .sb__l1, .sb__l2 { transform: none; will-change: auto; }
+  .sb__l1 span:nth-child(n + 2), .sb__l2 span:nth-child(n + 2) { display: none; }
+  .sb__lines { justify-content: center; align-items: center; }
+  .sb__sprite { left: auto; right: 8vw; transform: none; will-change: auto; }
+  .sb__panel { transform: none; will-change: auto; }
+  .sb__word { transform: none; opacity: 1; will-change: auto; }
+}
+
+/* ============ More air between sections ============ */
+.runway { padding-top: calc(var(--section) * 1.15); padding-bottom: calc(var(--section) * 1.15); }
+.ful { padding-top: calc(var(--section) * 1.2); padding-bottom: calc(var(--section) * 1.2); }
+.footer { margin-top: 0; }

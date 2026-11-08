@@ -3,35 +3,41 @@ import Image from 'next/image';
 import { useRef } from 'react';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { HalalSeal } from './HalalSeal';
-import { IconBag, IconMoped } from './Icons';
 import { OrderButtons } from './OrderButtons';
 import { SmokeField, type SmokeControl } from './SmokeField';
-import { createHeroPhysics, type HeroPhysics } from '@/lib/heroPhysics';
 import type { Messages } from '@/lib/i18n';
 
-type Props = { t: Messages['hero']; order: Messages['order']; quick: Messages['quick'] };
+type Props = { t: Messages['hero']; order: Messages['order']; limeT: Messages['lime']; yufkaAlt: string };
 
-/** Ingredient cloud above the pizza. x / y in % of the square stage (y may be negative), size in % of stage width. */
-const FX = [
-  { src: 'basil_leaf_single', x: 14, y: 6, size: 17, rot: -24 },
-  { src: 'tomato_half', x: 70, y: -1, size: 16, rot: 22 },
-  { src: 'red_onion_ring', x: 90, y: 17, size: 15, rot: 12 },
-  { src: 'mushroom_slice', x: 37, y: 0, size: 13, rot: -14 },
-  { src: 'cherry_tomatoes', x: 55, y: 8, size: 13, rot: 16 },
-  { src: 'basil_sprig', x: 27, y: 16, size: 12, rot: 28 },
-  { src: 'mushrooms_group', x: 80, y: 7, size: 12, rot: -10 },
-  { src: 'red_pepper_rings', x: 47, y: 18, size: 11, rot: 20 },
-  { src: 'black_olives', x: 63, y: 20, size: 9, rot: -26 },
-  { src: 'mozzarella_shreds', x: 8, y: 22, size: 11, rot: 8 },
-  { src: 'basil_leaf_single', x: 48, y: -6, size: 7, rot: 40 },
-  { src: 'tomato_half', x: 4, y: 0, size: 7, rot: -32 },
-  { src: 'red_onion_ring', x: 96, y: -3, size: 6, rot: 16 },
-  { src: 'mixed_herbs_spices', x: 60, y: -8, size: 9, rot: 0 },
-] as const;
+/**
+ * Geometry of /assets/hero/pizza_whole.png (percent of the square image): the pizza is an ellipse (3/4 view).
+ * All 8 sectors are cut from THIS ONE image with polygon clip-paths along rays of that ellipse, so nothing changes
+ * (ingredients, crust, light) when the pizza falls apart.
+ */
+const G = { cx: 50.08, cy: 55.18, rx: 49.6, ry: 33.6 };
+const FLAT = G.ry / G.rx;
+const N = 8;
+const rad = (d: number) => (d * Math.PI) / 180;
+const pt = (deg: number) => `${(G.cx + G.rx * Math.cos(rad(deg))).toFixed(2)}% ${(G.cy + G.ry * Math.sin(rad(deg))).toFixed(2)}%`;
+/** sector k is centred on 45·k degrees (0 = right, 90 = down): sides, top, bottom, diagonals */
+const SECTORS = Array.from({ length: N }, (_, k) => {
+  const a0 = 45 * k - 22.5 - 0.3;
+  const a1 = 45 * k + 22.5 + 0.3;
+  const pts = [`${G.cx}% ${G.cy}%`];
+  for (let a = a0; a < a1; a += 4.5) pts.push(pt(a));
+  pts.push(pt(a1));
+  return `polygon(${pts.join(',')})`;
+});
+const CUTS = Array.from({ length: N }, (_, k) => {
+  const a = 45 * k + 22.5;
+  return { x2: G.cx + G.rx * Math.cos(rad(a)), y2: G.cy + G.ry * Math.sin(rad(a)) };
+});
+const ELLIPSE = `ellipse(${G.rx}% ${G.ry}% at ${G.cx}% ${G.cy}%)`;
+const SPIN = [-14, 12, -10, 16, -12, 10, -16, 14];
 
-export function HeroMotion({ t, order }: Props) {
+export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
   const root = useRef<HTMLElement>(null);
-  const smoke = useRef<SmokeControl>({ v: 0.5 });
+  const smoke = useRef<SmokeControl>({ v: 0.55 });
 
   useGSAP(
     () => {
@@ -39,104 +45,103 @@ export function HeroMotion({ t, order }: Props) {
       if (!el) return;
       const q = gsap.utils.selector(el);
       const mm = gsap.matchMedia();
+      const box = q('.hero__pizza')[0] as HTMLElement;
+      const limeEl = q('.hero__lime')[0] as HTMLElement;
 
-      /* ================= DESKTOP: one continuous take ================= */
-      mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
-        el.dataset.mode = 'pinned';
-        const vh = () => window.innerHeight;
+      const build = (mobile: boolean) => {
         const vw = () => window.innerWidth;
-        const inner = q('.hero__stage-inner')[0];
-        let phys: HeroPhysics | null = null;
-        let burst = false;
-        let dead = false;
+        const vh = () => window.innerHeight;
+        // untransformed centre of the pizza in stage coordinates (CSS placement of scene A)
+        const c0x = () => box.offsetLeft + (box.offsetWidth * G.cx) / 100;
+        const c0y = () => box.offsetTop + (box.offsetHeight * G.cy) / 100;
+        const B = mobile ? { x: 0.5, y: 0.6, s: 1.1 } : { x: 0.5, y: 0.66, s: 1.2 };
+        const C = mobile ? { x: 0.5, y: 0.58, s: 1.12 } : { x: 0.5, y: 0.64, s: 1.3 };
 
-        // physics (loaded lazily): ingredients are rigid bodies that collide with the headline lines
-        (async () => {
-          const stage = q('.hero__stage')[0] as HTMLElement;
-          const sprites = q('.ph') as HTMLElement[];
-          const lines = q('.hero__line') as HTMLElement[];
-          const p = await createHeroPhysics(stage, sprites.map((s, i) => ({ el: s, x: FX[i].x, y: FX[i].y, size: FX[i].size, rot: FX[i].rot })), lines);
-          if (dead) { p.destroy(); return; }
-          phys = p;
-          p.setRunning(true);
-          window.addEventListener('resize', p.remeasure);
-        })();
+        gsap.set(q('.hero__txt--b .hero__ln, .hero__txt--c .hero__ln'), { yPercent: 140 });
+        gsap.set(q('.pz-cut'), { strokeDashoffset: 100 });
+        gsap.set(limeEl, { autoAlpha: 0 });
+        gsap.set(q('.lime__l1, .lime__l2'), { yPercent: 140 });
+        gsap.set(q('.lime__wrap'), { xPercent: 125, rotation: -420 });
+        gsap.set(q('.lime__eyebrow, .lime__body, .lime__deco, .lime__order'), { opacity: 0 });
 
-        // intro: type opens, pizza rises out of black, cloud floats in
+        // intro (time based): type opens, pizza rises out of the black
         gsap
           .timeline({ defaults: { ease: 'power3.out' } })
-          .from(q('.hero__pizza'), { scale: 0.86, yPercent: 8, opacity: 0, duration: 1.7 }, 0)
-          .from(q('.hero__line'), { yPercent: 115, duration: 1.1, stagger: 0.14 }, 0.25)
-          .from(q('.hero__fade'), { opacity: 0, y: 26, duration: 0.9, stagger: 0.1 }, 0.7)
-          .from(q('.ph .fx__img'), { opacity: 0, y: 50, scale: 0.6, duration: 1.3, stagger: 0.05, ease: 'back.out(1.4)' }, 0.6)
-          .to(smoke.current, { v: 0.9, duration: 2.2 }, 0);
+          .from(q('.hero__txt--a .hero__ln'), { yPercent: 140, duration: 1.1, stagger: 0.12 }, 0.1)
+          .from(q('.hero__txt--a .hero__fade'), { opacity: 0, y: 22, duration: 0.8, stagger: 0.1 }, 0.55)
+          .from(q('.pz-wrap'), { scale: 0.9, opacity: 0, duration: 1.4 }, 0)
+          .to(smoke.current, { v: 1, duration: 2 }, 0);
 
-        gsap.set(inner, { transformPerspective: 1400 });
+        // lime window = the pizza's own footprint (an ellipse): it only shows where slices have left; later it
+        // grows past the screen edges so the whole lime scene is open by the time the last slice exits
+        const win = { s: 0.97 };
+        const paint = () => {
+          const r = box.getBoundingClientRect();
+          const cx = r.left + (r.width * G.cx) / 100;
+          const cy = r.top + (r.height * G.cy) / 100;
+          const Rx = (r.width * G.rx) / 100 * win.s;
+          const parts: string[] = [];
+          for (let a = 0; a < 360; a += 6) parts.push(`${(cx + Rx * Math.cos(rad(a))).toFixed(1)}px ${(cy + Rx * FLAT * Math.sin(rad(a))).toFixed(1)}px`);
+          limeEl.style.clipPath = `polygon(${parts.join(',')})`;
+        };
+
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
-          scrollTrigger: {
-            trigger: el, start: 'top top', end: '+=250%', scrub: 0.6, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              const p = self.progress;
-              if (!phys) return;
-              if (p > 0.12 && !burst) { burst = true; phys.burst(); }
-              else if (p < 0.09 && burst) { burst = false; phys.reset(); }
-              phys.setColliders(burst && p < 0.34);
-            },
-          },
+          scrollTrigger: { trigger: el, start: 'top top', end: mobile ? '+=210%' : '+=270%', scrub: mobile ? 0.5 : 0.8, pin: true, anticipatePin: 1, invalidateOnRefresh: true },
         });
+        const pz = q('.pz-wrap');
+        const slices = q('.pz-slice');
 
-        // 1 · the toss: the pizza is thrown up, tilting away, while the ingredients explode off it
-        tl.to(inner, { y: () => -vh() * 1.3, rotationX: 64, rotation: -12, scale: 1.2, duration: 1.7, ease: 'power2.out' }, 1);
-        tl.to(smoke.current, { v: 1.4, duration: 1.2 }, 1);
+        // A · 0–2 : the opening frame breathes
+        tl.fromTo(pz, { scale: 1 }, { scale: 1.02, duration: 2 }, 0);
 
-        // 2 · copy leaves, a clean red floor slides up from below (no circle, no fade)
-        tl.to(q('.hero__copy'), { xPercent: -14, opacity: 0, duration: 1, ease: 'power2.in' }, 3.2);
-        tl.to(q('.hero__scroll'), { opacity: 0, duration: 0.4 }, 3.2);
-        tl.fromTo(q('.hero__s2'), { yPercent: 100 }, { yPercent: 0, duration: 1.6, ease: 'power3.inOut' }, 3.1);
-        tl.set(inner, { x: () => -vw() * 0.42 }, 3.9);
+        // B · 2–4.2 : the camera pushes in; the pizza drifts to the centre; the headline changes
+        tl.to(q('.hero__txt--a .hero__ln'), { yPercent: -140, duration: 0.7, stagger: 0.06, ease: 'power3.in' }, 2.0);
+        tl.to(q('.hero__txt--a .hero__fade'), { opacity: 0, y: -16, duration: 0.5 }, 2.0);
+        tl.to(pz, { x: () => vw() * B.x - c0x(), y: () => vh() * B.y - c0y(), scale: B.s, duration: 2.2, ease: 'power2.inOut' }, 2.0);
+        tl.to(q('.hero__txt--b .hero__ln'), { yPercent: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out' }, 2.8);
+        tl.to(smoke.current, { v: 0.6, duration: 1.5 }, 2.2);
 
-        // 3 · the same pizza falls back from above and lands on the red surface
-        tl.fromTo(inner, { y: () => -vh() * 1.3, rotationX: -48, rotation: 10, scale: 1.18 }, { y: 0, rotationX: 0, rotation: 0, scale: 0.84, duration: 1.6, ease: 'back.out(1.15)', immediateRender: false }, 4.4);
-        tl.fromTo(q('.seal--hero'), { scale: 2.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(2.2)', immediateRender: false }, 5.9);
-        tl.to(q('.hero__stage-inner'), { y: 10, duration: 0.14, yoyo: true, repeat: 1, ease: 'power1.out' }, 6.0);
+        // C · 4.2–5.8 : the cut lines draw along the pizza
+        tl.to(q('.hero__txt--b .hero__ln'), { yPercent: -140, duration: 0.6, stagger: 0.06, ease: 'power3.in' }, 4.2);
+        tl.to(pz, { x: () => vw() * C.x - c0x(), y: () => vh() * C.y - c0y(), scale: C.s, duration: 1.6, ease: 'power1.inOut' }, 4.2);
+        tl.to(q('.hero__txt--c .hero__ln'), { yPercent: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out' }, 4.55);
+        tl.to(q('.seal--hero'), { opacity: 0, scale: 0.6, duration: 0.4 }, 4.3);
+        tl.to(q('.pz-cut'), { strokeDashoffset: 0, duration: 1.1, stagger: 0.07, ease: 'power2.inOut' }, 4.5);
 
-        // 4 · new headline
-        tl.fromTo(q('.hero__s2-line'), { yPercent: 115 }, { yPercent: 0, duration: 1.2, stagger: 0.15, ease: 'power3.out' }, 5.5);
-        tl.fromTo(q('.hero__s2-fade'), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, stagger: 0.12, ease: 'power3.out' }, 6.1);
-        tl.to(inner, { scale: 0.88, duration: 2.6 }, 7.2);
-        tl.to({}, { duration: 0.6 }, 9.4);
+        // D · 5.8–8.5 : eight slices leave the centre along their own rays; the lime scene shows through the gaps
+        tl.set(q('.pz-full'), { autoAlpha: 0 }, 5.8);
+        tl.set(q('.pz-cuts'), { autoAlpha: 0 }, 5.8);
+        tl.set(limeEl, { autoAlpha: 1 }, 5.8);
+        tl.set(slices, { filter: 'drop-shadow(0 16px 22px rgba(0,0,0,0.5))' }, 5.8);
+        tl.to(q('.hero__txt--c .hero__ln'), { yPercent: -140, duration: 0.5, stagger: 0.05, ease: 'power3.in' }, 5.75);
+        slices.forEach((s, k) => {
+          const a = rad(45 * k);
+          const diag = k % 2 ? 1.12 : 1;
+          tl.to(s, { x: () => Math.cos(a) * vw() * 0.72 * diag, y: () => Math.sin(a) * vh() * 0.9 * diag, rotation: SPIN[k], scale: 1.1, duration: 2.7, ease: 'power2.in' }, 5.8);
+        });
+        tl.to(win, { s: 4.2, duration: 2.5, ease: 'power2.in', onUpdate: paint }, 5.85);
+        tl.to(smoke.current, { v: 0, duration: 0.6 }, 5.8);
+        tl.set(limeEl, { clipPath: 'none' }, 8.45);
 
-        return () => {
-          dead = true;
-          phys?.destroy();
-          delete el.dataset.mode;
-        };
-      });
+        // E · 8.5–10 : the lime screen is fully open: headline, then the yufka rolls in from the right
+        tl.to(q('.lime__l1, .lime__l2'), { yPercent: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out' }, 8.1);
+        tl.to(q('.lime__eyebrow'), { opacity: 1, duration: 0.5 }, 8.5);
+        tl.to(q('.lime__wrap'), { xPercent: 0, rotation: 0, duration: 1.5, ease: 'power2.out' }, 8.3);
+        tl.to(q('.lime__body, .lime__deco, .lime__order'), { opacity: 1, duration: 0.6 }, 9.3);
+        tl.to({}, { duration: 0.6 }, 9.9);
+      };
 
-      /* ================= MOBILE: autoplay scene, no scroll trap ================= */
-      mm.add('(max-width: 767px) and (prefers-reduced-motion: no-preference)', () => {
-        el.dataset.mode = 'mobile';
-        const stageH = () => (q('.hero__stage')[0] as HTMLElement).offsetHeight;
-        const set = FX.filter((_, i) => i < 10);
-
-        gsap
-          .timeline({ defaults: { ease: 'power3.out' } })
-          .from(q('.hero__pizza'), { scale: 0.85, yPercent: 8, opacity: 0, duration: 1.4 }, 0)
-          .from(q('.hero__line'), { yPercent: 115, duration: 0.9, stagger: 0.12 }, 0.15)
-          .from(q('.hero__fade'), { opacity: 0, y: 20, duration: 0.7, stagger: 0.08 }, 0.55)
-          .from(q('.ph .fx__img'), { opacity: 0, y: 40, scale: 0.6, duration: 1.1, stagger: 0.05, ease: 'back.out(1.4)' }, 0.5);
-
-        const loop = gsap.timeline({ repeat: -1, repeatDelay: 0.6, delay: 1.2, defaults: { ease: 'sine.inOut' } });
-        set.forEach((_, i) => loop.to(`.fx-s1-${i}`, { y: () => -stageH() * (0.07 + (i % 3) * 0.03), rotation: `+=${(i % 2 ? 1 : -1) * 14}`, duration: 2.2 }, i * 0.05));
-        set.forEach((_, i) => loop.to(`.fx-s1-${i}`, { y: 0, rotation: `-=${(i % 2 ? 1 : -1) * 14}`, duration: 2 }, 2.6 + i * 0.05));
-        ScrollTrigger.create({ trigger: el, start: 'top bottom', end: 'bottom top', onToggle: (s) => (s.isActive ? loop.play() : loop.pause()) });
-
-        gsap.from(q('.hero__s2-pizza'), { scale: 0.7, yPercent: -30, rotation: -14, opacity: 0, duration: 1.4, ease: 'back.out(1.2)', scrollTrigger: { trigger: q('.hero__s2')[0], start: 'top 75%' } });
-        gsap.from(q('.hero__s2-line'), { yPercent: 115, duration: 1, stagger: 0.14, ease: 'power3.out', scrollTrigger: { trigger: q('.hero__s2')[0], start: 'top 70%' } });
+      mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+        el.dataset.mode = 'pinned';
+        build(false);
         return () => { delete el.dataset.mode; };
       });
-
+      mm.add('(max-width: 767px) and (prefers-reduced-motion: no-preference)', () => {
+        el.dataset.mode = 'pinned';
+        build(true);
+        return () => { delete el.dataset.mode; };
+      });
       mm.add('(prefers-reduced-motion: reduce)', () => {
         el.dataset.mode = 'static';
         return () => { delete el.dataset.mode; };
@@ -153,53 +158,74 @@ export function HeroMotion({ t, order }: Props) {
     { scope: root },
   );
 
+  const marquee = Array.from({ length: 8 }, () => t.yufka[0]).join('  ');
   return (
-    <section className="hero" ref={root} id="top" data-mode="static">
-      <div className="hero__s1">
-        <SmokeField control={smoke} className="smoke--back" count={26} originX={0.66} originY={0.58} spread={0.5} seed={3} />
+    <section className="hero" ref={root} id="top" data-mode="static" aria-label={t.eyebrow}>
+      <div className="hero__stage">
+        <SmokeField control={smoke} className="smoke--back" count={22} originX={0.7} originY={0.55} spread={0.45} seed={3} />
 
-        <div className="hero__copy">
-          <p className="eyebrow hero__fade">{t.eyebrow}</p>
-          <h1 className="hero__title">
-            <span className="hero__mask"><span className="hero__line">{t.title}</span></span>
-            <span className="hero__mask"><span className="hero__line hero__accent">{t.accent}</span></span>
-          </h1>
-          <p className="hero__caption hero__fade">{t.caption}</p>
-          <ul className="hero__modes hero__fade">
-            <li><IconMoped className="hero__modeicon" />{t.delivery}</li>
-            <li><IconBag className="hero__modeicon" />{t.pickup}</li>
-          </ul>
-          <OrderButtons order={order} className="hero__order hero__fade" />
-        </div>
-
-        <div className="hero__stage">
-          <div className="hero__stage-inner">
-            <Image className="hero__pizza" src="/assets/food/pizza_hero_assembled.png" alt={t.pizzaAlt} width={1254} height={1254} priority quality={95} sizes="(max-width: 767px) 130vw, 78vw" />
+        <div className="hero__pizza">
+          <div className="pz-wrap">
+            <div className="pz-full">
+              <Image className="pz-img" src="/assets/hero/pizza_whole.png" alt={t.pizzaAlt} fill priority quality={95} sizes="(max-width: 767px) 112vw, 60vw" style={{ clipPath: ELLIPSE }} />
+            </div>
+            {SECTORS.map((poly, k) => (
+              <div className="pz-slice" key={k} aria-hidden="true" style={{ transformOrigin: `${(G.cx + 0.55 * G.rx * Math.cos(rad(45 * k))).toFixed(1)}% ${(G.cy + 0.55 * G.ry * Math.sin(rad(45 * k))).toFixed(1)}%` }}>
+                <Image className="pz-img" src="/assets/hero/pizza_whole.png" alt="" fill quality={95} sizes="(max-width: 767px) 112vw, 60vw" style={{ clipPath: poly }} />
+              </div>
+            ))}
+            <svg className="pz-cuts" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              {CUTS.map((c, k) => (
+                <line key={k} className="pz-cut" x1={G.cx} y1={G.cy} x2={c.x2} y2={c.y2} pathLength={100} strokeDasharray={100} />
+              ))}
+            </svg>
             <HalalSeal className="seal--hero" />
           </div>
-          <div className="hero__phys">
-            {FX.map((f, i) => (
-              <span key={i} className={`fx ph fx-s1-${i}${i >= 10 ? ' fx--desktop' : ''}`} aria-hidden="true" style={{ left: `${f.x}%`, top: `${f.y}%`, width: `${f.size}%`, opacity: f.size < 8 ? 0.85 : 1 }}>
-                <Image className="fx__img" src={`/assets/ingredients/${f.src}.png`} alt="" width={360} height={320} sizes="200px" style={{ rotate: `${f.rot}deg`, animationDelay: `${-i * 0.43}s` }} />
-              </span>
-            ))}
-          </div>
         </div>
-        <p className="hero__scroll hero__fade"><span aria-hidden="true">↓</span> {t.scroll}</p>
+
+        <div className="hero__txt hero__txt--a">
+          <p className="eyebrow hero__fade">{t.eyebrow}</p>
+          <h1 className="hero__title">
+            {t.title.map((l) => (
+              <span className="hero__mask" key={l}><span className="hero__ln">{l}</span></span>
+            ))}
+          </h1>
+          <p className="hero__sub hero__fade">
+            <span>{t.sub[0]}</span>
+            <span>{t.sub[1]}</span>
+          </p>
+        </div>
+
+        <h2 className="hero__txt hero__txt--b hero__h2" aria-hidden="true">
+          {t.zoom.map((l) => (
+            <span className="hero__mask" key={l}><span className="hero__ln">{l}</span></span>
+          ))}
+        </h2>
+        <h2 className="hero__txt hero__txt--c hero__h2" aria-hidden="true">
+          {t.cut.map((l) => (
+            <span className="hero__mask" key={l}><span className="hero__ln">{l}</span></span>
+          ))}
+        </h2>
       </div>
 
-      <div className="hero__s2">
-        <div className="hero__s2-copy">
-          <p className="eyebrow hero__s2-fade">{t.shot2eyebrow}</p>
-          <p className="hero__h2">
-            <span className="hero__mask"><span className="hero__s2-line">{t.shot2title}</span></span>
-            <span className="hero__mask"><span className="hero__s2-line hero__accent2">{t.shot2accent}</span></span>
-          </p>
-          <OrderButtons order={order} className="hero__s2-order hero__s2-fade" />
+      <div className="hero__lime lime" id="yufka">
+        <div className="lime__marq" aria-hidden="true">
+          <span className="lime__row lime__row--a">{marquee}</span>
+          <span className="lime__row lime__row--b">{marquee}</span>
         </div>
-        <div className="hero__s2-stage">
-          <Image className="hero__s2-pizza" src="/assets/food/pizza_toppings_airborne_reference.png" alt={t.sliceAlt} width={1254} height={1254} quality={95} sizes="(max-width: 767px) 120vw, 80vw" />
+        <p className="eyebrow lime__eyebrow">{limeT.eyebrow}</p>
+        <h2 className="display lime__title">
+          <span className="lime__mask"><span className="lime__l1">{t.yufka[0]}</span></span>
+          <span className="lime__mask"><span className="lime__l2">{t.yufka[1]}</span></span>
+        </h2>
+        <div className="lime__wrap">
+          <Image className="lime__img" src="/assets/food/yufka_wrap.png" alt={yufkaAlt} width={1254} height={1254} sizes="(max-width: 767px) 100vw, 50vw" />
         </div>
+        <Image className="lime__deco lime__deco--a" src="/assets/ingredients/red_pepper_rings.png" alt="" aria-hidden width={378} height={301} sizes="180px" />
+        <Image className="lime__deco lime__deco--b" src="/assets/ingredients/tomato_half.png" alt="" aria-hidden width={304} height={277} sizes="160px" />
+        <Image className="lime__deco lime__deco--c" src="/assets/ingredients/basil_leaf_single.png" alt="" aria-hidden width={325} height={297} sizes="160px" />
+        <p className="lime__body">{limeT.body}</p>
+        <OrderButtons order={order} className="lime__order" />
       </div>
     </section>
   );

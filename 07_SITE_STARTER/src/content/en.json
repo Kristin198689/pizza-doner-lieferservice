@@ -10,28 +10,45 @@
     "call": "Call now",
     "languages": "Choose language",
     "open": "Open menu",
-    "close": "Close menu"
+    "close": "Close menu",
+    "viewMenu": "VIEW THE MENU",
+    "tagline": "Pizza. Döner. Yufka. For your hunger."
   },
   "hero": {
-    "eyebrow": "PIZZA · DÖNER · YUFKA",
-    "title": "YOUR FAVORITE FOOD.",
-    "accent": "Delivered.",
-    "caption": "Hot. Fresh. Straight to you.",
-    "delivery": "Delivery",
-    "pickup": "Pickup",
-    "scroll": "SCROLL & DISCOVER",
-    "shot2eyebrow": "FRESH FROM THE OVEN",
-    "shot2title": "MORE THAN PIZZA.",
-    "shot2accent": "A feeling.",
+    "eyebrow": "PIZZA / DÖNER / YUFKA",
+    "title": [
+      "YOUR",
+      "FAVORITE",
+      "FOOD"
+    ],
+    "sub": [
+      "FRESHLY PREPARED",
+      "DELIVERY & PICKUP"
+    ],
+    "zoom": [
+      "FRESH",
+      "FROM THE OVEN"
+    ],
+    "cut": [
+      "SLICE BY SLICE"
+    ],
+    "yufka": [
+      "ROLL IT",
+      "BITE IN"
+    ],
     "pizzaAlt": "Hot pizza with mozzarella, mushrooms, tomatoes and basil",
-    "sliceAlt": "Pizza slice with long cheese pulls"
+    "sliceAlt": "Pizza slice with long cheese pulls",
+    "scroll": "SCROLL · DISCOVER",
+    "delivery": "Delivery",
+    "pickup": "Pickup"
   },
   "order": {
-    "call": "Call now",
-    "callLong": "Order by phone now",
+    "call": "CALL NOW",
+    "callLong": "CALL NOW",
     "lieferando": "Order on Lieferando",
     "lieferandoSoon": "Lieferando · coming soon",
-    "phonePending": "Phone number to be added"
+    "phonePending": "Phone number to be added",
+    "viewMenu": "VIEW THE MENU"
   },
   "quick": {
     "pizza": "Pizza",
@@ -40,8 +57,8 @@
   },
   "runway": {
     "eyebrow": "THREE CLASSICS",
-    "title": "THREE FAVORITES.",
-    "accent": "ONE HUNGER.",
+    "title": "THREE FAVORITES",
+    "accent": "ONE HUNGER",
     "pizza": "PIZZA",
     "pizzaText": "Stone-oven crust, plenty of cheese, fresh toppings.",
     "doner": "DÖNER",
@@ -54,14 +71,14 @@
   },
   "box": {
     "eyebrow": "WARM. FRESH. PACKED.",
-    "title": "STRAIGHT FROM THE BOX.",
+    "title": "STRAIGHT FROM THE BOX",
     "body": "Freshly prepared. For pickup or delivery.",
     "alt": "Open pizza box with steaming pizza"
   },
   "lime": {
     "eyebrow": "READY FOR THE NEXT BITE?",
-    "title": "WRAP IT.",
-    "accent": "BITE IT.",
+    "title": "WRAP IT",
+    "accent": "BITE IT",
     "body": "Yufka – hearty, fresh, uncomplicated."
   },
   "menu": {
@@ -74,8 +91,8 @@
   },
   "fulfillment": {
     "eyebrow": "IT’S THAT EASY",
-    "title": "CALL.",
-    "accent": "PICK UP OR GET IT DELIVERED.",
+    "title": "CALL",
+    "accent": "PICK UP OR GET IT DELIVERED",
     "delivery": "Delivery",
     "deliveryText": "Straight to your home or office.",
     "pickup": "Pickup",
@@ -151,6 +168,7 @@
     "next": "Next dish",
     "toMenu": "See the menu",
     "drag": "Drag or swipe",
+    "swipe": "Swipe",
     "dishes": [
       {
         "key": "pizza",
@@ -205,13 +223,21 @@
   },
   "takeover": {
     "a": "FRESH",
-    "b": "Hot.",
-    "label": "Fresh. Hot."
+    "b": "Hot",
+    "label": "Fresh. Hot.",
+    "caption": "PIZZA / DÖNER / YUFKA"
+  },
+  "depth": {
+    "word": "FRESH",
+    "a": "OVEN-FRESH",
+    "b": "TO YOUR DOOR",
+    "text": "From the oven into the box, from the box to your door.",
+    "boxAlt": "Pizza box with steaming pizza"
   },
   "doner": {
     "eyebrow": "OFF THE SPIT",
     "title": "FRESHLY",
-    "accent": "CARVED.",
+    "accent": "CARVED",
     "text": "Döner meat off the rotating spit – in bread, as a plate or in a box.",
     "alt": "Three-dimensional rotating döner kebab spit",
     "sandwichAlt": "Döner in flatbread"

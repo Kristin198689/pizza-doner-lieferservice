@@ -373,16 +373,16 @@
       "image": null,
       "items": [
         {
-          "id": "softdrinks",
+          "id": "cola",
           "name": {
-            "de": "Softdrinks",
-            "en": "Soft drinks",
-            "uk": "Безалкогольні напої"
+            "de": "Cola",
+            "en": "Cola",
+            "uk": "Кола"
           },
           "description": {
-            "de": "Verschiedene Sorten, gekühlt",
-            "en": "Various kinds, chilled",
-            "uk": "Різні види, охолоджені"
+            "de": "Eiskalt serviert",
+            "en": "Served ice-cold",
+            "uk": "Подаємо холодною"
           },
           "variants": [
             {
@@ -395,16 +395,104 @@
           "available": true
         },
         {
-          "id": "wasser",
+          "id": "fanta",
           "name": {
-            "de": "Wasser",
-            "en": "Water",
-            "uk": "Вода"
+            "de": "Fanta",
+            "en": "Fanta",
+            "uk": "Фанта"
           },
           "description": {
-            "de": "Still oder mit Kohlensäure",
-            "en": "Still or sparkling",
-            "uk": "Негазована або газована"
+            "de": "Eiskalt serviert",
+            "en": "Served ice-cold",
+            "uk": "Подаємо холодною"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        },
+        {
+          "id": "fanta-zero",
+          "name": {
+            "de": "Fanta Zero",
+            "en": "Fanta Zero",
+            "uk": "Фанта Zero"
+          },
+          "description": {
+            "de": "Eiskalt serviert",
+            "en": "Served ice-cold",
+            "uk": "Подаємо холодною"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        },
+        {
+          "id": "ayran",
+          "name": {
+            "de": "Ayran",
+            "en": "Ayran",
+            "uk": "Айран"
+          },
+          "description": {
+            "de": "Erfrischendes Joghurtgetränk, gekühlt",
+            "en": "Refreshing yoghurt drink, chilled",
+            "uk": "Освіжний йогуртовий напій, охолоджений"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        },
+        {
+          "id": "kaffee",
+          "name": {
+            "de": "Kaffee",
+            "en": "Coffee",
+            "uk": "Кава"
+          },
+          "description": {
+            "de": "Frisch gebrühter Kaffee",
+            "en": "Freshly brewed coffee",
+            "uk": "Свіжозварена кава"
+          },
+          "variants": [
+            {
+              "label": null,
+              "price": null
+            }
+          ],
+          "tags": [],
+          "allergens": [],
+          "available": true
+        },
+        {
+          "id": "tee",
+          "name": {
+            "de": "Tee",
+            "en": "Tea",
+            "uk": "Чай"
+          },
+          "description": {
+            "de": "Schwarzer Tee, heiß serviert",
+            "en": "Black tea, served hot",
+            "uk": "Чорний чай, подаємо гарячим"
           },
           "variants": [
             {

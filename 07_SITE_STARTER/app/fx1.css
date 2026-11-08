@@ -1,0 +1,25 @@
+/* effects agent 1 — exploded burger + unrolling yufka */
+
+/* ---------- Burger ---------- */
+.bx { display: block; }
+.bx__group { position: relative; width: 100%; aspect-ratio: 1; transform-origin: 50% 50%; }
+.bx__still { object-fit: contain; }
+.bx__band, .bx__static { position: absolute; inset: 0; }
+.bx__band { will-change: transform; }
+.bx__band img { object-fit: contain; }
+.bx__still { transition: none; }
+.bx.is-split .bx__still { visibility: hidden; }
+.bx.is-split .bx__static { filter: drop-shadow(0 14px 14px rgba(9, 9, 11, 0.3)); }
+.bx__tick {
+  position: absolute; left: 3%; translate: 0 -50%; opacity: 0; display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(11px, 1.1vw, 14px); letter-spacing: 0.2em; color: #09090B;
+}
+.bx__tick::after { content: ''; width: clamp(18px, 3vw, 44px); height: 1.5px; background: #09090B; }
+
+/* ---------- Yufka ---------- */
+.yx__img { will-change: transform; }
+
+/* pinned burger screen fills the viewport */
+.pm:has(.bx) { min-height: 100svh; }
+@media (max-width: 767px) { .pm:has(.bx) { align-content: start; } }
+@media (min-width: 900px) { .pm:has(.bx) .pm__art { width: min(62vw, 100svh); } }

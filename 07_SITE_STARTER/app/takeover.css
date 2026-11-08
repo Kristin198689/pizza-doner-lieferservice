@@ -1,0 +1,18 @@
+/* typography takeover (FRISCH / HEISS) */
+
+/* ============ Typography takeover v4: controlled cinematic pause ============ */
+.tk { position: relative; height: 100svh; min-height: 560px; background: #09090b; overflow: hidden; isolation: isolate; --tk-fs: clamp(3.4rem, min(17vw, 19svh), 14rem); --tk-gap: clamp(170px, 37svh, 380px); }
+.tk__stage { position: absolute; inset: 0; display: grid; grid-template-rows: 1fr var(--tk-gap) 1fr; padding: 0 var(--gutter); }
+.tk__w { margin: 0; font-family: var(--font-display); font-weight: 900; font-style: normal; font-variation-settings: 'wdth' 122; text-transform: uppercase; font-size: var(--tk-fs); line-height: 0.92; letter-spacing: -0.02em; white-space: nowrap; text-decoration: none; }
+.tk__w1 { align-self: end; justify-self: start; color: #f6f2e9; padding-bottom: 0.02em; }
+.tk__w2 { align-self: start; justify-self: end; color: #f30009; padding-top: 0.02em; }
+.tk__mask { display: block; overflow: hidden; padding: 0.1em 0.05em 0.12em; margin: -0.1em -0.05em -0.12em; }
+.tk__inner { display: block; will-change: transform; }
+.tk__cap { position: absolute; left: var(--gutter); bottom: max(28px, 5svh); margin: 0; z-index: 4; font-family: var(--font-display); font-weight: 650; font-variation-settings: 'wdth' 100; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: #39ff14; }
+.tk__fx { position: absolute; inset: 0; z-index: 3; pointer-events: none; filter: drop-shadow(0 38px 36px rgba(0, 0, 0, 0.7)); }
+.tk__slice { position: absolute; left: 50%; top: 50%; width: min(42vw, 42svh); height: auto; margin: calc(min(42vw, 42svh) / -2) 0 0 calc(min(42vw, 42svh) / -2); will-change: transform; rotate: 0deg; }
+@media (max-width: 767px) {
+  .tk { --tk-fs: clamp(3rem, min(18vw, 14svh), 5.2rem); --tk-gap: clamp(170px, 36svh, 300px); }
+  .tk__slice { width: min(66vw, 34svh); margin: calc(min(66vw, 34svh) / -2) 0 0 calc(min(66vw, 34svh) / -2); }
+}
+@media (prefers-reduced-motion: reduce) { .tk__slice { transform: scale(1.15) rotate(-4deg); } }
