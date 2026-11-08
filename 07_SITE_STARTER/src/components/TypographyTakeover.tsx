@@ -23,6 +23,7 @@ export function TypographyTakeover({ t, sliceAlt }: { t: Messages['takeover']; s
         const cap = window.innerHeight * (window.innerHeight < 501 ? 0.28 : 0.4);
         el.querySelectorAll<HTMLElement>('.tk__w').forEach((w) => {
           const s = w.firstElementChild as HTMLElement;
+          if (parseInt(getComputedStyle(w).fontWeight, 10) < 800) return; // stylesheet not applied yet: later passes will fit it
           const cur = parseFloat(getComputedStyle(w).fontSize);
           const width = s.getBoundingClientRect().width;
           if (!width) return;

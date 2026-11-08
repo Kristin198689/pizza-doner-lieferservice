@@ -3,6 +3,7 @@ import { HalalSeal } from './HalalSeal';
 import { BurgerExplode } from './fx/BurgerExplode';
 import { YufkaUnroll } from './fx/YufkaUnroll';
 import { SnacksDrop } from './fx/SnacksDrop';
+import { SauceFlow } from './fx/SauceFlow';
 import { DrinksWave } from './fx/DrinksWave';
 import { TiltImage } from './fx/TiltImage';
 import { IngredientFloat } from './fx/IngredientFloat';
@@ -41,6 +42,7 @@ export function EditorialMenu({ t, locale }: { t: Messages['menu']; locale: Loca
         return (
           <section className={`pm pm--${look.theme} pm--${look.side}${look.imgs.length ? '' : ' pm--type'}`} id={`menu-${cat.id}`} key={cat.id} aria-labelledby={`h-${cat.id}`}>
             {Art && <Art label={cat.name[locale]} />}
+            {cat.id === 'snacks' && <SauceFlow />}
             {!Art && look.imgs.length > 0 && (
               <div className="pm__art" aria-hidden="true">
                 {look.imgs.map((src, k) => (

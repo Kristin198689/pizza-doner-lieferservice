@@ -1,0 +1,18 @@
+/* fx11: glossy sauce drizzle on the snacks screen (SauceFlow). Remove together with SauceFlow.tsx. */
+.sf { position: absolute; inset: 0; pointer-events: none; overflow: hidden; visibility: hidden; }
+.sf.is-ready { visibility: visible; }
+.sf__pool { z-index: 2; position: absolute; left: var(--ax, 0); top: var(--ay, 0); width: var(--aw, 100%); height: var(--ah, 100%); overflow: visible; }
+.sf__stem, .sf__blob, .sf__bulb, .sf__sp, .sf__fall { transform-box: fill-box; }
+.sf__stem { transform-origin: 50% 0; }
+.sf__blob, .sf__sp, .sf__fall { transform-origin: 50% 50%; }
+@keyframes sf-shim { 0%, 100% { transform: translate(-3px, 0); } 50% { transform: translate(4px, 0); } }
+@media (prefers-reduced-motion: no-preference) {
+  .sf__stem, .sf__bulb, .sf__sp, .sf__fall, .sf__blob { will-change: transform, opacity; }
+  .sf.is-live.is-done .sf__shim { animation: sf-shim 5.5s ease-in-out infinite; }
+}
+@media (prefers-reduced-motion: reduce) { .sf__fall { display: none; } }
+
+.sf__runs { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; overflow: visible; }
+.sf__rs { transform-box: fill-box; transform-origin: 50% 0; }
+.sf__rb, .sf__smear [data-smear] { transform-box: fill-box; }
+.sf__smear [data-smear] { transform-origin: 0 50%; }

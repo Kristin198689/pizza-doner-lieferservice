@@ -90,7 +90,7 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
         gsap
           .timeline({ defaults: { ease: 'power3.out' } })
           // the intro animates the CONTAINER only, never the lines/fade the scrub timeline drives (a finishing intro used to overwrite scrub values and bring headline A back over the lime scene)
-          .from(q('.hero__txt--a'), { opacity: 0.25, y: 18, duration: 0.4, immediateRender: false, overwrite: 'auto' }, 0)
+          .from(q('.hero__txt--a'), { opacity: 0.25, duration: 0.4, immediateRender: false, overwrite: 'auto' }, 0) // opacity ONLY: tweening y would make GSAP absorb the desktop CSS `translate: 0 -50%` into an inline transform that survives a switch to the mobile layout
           .from(q('.pz-wrap'), { scale: 0.95, duration: 0.6 }, 0);
 
         // lime window = the pizza's own footprint (an ellipse): it only shows where slices have left; later it
@@ -151,7 +151,12 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
           pin: true,
          
           invalidateOnRefresh: true,
-          onUpdate: (self) => { target = self.progress; },
+          onUpdate: (self) => {
+            // an instant jump (Nach oben, anchor, status-bar tap, restored scroll) must not replay the whole film backwards:
+            // snap straight to the new state; normal wheel/touch scrolling keeps the smooth follow
+            if (Math.abs(self.progress - target) > 0.08) { cur = self.progress; vel = 0; tl.progress(cur); }
+            target = self.progress;
+          },
           onRefresh: (self) => {
             // after a refresh the scene is rebuilt at the real scroll position (no catch-up animation)
             target = self.progress;
@@ -251,7 +256,13 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
       const pinned = (mode: Mode) => () => {
         el.dataset.mode = 'pinned';
         const off = build(mode);
-        return () => { off(); delete el.dataset.mode; };
+        return () => {
+          off();
+          // leaving this layout (viewport / device-mode switch without reload): wipe every inline animation state GSAP left on the
+          // scene so the next layout starts clean (font-size from fit() is deliberately kept; it is recomputed anyway)
+          gsap.set(el.querySelectorAll('*'), { clearProps: 'transform,translate,rotate,scale,opacity,visibility,clipPath,filter,x,y,xPercent,yPercent' });
+          delete el.dataset.mode;
+        };
       };
       mm.add(`(orientation: portrait) and ${RM}`, pinned('portrait'));
       mm.add(`(orientation: landscape) and (min-height: 501px) and ${RM}`, pinned('landscape'));
@@ -265,8 +276,13 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
        * XXL type: every big heading is fitted to the real box (largest size where no line overflows the width and
        * the block stays under a height cap), so mobile titles span the full width and nothing runs into the pizza.
        */
-      const fit = (node: HTMLElement | undefined, maxH: number, maxFs = 460) => {
+      const fit = (node: HTMLElement | undefined, maxH: number, maxFsIn = 460) => {
         if (!node || !node.offsetWidth) return;
+        // Guard against a half-loaded page (dev server cold start, slow CSS/fonts): without the stylesheet every width test
+        // passes and the search would run away to the maximum size ("two giant letters"). Skip until the real CSS is applied
+        // (a later load / fonts.ready / resize pass fits it), and never exceed a sane share of the viewport width.
+        if (parseInt(getComputedStyle(node).fontWeight, 10) < 800) return;
+        const maxFs = Math.min(maxFsIn, window.innerWidth * 0.3);
         const lns = Array.from(node.querySelectorAll<HTMLElement>('.hero__ln, .lime__l1, .lime__l2'));
         const ok = (fs: number) => {
           node.style.fontSize = `${fs}px`;
@@ -311,6 +327,11 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
       ScrollTrigger.addEventListener('refreshInit', fitAll);
       window.addEventListener('resize', onResize);
       document.fonts?.ready.then(() => { fitAll(); ScrollTrigger.refresh(); });
+      // extra safety passes once the page has really settled (stylesheets, fonts and images all in)
+      const settle = () => { fitAll(); ScrollTrigger.refresh(); };
+      window.addEventListener('load', settle, { once: true });
+      const t1 = window.setTimeout(settle, 900);
+      const t2 = window.setTimeout(settle, 2600);
 
       const refresh = () => ScrollTrigger.refresh();
       window.addEventListener('load', refresh, { once: true });
@@ -318,6 +339,9 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
         window.removeEventListener('load', refresh);
         ScrollTrigger.removeEventListener('refreshInit', fitAll);
         window.removeEventListener('resize', onResize);
+        window.removeEventListener('load', settle);
+        window.clearTimeout(t1);
+        window.clearTimeout(t2);
         mm.revert();
       };
     },

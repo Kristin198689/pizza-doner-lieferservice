@@ -25,7 +25,7 @@ export function SnacksDrop({ label }: { label: string }) {
       const mm = gsap.matchMedia();
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         const items = gsap.utils.toArray<HTMLElement>('.sd__item', el);
-        const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 85%', end: 'center 50%', scrub: 0.7, invalidateOnRefresh: true } });
+        const tl = gsap.timeline({ scrollTrigger: { trigger: el.closest('.pm') ?? el, start: 'top 70%', end: 'top top', scrub: 0.7, invalidateOnRefresh: true } });
         items.forEach((it, i) => {
           const { at } = ITEMS[i];
           const dir = i % 2 ? 1 : -1;

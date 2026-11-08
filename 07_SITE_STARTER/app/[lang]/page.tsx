@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <TypographyTakeover t={t.takeover} sliceAlt={t.hero.sliceAlt} />
         <SectionBreak variant="words" from="red" short words={[t.takeover.a, t.takeover.b]} />
         <Runway t={t.runway} />
-        <SectionBreak variant="roll" from="ink" words={[t.runway.pizza]} sprite="tomato_half.png" spriteSize={[304, 277]} />
+        <SectionBreak variant="roll" from="lime" words={[t.runway.crisp]} sprite="tomato_half.png" spriteSize={[304, 277]} />
         <DonerRotation t={t.doner} />
         <IngredientTunnel word={t.doner.accent} />
         <ProductRail t={t.orbit} />

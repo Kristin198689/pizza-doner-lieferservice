@@ -1,9 +1,38 @@
 'use client';
+import { useEffect } from 'react';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { initRevealFx, initMagnetic } from './fx/RevealFx';
 
 /** Global, lightweight scroll effects: IntersectionObserver reveals + transform-only parallax. */
+/** layout tier of the viewport; every pinned scene picks its geometry/timeline from this once, at build time */
+const tier = () => {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const o = w > h ? 'l' : 'p';
+  const wb = w < 600 ? 'xs' : w < 900 ? 'sm' : w < 1024 ? 'md' : 'lg';
+  return `${o}-${wb}-${h <= 500 ? 's' : 't'}`;
+};
+
 export function ScrollFx() {
+  // Rotating a phone or switching the device emulator re-flows every pinned scene (each one chose its timeline for the
+  // old tier). Rebuilding them all in place is fragile, so crossing a tier simply reloads the page (scroll is restored by
+  // the browser). Ordinary window resizing inside one tier is handled by ScrollTrigger as before.
+  useEffect(() => {
+    let current = tier();
+    let timer = 0;
+    const onResize = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => { if (tier() !== current) {
+          current = tier();
+          // never loop: at most one automatic reload per 4 s
+          try { const last = Number(sessionStorage.getItem('tier-reload') || 0); if (Date.now() - last < 4000) return; sessionStorage.setItem('tier-reload', String(Date.now())); } catch { /* storage blocked: still reload once */ }
+          window.location.reload();
+        } }, 450);
+    };
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
+    return () => { window.clearTimeout(timer); window.removeEventListener('resize', onResize); window.removeEventListener('orientationchange', onResize); };
+  }, []);
   useGSAP(() => {
     const root = document.documentElement;
     const mm = gsap.matchMedia();
