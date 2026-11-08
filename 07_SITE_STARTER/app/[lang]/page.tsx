@@ -13,7 +13,7 @@ import { DepthLayers } from '@/components/DepthLayers';
 import { Fulfillment } from '@/components/Fulfillment';
 import { Footer } from '@/components/Footer';
 import { ScrollFx } from '@/components/ScrollFx';
-import { OrderButtons } from '@/components/OrderButtons';
+import { CallFab } from '@/components/CallFab';
 import { getMessages, telHref } from '@/lib/i18n';
 
 export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
@@ -33,7 +33,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <IngredientTunnel word={t.doner.accent} />
         <ProductRail t={t.orbit} />
         <EightTimes t={t.eight} />
-        <SectionBreak variant="words" from="lime" words={boxWords} />
+        <SectionBreak variant="words" from="lime" tall words={boxWords} />
         <BoxScene t={t.box} />
         <DepthLayers t={t.depth} />
         <SectionBreak variant="roll" from="green" words={[t.takeover.b]} sprite="red_pepper_rings.png" spriteSize={[378, 301]} />
@@ -42,7 +42,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <Fulfillment t={t.fulfillment} order={t.order} />
       </main>
       <Footer t={t.footer} locale={locale} />
-      {telHref && <div className="stickycall"><OrderButtons order={t.order} /></div>}
+      <CallFab label={t.nav.fabCall} tel={telHref} />
       <ScrollFx />
     </>
   );

@@ -44,7 +44,6 @@ export function BurgerExplode({ label }: { label: string }) {
           end: () => `+=${pinLen()}%`,
           invalidateOnRefresh: true,
           pin: true,
-          anticipatePin: 1,
           animation: tl,
           scrub: 0.6,
           onUpdate: (self) => el.classList.toggle('is-split', self.progress > 0.01 && self.progress < 0.75),

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { OrderButtons } from './OrderButtons';
 import { IconArrow } from './Icons';
-import { biz, telHref } from '@/lib/i18n';
+import { biz, phoneLabel, telHref } from '@/lib/i18n';
 import type { Messages } from '@/lib/i18n';
 
 export function Fulfillment({ t, order }: { t: Messages['fulfillment']; order: Messages['order'] }) {
@@ -26,6 +26,9 @@ export function Fulfillment({ t, order }: { t: Messages['fulfillment']; order: M
             </a>
           )}
         </div>
+        {telHref && phoneLabel && (
+          <a className="cta__tel" href={telHref} data-reveal>{phoneLabel}</a>
+        )}
         {(addr || hours) && (
           <dl className="cta__facts" data-reveal>
             {addr && <div><dt>{t.address}</dt><dd>{addr}</dd></div>}

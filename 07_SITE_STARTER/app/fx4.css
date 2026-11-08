@@ -24,6 +24,6 @@
 
 /* short red beat after the FRISCH / HEISS scene */
 .sb.sb--short { --sb-h: clamp(110px, 20svh, 220px); }
-.sb--short .sb__lines { font-size: min(22vw, 9.5svh); flex-direction: row; align-items: center; gap: 0; }
+.sb--short .sb__lines { font-size: calc(min(22vw, 9.5svh) * var(--xf)); flex-direction: row; align-items: center; gap: 0; }
 .sb--short .sb__l2 { display: none; }
 .sb--short .sb__l1 { transform: none; }

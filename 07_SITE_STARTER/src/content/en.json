@@ -13,7 +13,7 @@
     "close": "Close menu",
     "viewMenu": "VIEW THE MENU",
     "tagline": "Pizza. Döner. Yufka. For your hunger.",
-    "title": "Navigation", "products": "Classics", "doner": "Döner", "today": "Today", "fulfillment": "Delivery & pickup", "hours": "Opening hours", "address": "Address"
+    "title": "Navigation", "products": "Classics", "doner": "Döner", "today": "Today", "fulfillment": "Delivery & pickup", "hours": "Opening hours", "contact": "Contact", "hoursLink": "Opening hours", "fabCall": "Call", "address": "Address"
   },
   "hero": {
     "eyebrow": "PIZZA / DÖNER / YUFKA",

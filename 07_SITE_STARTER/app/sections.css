@@ -26,7 +26,7 @@
 .rail__panel--cream { --bg: var(--white); --fg: var(--ink); --nm: var(--red); --btn: var(--ink); --btn-fg: var(--white); }
 .rail__panel--green { --bg: var(--green); --fg: var(--ink); --nm: var(--ink); --btn: var(--ink); --btn-fg: var(--green); }
 
-.rail__name { position: absolute; z-index: 0; left: 0; right: 0; top: 5%; margin: 0; text-align: center; white-space: nowrap; color: var(--nm); font-size: min(calc(94cqw / (var(--n) * 0.74)), 17rem, 30svh); line-height: 0.9; letter-spacing: -0.035em; transform: translate3d(calc(var(--p) * -24%), 0, 0); will-change: transform; }
+.rail__name { position: absolute; z-index: 0; left: 0; right: 0; top: 5%; margin: 0; text-align: center; white-space: nowrap; color: var(--nm); font-size: calc(min(calc(94cqw / (var(--n) * 0.74)), 17rem, 30svh) * var(--xf)); line-height: 0.9; letter-spacing: -0.035em; transform: translate3d(calc(var(--p) * -24%), 0, 0); will-change: transform; }
 .rail__fig { position: absolute; z-index: 1; left: 4%; right: 4%; top: 15%; bottom: 25%; display: grid; place-items: center; transform: translate3d(calc(var(--p) * 10%), 0, 0) scale(calc(1 - var(--p) * var(--p) * 0.08)); will-change: transform; }
 .rail__fig img { height: 100%; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 28px 30px rgba(0, 0, 0, 0.45)); -webkit-user-drag: none; user-select: none; pointer-events: none; }
 .rail__foot { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 0 clamp(20px, 4cqw, 56px) clamp(20px, 3cqw, 40px); }
@@ -68,14 +68,14 @@
 .sb--fg-ink { --t: var(--ink); } .sb--fg-cream { --t: var(--white); }
 
 /* words: two huge lines in opposite directions */
-.sb__lines { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 0.02em; font-size: min(22vw, 26svh); }
+.sb__lines { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 0.02em; font-size: calc(min(22vw, 26svh) * var(--xf)); }
 .sb__l1, .sb__l2 { display: flex; gap: 0.35em; width: max-content; white-space: nowrap; font-family: var(--font-display); font-weight: 900; font-variation-settings: var(--wdth-xxl); text-transform: uppercase; line-height: 0.92; letter-spacing: -0.035em; color: var(--t); will-change: transform; }
 .sb__l1 { transform: translate3d(-2%, 0, 0); }
 .sb__l2 { transform: translate3d(-34%, 0, 0); opacity: 0.92; }
 
 /* roll: one ingredient crosses the break, spinning */
 .sb--roll { --sb-h: clamp(220px, 40vh, 460px); }
-.sb__bgword { position: absolute; inset: 0; display: grid; place-items: center; white-space: nowrap; font-family: var(--font-display); font-weight: 900; font-variation-settings: var(--wdth-xxl); text-transform: uppercase; letter-spacing: -0.035em; line-height: 1; font-size: min(26vw, 38svh); color: var(--t); opacity: 0.12; }
+.sb__bgword { position: absolute; inset: 0; display: grid; place-items: center; white-space: nowrap; font-family: var(--font-display); font-weight: 900; font-variation-settings: var(--wdth-xxl); text-transform: uppercase; letter-spacing: -0.035em; line-height: 1; font-size: calc(min(26vw, 38svh) * var(--xf)); color: var(--t); opacity: 0.12; }
 .sb__sprite { position: absolute; left: 0; top: 50%; width: clamp(110px, 20vw, 300px); margin-top: calc(clamp(110px, 20vw, 300px) * -0.45); transform: translate3d(-30vw, 0, 0); will-change: transform; }
 .sb__sprite img { width: 100%; height: auto; filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.35)); }
 
@@ -83,7 +83,7 @@
 .sb--wipe { --sb-h: clamp(300px, 62vh, 700px); }
 .sb--to-ink { --c2: var(--ink); } .sb--to-red { --c2: var(--red); } .sb--to-lime { --c2: var(--lime); } .sb--to-cream { --c2: var(--white); } .sb--to-green { --c2: var(--green); }
 .sb__panel { position: absolute; inset: 0; background: var(--c2); transform-origin: 50% 100%; will-change: transform; }
-.sb__word { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: var(--t); font-family: var(--font-display); font-weight: 900; font-variation-settings: var(--wdth-xxl); text-transform: uppercase; letter-spacing: -0.035em; line-height: 1; white-space: nowrap; padding: 0 3vw; font-size: min(calc(92vw / (var(--n) * 0.74)), 20vw, 34svh); will-change: transform, opacity; }
+.sb__word { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: var(--t); font-family: var(--font-display); font-weight: 900; font-variation-settings: var(--wdth-xxl); text-transform: uppercase; letter-spacing: -0.035em; line-height: 1; white-space: nowrap; padding: 0 3vw; font-size: calc(min(calc(92vw / (var(--n) * 0.74)), 20vw, 34svh) * var(--xf)); will-change: transform, opacity; }
 
 @media (max-width: 767px) {
   .sb { --sb-h: 44svh; }
@@ -112,20 +112,20 @@
 @media (min-width: 768px) { .rail__panel { height: clamp(520px, min(80svh, 100vw), 820px); } }
 @media (min-width: 600px) and (max-width: 767px) { .rail__track { padding-inline: 7vw; scroll-padding-inline: 7vw; } .rail__panel { flex-basis: 86vw; } }
 @media (orientation: landscape) and (max-height: 520px) {
-  .rail { padding-top: 84px; padding-bottom: 40px; }
+  .rail { padding-top: calc(var(--sat) + 84px); padding-bottom: 40px; }
   .rail__head { margin-bottom: 12px; grid-template-columns: auto 1fr auto; gap: 8px 20px; }
   .rail__head .rail__swipe { grid-column: 2; grid-row: 1; }
   .rail__ctrl { grid-column: 3; grid-row: 1; }
   .rail__panel { }
   .rail__panel { height: clamp(250px, 74svh, 360px); }
   .rail__fig { left: 2%; right: auto; width: 46%; top: 6%; bottom: 6%; }
-  .rail__name { left: 50%; right: 4%; top: 9%; text-align: left; font-size: min(calc(44cqw / (var(--n) * 0.74)), 30svh, 4.5rem); transform: translate3d(calc(var(--p) * -12%), 0, 0); }
+  .rail__name { left: 50%; right: 4%; top: 9%; text-align: left; font-size: calc(min(calc(44cqw / (var(--n) * 0.74)), 30svh, 4.5rem) * var(--xf)); transform: translate3d(calc(var(--p) * -12%), 0, 0); }
   .rail__foot { left: 50%; right: 0; bottom: 0; flex-direction: column; align-items: flex-start; gap: 8px; padding: 0 clamp(14px, 3cqw, 32px) 14px 0; }
   .rail__hint { font-size: 0.9rem; max-width: 26ch; }
   .rail__link { min-height: 44px; padding: 0 18px; }
 }
 
-.box { padding: clamp(80px, 13svh, 120px) var(--gutter) clamp(16px, 4svh, 48px); }
+.box { padding: max(calc(var(--hdr) + 8px), min(13svh, 120px)) var(--gutter) clamp(16px, 4svh, 48px); }
 @media (max-width: 899px) { .box { min-height: 100svh; } }
 @media (max-aspect-ratio: 1/1) {
   .box { align-content: center; }
@@ -133,12 +133,12 @@
   .box__body { margin-top: clamp(0.8rem, 2.6svh, 1.4rem); font-size: clamp(1rem, 1vw + 0.8rem, 1.35rem); }
 }
 @media (orientation: landscape) and (max-height: 520px) {
-  .box { padding: 78px var(--gutter) 12px; min-height: 100svh; }
+  .box { padding: calc(var(--sat) + 78px) var(--gutter) 12px; min-height: 100svh; }
   .box__inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 1fr auto auto auto 1fr; column-gap: 4vw; align-items: center; text-align: left; }
   .box__inner > .eyebrow { grid-column: 1; grid-row: 2; align-self: end; }
   .box__inner > .box__title { grid-column: 1; grid-row: 3; }
   .box__inner > .box__body { grid-column: 1; grid-row: 4; margin-top: 0.6rem; font-size: 0.95rem; align-self: start; }
-  .box__inner > .cbox { grid-column: 2; grid-row: 1 / -1; --W: min(46vw, calc((100svh - 96px) * 1.12)); margin: 0; }
+  .box__inner > .cbox { grid-column: 2; grid-row: 1 / -1; --W: min(46vw, calc((100svh - 96px - var(--sat)) * 1.12)); margin: 0; }
 }
 
 /* box scene: pizza sits fully inside the box, nothing peeks out under the front lip */
@@ -146,13 +146,18 @@
 
 /* box headline: XXL solid letters, fills the width on portrait, one line on desktop */
 .box__inner { container-type: inline-size; }
-.box .box__title { font-family: var(--font-display); font-weight: 900; font-variation-settings: var(--wdth-xxl); letter-spacing: -0.03em; line-height: 0.9; padding: 0.06em 0 0.02em; text-wrap: balance; font-size: min(calc(100cqw / 4.9), 10.5svh); }
+.box .box__title { font-family: var(--font-display); font-weight: 900; font-variation-settings: var(--wdth-xxl); letter-spacing: -0.03em; line-height: 0.9; padding: 0.06em 0 0.02em; text-wrap: balance; font-size: calc(min(calc(100cqw / 4.9), 10.5svh) * var(--xf)); }
 @media (min-width: 900px) and (min-aspect-ratio: 1/1) and (min-height: 521px) {
-  .box { padding-top: clamp(76px, 11svh, 110px); }
+  .box { padding-top: max(calc(var(--hdr) + 8px), min(11svh, 110px)); }
   .cbox { --W: min(92vw, 820px, 54svh); }
-  .box .box__title { font-size: min(calc(100cqw / 10.4), 14svh); white-space: nowrap; }
+  .box .box__title { font-size: calc(min(calc(100cqw / 10.4), 14svh) * var(--xf)); white-space: nowrap; }
 }
 @media (orientation: landscape) and (max-height: 520px) {
-  .box .box__title { font-size: min(9.6vw, 15svh); white-space: normal; }
+  .box .box__title { font-size: calc(min(9.6vw, 15svh) * var(--xf)); white-space: normal; }
 }
-@media (max-width: 899px) and (max-aspect-ratio: 1/1) and (max-height: 700px) { .box { padding-top: 84px; padding-bottom: 20px; } .box .box__title { font-size: min(calc(100cqw / 4.9), 9.4svh); } }
+@media (max-width: 899px) and (max-aspect-ratio: 1/1) and (max-height: 700px) { .box { padding-top: calc(var(--hdr) + 8px); padding-bottom: 20px; } .box .box__title { font-size: calc(min(calc(100cqw / 4.9), 9.4svh) * var(--xf)); } }
+
+/* box scene hand-off: full ink by default (no JS / reduced motion); JS wipes it in over cream */
+.box__ink { position: absolute; inset: 0; z-index: -3; background: var(--ink); pointer-events: none; }
+
+.sb.sb--tall { --sb-h: 70svh; height: 70svh; }

@@ -1,7 +1,7 @@
 /* fx7: EightTimes — airy cream counter scene. Transform / opacity / clip-path only. Default (no JS / reduced motion) = finished composition. */
 .et { position: relative; background: var(--white); color: var(--ink); }
 .et__stage { position: relative; height: 100svh; min-height: 560px; overflow: clip; }
-.et__eyebrow { position: absolute; z-index: 2; left: var(--gutter); top: clamp(84px, 13svh, 120px); margin: 0; color: var(--ink); font-size: clamp(0.7rem, 0.3vw + 0.62rem, 0.85rem); text-transform: uppercase; }
+.et__eyebrow { position: absolute; z-index: 2; left: var(--gutter); top: max(calc(var(--hdr) + 8px), min(13svh, 120px)); margin: 0; color: var(--ink); font-size: clamp(0.7rem, 0.3vw + 0.62rem, 0.85rem); text-transform: uppercase; }
 
 /* pizza: portrait = centred upper band; ellipse centre sits at --py */
 .et__pizza { position: absolute; width: var(--pw); aspect-ratio: 1; left: var(--px); top: var(--py); translate: -50% -55.18%; --pw: min(98vw, 50svh); --px: 50%; --py: 34svh; }
@@ -11,14 +11,14 @@
 
 /* text slot: counter and finale share it */
 .et__count, .et__fin { position: absolute; left: var(--gutter); right: var(--gutter); bottom: clamp(28px, 6svh, 72px); }
-.et__count { display: flex; align-items: flex-end; gap: 0.12em; font-size: min(40vw, 26svh); font-weight: 1000; font-variation-settings: 'wdth' 118; line-height: 0.82; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.et__count { display: flex; align-items: flex-end; gap: 0.12em; font-size: calc(min(40vw, 26svh) * var(--xs)); font-weight: 1000; font-variation-settings: var(--wdth-xxl); line-height: 0.82; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
 .et__win { display: block; height: 0.82em; overflow: clip; }
 .et__col { display: flex; flex-direction: column; }
 .et__col > span { display: block; height: 0.82em; line-height: 0.82; }
 .et__of { color: var(--red); font-size: 0.3em; line-height: 1; padding-bottom: 0.08em; letter-spacing: -0.02em; }
 
 .et__fin { display: flex; flex-direction: column; gap: clamp(10px, 2.2svh, 24px); }
-.et__title { margin: 0; font-weight: 1000; font-variation-settings: 'wdth' 118; font-size: min(21vw, 12svh); line-height: 0.86; letter-spacing: -0.04em; text-transform: uppercase; }
+.et__title { margin: 0; font-weight: 1000; font-variation-settings: var(--wdth-xxl); font-size: calc(min(21vw, 12svh) * var(--xs)); line-height: 0.86; letter-spacing: -0.04em; text-transform: uppercase; }
 .et__mask { display: block; overflow: clip; padding: 0.2em 0 0.04em; margin: -0.17em 0 0; }
 .et__title .et__mask:last-child { color: var(--red); }
 .et__lnwrap { padding: 0.1em 0; margin: 0; font-size: clamp(0.95rem, 0.6vw + 0.8rem, 1.35rem); font-weight: 650; line-height: 1.25; letter-spacing: 0; max-width: 34ch; }
@@ -29,21 +29,21 @@
 
 @media (orientation: landscape) {
   .et__pizza { --pw: min(60vw, 100svh); --px: 70%; --py: 52svh; }
-  .et__eyebrow { top: clamp(84px, 14svh, 120px); }
+  .et__eyebrow { top: max(calc(var(--hdr) + 8px), min(14svh, 120px)); }
   .et__count, .et__fin { right: auto; width: 40vw; top: auto; bottom: clamp(28px, 8svh, 80px); }
-  .et__count { font-size: min(30vw, 54svh); }
-  .et__title { font-size: min(9vw, 19svh); }
+  .et__count { font-size: calc(min(30vw, 54svh) * var(--xs)); }
+  .et__title { font-size: calc(min(9vw, 19svh) * var(--xs)); }
 }
 @media (orientation: landscape) and (max-height: 500px) {
   .et__stage { min-height: 0; }
   .et__pizza { --pw: min(56vw, 92svh); --py: 58svh; }
-  .et__title { font-size: min(8vw, 20svh); }
+  .et__title { font-size: calc(min(8vw, 20svh) * var(--xs)); }
   .et__lnwrap { font-size: clamp(0.8rem, 2.4svh, 1rem); }
-  .et__eyebrow { top: 74px; }
+  .et__eyebrow { top: calc(var(--hdr) + 10px); }
 }
 @media (min-width: 768px) and (orientation: portrait) {
   .et__pizza { --pw: min(92vw, 50svh); }
-  .et__title { font-size: min(17vw, 12svh); }
+  .et__title { font-size: calc(min(17vw, 12svh) * var(--xs)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .et__slice { will-change: auto; }

@@ -20,7 +20,7 @@
 .mmenu[data-open='true'] .mmenu__backdrop { opacity: 1; }
 .mmenu__panel {
   position: absolute; z-index: 1;
-  top: calc(env(safe-area-inset-top) + 8px); right: max(12px, env(safe-area-inset-right));
+  top: calc(var(--sat) + 8px); right: max(12px, env(safe-area-inset-right));
   width: min(320px, calc(100vw - 24px)); max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px);
   overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column;
   padding: 6px 18px 18px; background: #09090b; color: var(--white);
@@ -77,7 +77,6 @@
 /* scroll lock without layout jump (--sbw = removed scrollbar width) */
 html[data-menu-open] { overflow: hidden; padding-right: var(--sbw, 0px); }
 html[data-menu-open] .header { padding-right: calc(max(var(--gutter), env(safe-area-inset-right)) + var(--sbw, 0px)); }
-html[data-menu-open] .stickycall { display: none !important; }
 
 /* burger up to 899px: brand + burger only; lang + call live inside the panel */
 @media (max-width: 899px) {

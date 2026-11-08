@@ -60,7 +60,7 @@
 /* ---- footer: content-driven height, glued to page end ---- */
 .ft.ft { padding: clamp(8px, 1.5vw, 20px) var(--gutter) clamp(16px, 2vw, 28px); gap: clamp(14px, 2vw, 24px); min-height: 0; }
 .ft.ft .ft__mark { padding: 0; margin: 0; line-height: 1; }
-.ft.ft .ft__word { font-size: calc(100cqw / 7.4); line-height: 0.9; padding: 0.24em 0 0.02em; margin: 0 0 -0.04em; }
+.ft.ft .ft__word { font-size: calc(calc(100cqw / 7.4) * var(--xf)); line-height: 0.9; padding: 0.24em 0 0.02em; margin: 0 0 -0.04em; }
 .ft.ft .ft__nav a { min-height: 40px; }
 .ft.ft .ft__credit { padding: 2px 6px; margin: 0 -6px; border-radius: 4px; color: var(--white); text-decoration: none; transition: background-color 0.2s, color 0.2s; }
 .ft.ft .ft__credit:focus-visible { background: #EFFF00; color: #09090B; outline: 0; }
@@ -72,4 +72,9 @@
 /* no leftover black band: the wood CTA section above ends close to its content */
 .cta.cta { padding-bottom: clamp(32px, 5vw, 72px); }
 .ft.ft { padding-bottom: calc(clamp(16px, 2vw, 28px) + env(safe-area-inset-bottom, 0px)); }
-@media (max-width: 767px) { body:has(.stickycall) .ft.ft { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); } }
+
+/* "Nach oben": vector arrow (identical on every device, never an emoji glyph) */
+.ft.ft .ft__top { gap: 0.5em; color: var(--lime, #EFFF00); }
+.ft__arrow { flex: none; transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1); }
+@media (hover: hover) and (pointer: fine) { .ft__top:hover .ft__arrow { transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .ft__arrow { transition: none; } }

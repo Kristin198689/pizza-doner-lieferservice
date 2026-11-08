@@ -46,7 +46,7 @@ export function EightTimes({ t }: { t: Messages['eight'] }) {
 
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
-          scrollTrigger: { trigger: el, start: 'top top', end: portrait ? '+=200%' : '+=250%', pin: true, anticipatePin: 1, scrub: 0.6, invalidateOnRefresh: true },
+          scrollTrigger: { trigger: el, start: 'top top', end: portrait ? '+=200%' : '+=250%', pin: true, scrub: 0.6, invalidateOnRefresh: true },
         });
 
         ORDER.forEach((k, i) => {

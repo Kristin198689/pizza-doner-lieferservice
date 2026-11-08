@@ -45,9 +45,18 @@ export function ScrollFx() {
 
     mm.add('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)', () => initMagnetic());
 
-    const refresh = () => ScrollTrigger.refresh();
+    // Pin starts/ends are absolute scroll offsets: any layout shift above a pin (late fonts/images, row reveals, resize) makes them stale
+    // and the pinned screen snaps over its neighbour. Keep them in sync: refresh (debounced) whenever the page height changes.
+    let t = 0;
+    let lastH = document.documentElement.scrollHeight;
+    const refresh = () => { window.clearTimeout(t); t = window.setTimeout(() => { lastH = document.documentElement.scrollHeight; ScrollTrigger.sort(); ScrollTrigger.refresh(); }, 180); };
+    const ro = new ResizeObserver(() => { const h = document.documentElement.scrollHeight; if (Math.abs(h - lastH) >= 1) refresh(); });
+    ro.observe(document.body);
     window.addEventListener('load', refresh, { once: true });
+    document.fonts?.ready.then(refresh);
     return () => {
+      window.clearTimeout(t);
+      ro.disconnect();
       window.removeEventListener('load', refresh);
       mm.revert();
     };

@@ -5,19 +5,19 @@
   .dn { height: 100vh; height: 100svh; min-height: 0; display: block; padding: 0; }
   .dn__view { position: absolute; inset: 68px 0 0 0; height: auto; min-height: 0; order: 0; }
   .dn__copy { position: absolute; z-index: 3; left: var(--gutter); right: auto; top: 50%; bottom: auto; translate: 0 -50%; width: min(40%, 560px); padding: 0; margin: 0; order: 0; }
-  .dn__copy .display { font-size: clamp(2.2rem, min(4.2vw, 8svh), 4.8rem); }
+  .dn__copy .display { font-size: calc(clamp(2.2rem, min(4.2vw, 8svh), 4.8rem) * var(--xs)); }
   .dn__text { font-size: clamp(0.95rem, 1.5vw, 1.15rem); }
 }
 /* tablet / narrow landscape: text column + spit column */
 @media (min-width: 600px) and (max-width: 1099px) and (min-aspect-ratio: 1/1) {
   .dn__view { inset: 68px 0 0 40%; }
   .dn__copy { width: 38%; }
-  .dn__copy .display { font-size: clamp(2.2rem, min(5vw, 9svh), 4rem); }
+  .dn__copy .display { font-size: calc(clamp(2.2rem, min(5vw, 9svh), 4rem) * var(--xs)); }
 }
 /* tablet portrait: headline on top, spit below */
 @media (min-width: 600px) and (max-aspect-ratio: 1/1) {
-  .dn__copy { top: calc(76px + 3svh); translate: 0 0; width: min(calc(100% - 2 * var(--gutter)), 640px); }
-  .dn__copy .display { font-size: clamp(2.8rem, 9.5vw, 5.6rem); }
+  .dn__copy { top: calc(var(--hdr) + 3svh); translate: 0 0; width: min(calc(100% - 2 * var(--gutter)), 640px); }
+  .dn__copy .display { font-size: calc(clamp(2.8rem, 9.5vw, 5.6rem) * var(--xs)); }
   .dn__text { font-size: clamp(1rem, 2.4vw, 1.3rem); max-width: 40ch; }
   .dn__view { inset: 38svh 0 0 0; }
   .dn__word { top: 62%; }
@@ -26,7 +26,7 @@
 @media (max-height: 500px) and (orientation: landscape) {
   .dn__view { inset: 56px 0 0 42%; }
   .dn__copy { width: 40%; top: 54%; }
-  .dn__copy .display { font-size: clamp(1.7rem, 10svh, 2.8rem); }
+  .dn__copy .display { font-size: calc(clamp(1.7rem, 10svh, 2.8rem) * var(--xs)); }
   .dn__copy .eyebrow { font-size: 0.6rem; margin-bottom: 0.3rem; }
   .dn__text { margin-top: 0.5rem; font-size: 0.82rem; line-height: 1.35; max-width: 30ch; }
 }

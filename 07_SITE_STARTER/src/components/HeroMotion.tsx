@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { HalalSeal } from './HalalSeal';
 import { OrderButtons } from './OrderButtons';
-import { HeroToppings, HeroSteam } from './fx/HeroToppings';
+import { HeroToppings, HeroSteam, HeroBasil } from './fx/HeroToppings';
 import type { Messages } from '@/lib/i18n';
 
 type Props = { t: Messages['hero']; order: Messages['order']; limeT: Messages['lime']; yufkaAlt: string };
@@ -89,18 +89,26 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
         // intro (time based, ≤0.6s): text and pizza are already on screen (SSR), this is only a quick settle
         gsap
           .timeline({ defaults: { ease: 'power3.out' } })
-          .from(q('.hero__txt--a .hero__ln'), { yPercent: 35, opacity: 0.25, duration: 0.4, stagger: 0.05 }, 0)
-          .from(q('.hero__txt--a .hero__fade'), { opacity: 0.25, y: 10, duration: 0.35, stagger: 0.05 }, 0.05)
+          // the intro animates the CONTAINER only, never the lines/fade the scrub timeline drives (a finishing intro used to overwrite scrub values and bring headline A back over the lime scene)
+          .from(q('.hero__txt--a'), { opacity: 0.25, y: 18, duration: 0.4, immediateRender: false, overwrite: 'auto' }, 0)
           .from(q('.pz-wrap'), { scale: 0.95, duration: 0.6 }, 0);
 
         // lime window = the pizza's own footprint (an ellipse): it only shows where slices have left; later it
         // grows past the screen edges so the whole lime scene is open by the time the last slice exits
         const win = { s: 0.97 };
+        // cached geometry (refreshed on ScrollTrigger refresh only): no layout reads while scrolling
+        const geo = { x: 0, y: 0, w: 0 };
+        const readGeo = () => {
+          // the lime window opens exactly where the cut pizza stands (position C, scale C)
+          const c = C();
+          geo.x = c.x;
+          geo.y = c.y;
+          geo.w = (box.offsetWidth * c.s);
+        };
         const paint = () => {
-          const r = box.getBoundingClientRect();
-          const cx = r.left + (r.width * G.cx) / 100;
-          const cy = r.top + (r.height * G.cy) / 100;
-          const Rx = (r.width * G.rx) / 100 * win.s;
+          const cx = geo.x;
+          const cy = geo.y;
+          const Rx = (geo.w * G.rx) / 100 * win.s;
           const parts: string[] = [];
           for (let a = 0; a < 360; a += 6) parts.push(`${(cx + Rx * Math.cos(rad(a))).toFixed(1)}px ${(cy + Rx * FLAT * Math.sin(rad(a))).toFixed(1)}px`);
           limeEl.style.clipPath = `polygon(${parts.join(',')})`;
@@ -112,46 +120,92 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
          */
         const TOTAL = 26;
         const UNIT = 190;
-        const tl = gsap.timeline({
-          defaults: { ease: 'none' },
-          scrollTrigger: {
-            trigger: el,
-            start: 'top top',
-            end: () => `+=${Math.round(Math.max(TOTAL * UNIT, vh() * (mode === 'portrait' ? 5.6 : 4.6)))}`,
-            scrub: 1.1,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
+        const tl = gsap.timeline({ defaults: { ease: 'none' }, paused: true });
+        // The scroll position is the TARGET; the timeline follows it through a critically damped spring (SmoothDamp,
+        // ≈ scrub 1.8 s). Unlike scrub's restarted power3 tween, position AND velocity stay continuous when the target
+        // jumps (mouse-wheel notches, touch flings, instant jumps), so nothing ever pops.
+        const SMOOTH = 0.6;
+        let target = 0;
+        let cur = 0;
+        let vel = 0;
+        let last = 0;
+        const tick = () => {
+          const time = performance.now();
+          const dt = Math.min(Math.max((time - last) / 1000, 0.001), 0.08);
+          last = time;
+          if (cur === target && vel === 0) return;
+          const om = 2 / SMOOTH;
+          const x = om * dt;
+          const ex = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
+          const ch = cur - target;
+          const tmp = (vel + om * ch) * dt;
+          vel = (vel - om * tmp) * ex;
+          cur = target + (ch + tmp) * ex;
+          if (Math.abs(cur - target) < 2e-5 && Math.abs(vel) < 2e-4) { cur = target; vel = 0; }
+          tl.progress(cur);
+        };
+        const st = ScrollTrigger.create({
+          trigger: el,
+          start: 'top top',
+          end: () => `+=${Math.round(Math.max(TOTAL * UNIT, vh() * (mode === 'portrait' ? 5.6 : 4.6)))}`,
+          pin: true,
+         
+          invalidateOnRefresh: true,
+          onUpdate: (self) => { target = self.progress; },
+          onRefresh: (self) => {
+            // after a refresh the scene is rebuilt at the real scroll position (no catch-up animation)
+            target = self.progress;
+            cur = target;
+            vel = 0;
+            tl.progress(0).invalidate(); // re-evaluate the function-based values for the new viewport
+            tl.progress(cur);
+            readGeo();
+            paint();
           },
         });
+        last = performance.now();
+        gsap.ticker.add(tick);
         const pz = q('.pz-wrap');
         const slices = q('.pz-slice');
 
         // A · 0–4.4 HOLD (text is visible from the first frame; the pizza only breathes), exit 4.4–5.1
-        tl.fromTo(pz, { scale: 1 }, { scale: 1.02, duration: 4.4 }, 0);
-        tl.to(q('.hero__txt--a .hero__ln'), { yPercent: -140, duration: 0.7, stagger: 0.06, ease: 'power3.in' }, 4.4);
+        tl.to(q('.hero__txt--a .hero__ln'), { yPercent: -140, duration: 0.7, stagger: 0.06, ease: 'power2.inOut' }, 4.4);
         tl.to(q('.hero__txt--a .hero__fade'), { opacity: 0, y: -16, duration: 0.5 }, 4.4);
+        // scene-A basil leaves fade as the headline leaves (they ride with the pizza / headline block until then)
+        tl.to(q('.bsl'), { opacity: 0, duration: 0.9, ease: 'sine.inOut' }, 4.1);
+        // slow scroll-linked drift of the loose toppings, a different rate per piece (their own float loops run in CSS)
+        tl.to(q('.pz-top'), { y: (i: number) => -(8 + ((i * 7) % 5) * 7), x: (i: number) => ((i % 2 ? 1 : -1) * (3 + ((i * 5) % 4) * 3)), rotation: (i: number) => ((i % 3) - 1) * 6, duration: 9.4, ease: 'none' }, 0);
+        // hard guarantee: once a headline has exited it is not just translated out of its mask but hidden (reversible)
+        tl.set(q('.hero__txt--a'), { visibility: 'hidden' }, 5.2);
 
-        // B · pizza pushes in 4.6–6.8; headline in 5.2–6.0; HOLD 6.0–9.8; exit 9.8–10.5
-        tl.to(pz, { x: () => B().x - c0x(), y: () => B().y - c0y(), scale: () => B().s, duration: 2.2, ease: 'power2.inOut' }, 4.6);
-        tl.to(q('.hero__txt--b .hero__ln'), { yPercent: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out' }, 5.2);
+        // B · ONE camera move 4.0–6.8 (sine in-out: starts and ends at rest, no stop-start before it); headline in 5.2–6.0; HOLD 6.0–9.8; exit 9.8–10.5
+        tl.to(pz, { x: () => B().x - c0x(), y: () => B().y - c0y(), scale: () => B().s, duration: 2.8, ease: 'sine.inOut' }, 4.0);
+        tl.to(q('.hero__txt--b .hero__ln'), { yPercent: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out' }, 5.2);
         tl.to(q('.pz-steam'), { opacity: 0, duration: 1.6, ease: 'power1.in' }, 8.6);
 
         // C · pizza to the cut position 9.9–10.9; headline in 10.3–11.0; cuts draw 10.7–11.8; HOLD 11.8–14.7
-        tl.to(q('.hero__txt--b .hero__ln'), { yPercent: -140, duration: 0.6, stagger: 0.06, ease: 'power3.in' }, 9.8);
-        tl.to(pz, { x: () => C().x - c0x(), y: () => C().y - c0y(), scale: () => C().s, duration: 1.1, ease: 'power1.inOut' }, 9.9);
-        tl.to(q('.hero__txt--c .hero__ln'), { yPercent: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out' }, 10.3);
+        tl.to(q('.hero__txt--b .hero__ln'), { yPercent: -140, duration: 0.7, stagger: 0.06, ease: 'power2.inOut' }, 9.8);
+        tl.set(q('.hero__txt--b'), { visibility: 'hidden' }, 10.6);
+        tl.to(pz, { x: () => C().x - c0x(), y: () => C().y - c0y(), scale: () => C().s, duration: 1.4, ease: 'sine.inOut' }, 9.9);
+        tl.to(q('.hero__txt--c .hero__ln'), { yPercent: 0, duration: 0.8, stagger: 0.08, ease: 'power2.out' }, 10.3);
         tl.to(q('.seal--hero'), { opacity: 0, scale: 0.6, duration: 0.4 }, 10.0);
-        tl.to(q('.pz-cut'), { strokeDashoffset: 0, duration: 1.0, stagger: 0.05, ease: 'power2.inOut' }, 10.7);
+        tl.to(q('.pz-cut'), { strokeDashoffset: 0, duration: 1.2, stagger: 0.05, ease: 'sine.inOut' }, 10.7);
 
         // D · 14.8–18.6 : eight slices leave the centre along their own rays; the lime scene shows through the gaps
         const D0 = 14.8;
-        tl.to(q('.pz-tops'), { opacity: 0, duration: 0.5 }, D0 - 0.4);
-        tl.set(q('.pz-full'), { autoAlpha: 0 }, D0);
-        tl.set(q('.pz-cuts'), { autoAlpha: 0 }, D0);
+        tl.to(q('.pz-tops'), { opacity: 0, duration: 0.5 }, D0 - 0.4); // safety net
+        // at the very moment the cut starts the toppings fly UP and away (staggered, drifting + spinning), then are gone
+        tl.to(q('.pz-top'), { yPercent: (i: number) => -(500 + ((i * 53) % 7) * 70), xPercent: (i: number) => ((i % 2 ? 1 : -1) * (20 + ((i * 29) % 5) * 12)), rotation: (i: number) => ((i % 2 ? 1 : -1) * (40 + ((i * 17) % 5) * 22)), opacity: 0, duration: 2.6, ease: 'power1.in', stagger: { each: 0.1, from: 'end' } }, 10.55);
+        // the slices already lie exactly on the whole image: the whole fades UNDER them while they have started to move,
+        // the shadow grows from zero, the cut lines fade; nothing is swapped in one frame
+        tl.to(q('.pz-full'), { opacity: 0, duration: 0.6, ease: 'none' }, D0);
+        tl.set(q('.pz-full'), { visibility: 'hidden' }, D0 + 0.6);
+        tl.to(q('.pz-cuts'), { opacity: 0, duration: 0.4, ease: 'none' }, D0);
+        tl.set(q('.pz-cuts'), { visibility: 'hidden' }, D0 + 0.4);
         tl.set(limeEl, { autoAlpha: 1 }, D0);
-        tl.set(slices, { filter: 'drop-shadow(0 16px 22px rgba(0,0,0,0.5))' }, D0);
-        tl.to(q('.hero__txt--c .hero__ln'), { yPercent: -140, duration: 0.6, stagger: 0.05, ease: 'power3.in' }, D0 - 0.1);
+        tl.fromTo(slices, { filter: 'drop-shadow(0px 0px 0px rgba(0,0,0,0))' }, { filter: 'drop-shadow(0px 16px 22px rgba(0,0,0,0.5))', duration: 1.2, ease: 'sine.out', immediateRender: false }, D0);
+        tl.to(q('.hero__txt--c .hero__ln'), { yPercent: -140, duration: 0.7, stagger: 0.05, ease: 'power2.inOut' }, D0 - 0.1);
+        tl.set(q('.hero__txt--c'), { visibility: 'hidden' }, D0 + 0.7);
         slices.forEach((s, k) => {
           const a = rad(45 * k);
           const diag = k % 2 ? 1.22 : 1;
@@ -182,13 +236,22 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
         tl.to(q('.lime__wrap'), { xPercent: 0, rotation: 0, duration: 3.0, ease: 'power1.out' }, 17.8);
         tl.to(q('.lime__body, .lime__deco, .lime__order'), { opacity: 1, duration: 1.0 }, 20.2);
         tl.to({}, { duration: TOTAL - 21.2 }, 21.2);
+        cur = target = st.progress;
+        tl.progress(0).invalidate();
+        tl.progress(cur);
+        readGeo();
+        paint();
+        return () => {
+          gsap.ticker.remove(tick);
+          st.kill();
+        };
       };
 
       const RM = '(prefers-reduced-motion: no-preference)';
       const pinned = (mode: Mode) => () => {
         el.dataset.mode = 'pinned';
-        build(mode);
-        return () => { delete el.dataset.mode; };
+        const off = build(mode);
+        return () => { off(); delete el.dataset.mode; };
       };
       mm.add(`(orientation: portrait) and ${RM}`, pinned('portrait'));
       mm.add(`(orientation: landscape) and (min-height: 501px) and ${RM}`, pinned('landscape'));
@@ -226,7 +289,9 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
         const title = q('.hero__title')[0] as HTMLElement;
         const nonTitle = txtA.offsetHeight - title.offsetHeight;
         const pizzaTop = pbox.offsetTop + (pbox.offsetHeight * (G.cy - G.ry)) / 100;
-        const hx = parseFloat(getComputedStyle(el).getPropertyValue('--hx')) || 88;
+        // header bottom (76px + safe-area top) drives every top offset; mirrors the --hx rule in hero.css
+        const hb = document.querySelector<HTMLElement>('.header')?.getBoundingClientRect().bottom ?? 76;
+        const hx = short ? hb + 12 : land ? Math.max(hb + 16, H * 0.12) : hb + 12;
         const aMax = land ? H - 2 * hx - nonTitle : pizzaTop - txtA.offsetTop - 10 - nonTitle;
         fit(title, aMax);
         const h2Cap = short ? H * 0.62 : land ? H * 0.3 : H * 0.28;
@@ -234,8 +299,17 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
         fit(el.querySelector<HTMLElement>('.lime__title') ?? undefined, short ? H * 0.42 : land ? H * 0.36 : H * 0.2);
       };
       fitAll();
+      // mobile browser bars change innerHeight while scrolling: only re-fit on a real size change (no text jumps mid-scroll)
+      let lw = window.innerWidth;
+      let lh = window.innerHeight;
+      const onResize = () => {
+        if (window.innerWidth === lw && Math.abs(window.innerHeight - lh) < 140) return;
+        lw = window.innerWidth;
+        lh = window.innerHeight;
+        fitAll();
+      };
       ScrollTrigger.addEventListener('refreshInit', fitAll);
-      window.addEventListener('resize', fitAll);
+      window.addEventListener('resize', onResize);
       document.fonts?.ready.then(() => { fitAll(); ScrollTrigger.refresh(); });
 
       const refresh = () => ScrollTrigger.refresh();
@@ -243,7 +317,7 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
       return () => {
         window.removeEventListener('load', refresh);
         ScrollTrigger.removeEventListener('refreshInit', fitAll);
-        window.removeEventListener('resize', fitAll);
+        window.removeEventListener('resize', onResize);
         mm.revert();
       };
     },
@@ -265,6 +339,7 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
               </div>
             ))}
             <HeroToppings />
+            <HeroBasil kind="rim" />
             <svg className="pz-cuts" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
               {CUTS.map((c, k) => (
                 <line key={k} className="pz-cut" x1={G.cx} y1={G.cy} x2={c.x2} y2={c.y2} pathLength={100} strokeDasharray={100} />

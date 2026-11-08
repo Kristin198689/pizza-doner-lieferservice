@@ -42,7 +42,7 @@ export function TypographyTakeover({ t, sliceAlt }: { t: Messages['takeover']; s
       const build = (end: string) => {
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
-          scrollTrigger: { trigger: el, start: 'top top', end, scrub: 0.6, pin: true, anticipatePin: 1, invalidateOnRefresh: true, onRefresh: fit },
+          scrollTrigger: { trigger: el, start: 'top top', end, scrub: 0.6, pin: true, invalidateOnRefresh: true, onRefresh: fit },
         });
         // FRISCH: already on screen, slides to rest from the left
         tl.fromTo(q('.tk__w1'), { xPercent: -7 }, { xPercent: 0, duration: 1, ease: 'power2.out' }, 0);

@@ -86,7 +86,7 @@ export function IngredientTunnel({ word }: { word: string }) {
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
           onUpdate: apply,
-          scrollTrigger: { trigger: el, start: 'top top', end, scrub: 0.6, pin: true, anticipatePin: 1, invalidateOnRefresh: true, onRefresh: apply },
+          scrollTrigger: { trigger: el, start: 'top top', end, scrub: 0.6, pin: true, invalidateOnRefresh: true, onRefresh: apply },
         });
         tl.to(p, { t: TRAVEL, duration: 10 }, 0);
         return () => nodes.forEach((n) => { n.style.display = ''; });

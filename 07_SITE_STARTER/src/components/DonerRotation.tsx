@@ -24,7 +24,7 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
       const mm = gsap.matchMedia();
 
       mm.add('(prefers-reduced-motion: no-preference) and ((min-width: 600px) or ((max-height: 500px) and (orientation: landscape)))', () => {
-        const tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: el, start: 'top top', end: '+=260%', scrub: 0.8, pin: true, anticipatePin: 1, invalidateOnRefresh: true } });
+        const tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: el, start: 'top top', end: '+=260%', scrub: 0.8, pin: true, invalidateOnRefresh: true } });
         tl.to(s, { rot: Math.PI * 3.2, duration: 5 }, 0);
         tl.to(s, { dolly: 1, ease: 'power1.inOut', duration: 5 }, 0);
         tl.to(s, { heat: 1, duration: 3 }, 0);

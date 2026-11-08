@@ -1,7 +1,7 @@
 /* ============ Typography takeover v5: FRISCH / HEISS, short typographic scene ============ */
-.tk { position: relative; height: 100vh; height: 100svh; min-height: 0; background: #09090b; overflow: hidden; isolation: isolate; --tk-wdth: 122; --tk-sl: clamp(150px, min(44vw, 44svh), 640px); }
+.tk { position: relative; height: 100vh; height: 100svh; min-height: 0; background: #09090b; overflow: hidden; isolation: isolate; --tk-wdth: 100; --tk-sl: clamp(150px, min(44vw, 44svh), 640px); }
 @media (max-aspect-ratio: 4/5) { .tk { --tk-wdth: 34; --tk-sl: clamp(150px, 72vw, 460px); } }
-@media (max-height: 500px) { .tk { --tk-sl: 40svh; } .tk__stage { padding-top: 44px; } }
+@media (max-height: 500px) { .tk { --tk-sl: 40svh; } .tk__stage { padding-top: calc(var(--sat) + 44px); } }
 .tk__stage { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 var(--gutter); }
 .tk__stage { padding-inline: clamp(12px, 2.5vw, 48px); }
 .tk__w { margin: 0; font-family: var(--font-display); font-weight: 1000; font-style: normal; font-variation-settings: 'wdth' var(--tk-wdth); text-transform: uppercase; font-size: 18vw; line-height: 0.86; letter-spacing: -0.03em; white-space: nowrap; text-decoration: none; will-change: transform; }
@@ -31,9 +31,9 @@
 @media (prefers-reduced-motion: reduce) { .pt__i { animation: none; will-change: auto; } }
 
 /* XXL headings in the runway */
-.runway .runway__head .display { font-size: clamp(3.4rem, 13.5vw, 14rem); line-height: 0.88; }
-@media (min-width: 900px) { .runway .runway__head .display { font-size: clamp(5rem, 12vw, 15rem); } }
-.runway .chapter__text h3 { font-size: clamp(4.2rem, 19vw, 8rem); line-height: 0.88; }
-@media (min-width: 900px) { .runway .chapter__text h3 { font-size: clamp(4.4rem, 8.6vw, 9rem); } }
-@media (min-width: 600px) and (max-aspect-ratio: 1/1) { .runway .chapter__text h3 { font-size: clamp(4.5rem, 14vw, 8rem); } }
-@media (max-height: 500px) and (orientation: landscape) { .runway .runway__head .display { font-size: clamp(3rem, 16svh, 5.5rem); } .runway .chapter__text h3 { font-size: clamp(2.6rem, 14svh, 4.4rem); } }
+.runway .runway__head .display { font-size: calc(clamp(3.4rem, 13.5vw, 14rem) * var(--xs)); line-height: 0.88; }
+@media (min-width: 900px) { .runway .runway__head .display { font-size: calc(clamp(5rem, 12vw, 15rem) * var(--xs)); } }
+.runway .chapter__text h3 { font-size: calc(clamp(4.2rem, 19vw, 8rem) * var(--xs)); line-height: 0.88; }
+@media (min-width: 900px) { .runway .chapter__text h3 { font-size: calc(clamp(4.4rem, 8.6vw, 9rem) * var(--xs)); } }
+@media (min-width: 600px) and (max-aspect-ratio: 1/1) { .runway .chapter__text h3 { font-size: calc(clamp(4.5rem, 14vw, 8rem) * var(--xs)); } }
+@media (max-height: 500px) and (orientation: landscape) { .runway .runway__head .display { font-size: calc(clamp(3rem, 16svh, 5.5rem) * var(--xs)); } .runway .chapter__text h3 { font-size: calc(clamp(2.6rem, 14svh, 4.4rem) * var(--xs)); } }

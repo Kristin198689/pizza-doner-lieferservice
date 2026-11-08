@@ -3,7 +3,7 @@
 .pz-tops { z-index: 4; }
 .pz-steam { z-index: 6; }
 .pz-top { position: absolute; display: block; translate: -50% -50%; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.45)); }
-.pz-top__f { display: block; transform: translate3d(0, 0, 0) rotate(var(--r, 0deg)); }
+.pz-top__f { display: block; rotate: var(--r, 0deg); translate: 0 0; will-change: transform; }
 .pz-top img { display: block; width: 100%; height: auto; }
 .pz-wisp { position: absolute; bottom: 74%; opacity: 0; overflow: visible; transform-origin: 50% 100%; }
 @media (max-width: 899px) { .pz-top--lg { display: none; } }
@@ -11,12 +11,22 @@
 @media (orientation: landscape) and (max-height: 500px) { .pz-top--mid { display: none; } }
 @media (orientation: landscape) and (max-height: 500px), (orientation: portrait) and (max-height: 700px) { .pz-top--hi { display: none; } }
 @media (prefers-reduced-motion: no-preference) {
-  .pz-tops.is-live .pz-top__f { animation: pz-float var(--dur, 4.5s) ease-in-out var(--d, 0s) infinite alternate; }
+  /* translate and rotate run on separate periods (x1.37), so the path never repeats as a straight back-and-forth */
+  .pz-tops.is-live .pz-top__f { animation: pz-float var(--dur, 4.5s) ease-in-out var(--d, 0s) infinite alternate, pz-tilt var(--rd, 5s) ease-in-out var(--d, 0s) infinite alternate; }
+  .bsl.is-live .bsl__f { animation: bsl-sway var(--dur, 6s) ease-in-out var(--d, 0s) infinite alternate; }
   .pz-wisp { animation: pz-steam var(--dur, 6.5s) ease-in-out var(--d, 0s) infinite; }
 }
 @keyframes pz-float {
-  from { transform: translate3d(calc(var(--tx) * -1), calc(var(--ty) * -1), 0) rotate(calc(var(--r) - 6deg)); }
-  to { transform: translate3d(var(--tx), var(--ty), 0) rotate(calc(var(--r) + 6deg)); }
+  from { translate: calc(var(--tx) * -1) calc(var(--ty) * -0.8); }
+  to { translate: var(--tx) calc(var(--ty) * 0.8); }
+}
+@keyframes pz-tilt {
+  from { rotate: calc(var(--r) - 10deg); }
+  to { rotate: calc(var(--r) + 10deg); }
+}
+@keyframes bsl-sway {
+  from { translate: -3px 2px; rotate: calc(var(--r) - 2.5deg); }
+  to { translate: 3px -2px; rotate: calc(var(--r) + 2.5deg); }
 }
 @keyframes pz-steam {
   0% { opacity: 0; transform: translate3d(0, 28%, 0) scale(0.8, 0.85); }
@@ -25,3 +35,14 @@
   100% { opacity: 0; transform: translate3d(8%, -42%, 0) scale(1.15, 1.05); }
 }
 @media (prefers-reduced-motion: reduce) { .pz-steam { display: none; } }
+
+/* scene-A basil: rim leaves ride the pizza, head leaves sit on the corners of the headline block (never over the letters) */
+.bsl { position: absolute; inset: 0; pointer-events: none; }
+.bsl--rim { z-index: 5; }
+.bsl--head { z-index: 2; }
+.bsl__p { position: absolute; display: block; translate: -50% -50%; filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.5)); }
+.bsl__f { display: block; rotate: var(--r, 0deg); will-change: transform; }
+.bsl__p img { display: block; width: 100%; height: auto; }
+@media (max-width: 899px) { .bsl__p--lg { display: none; } }
+@media (orientation: landscape) and (max-height: 500px) { .bsl--head { display: none; } }
+.hero[data-mode='static'] .bsl--head { display: none; }

@@ -10,7 +10,7 @@ type Props = {
     menu: string; delivery: string; pickup: string; call: string; languages: string;
     open: string; close: string; viewMenu: string; tagline: string;
     title: string; products: string; doner: string; today: string; fulfillment: string;
-    hours: string; address: string;
+    hours: string; address: string; contact: string; hoursLink: string; fabCall: string;
   };
   phonePending?: string;
   tel: string | null;
@@ -23,6 +23,8 @@ const LINKS = [
   { key: 'today', href: '#orbit' },
   { key: 'menu', href: '#menu' },
   { key: 'fulfillment', href: '#delivery' },
+  { key: 'contact', href: '#delivery' },
+  { key: 'hoursLink', href: '#delivery' },
 ] as const;
 
 // Only real, configured values are rendered. Nothing is invented.
