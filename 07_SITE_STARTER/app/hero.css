@@ -113,7 +113,7 @@
 }
 
 /* ============ CTA (Fulfillment) ============ */
-.cta { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(28px, 6vw, 72px); align-items: center; background: #0c0a09 url('/assets/backgrounds/charred_wood_provisional.jpg') center / cover; padding: clamp(72px, 12vw, 176px) var(--gutter); }
+.cta { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(28px, 6vw, 72px); align-items: center; background: #0c0a09 url('/assets/backgrounds/charred_wood_provisional.webp') center / cover; padding: clamp(72px, 12vw, 176px) var(--gutter); }
 .cta::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(9, 9, 11, 0.92), rgba(9, 9, 11, 0.7)); }
 .cta__main { min-width: 0; }
 .cta__titlebox { container-type: inline-size; }

@@ -77,7 +77,7 @@ export function TypographyTakeover({ t, sliceAlt }: { t: Messages['takeover']; s
       <div className="tk__stage" aria-hidden="true">
         <p className="tk__w tk__w1"><span>{t.a}</span></p>
         <div className="tk__band">
-          <Image className="tk__slice" src="/assets/food/pizza_slice_cheese_pull.png" alt="" width={1254} height={1254} sizes="(max-width: 600px) 60vw, 40vw" loading="eager" />
+          <Image className="tk__slice" src="/assets/food/pizza_slice_cheese_pull.webp" alt="" width={1100} height={1100} sizes="(max-width: 600px) 60vw, 40vw" loading="eager" />
           <p className="tk__w tk__w2"><span>{t.b}</span></p>
           <p className="tk__cap">{t.caption}</p>
         </div>

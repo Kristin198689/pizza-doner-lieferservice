@@ -5,7 +5,7 @@ import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 
 /** Real band boundaries (rows of the 1254px source): top bun | sauce+pickle+tomato | cheese+patty | lettuce+sauce | bottom bun. */
 const CUTS = [0, 470, 712, 905, 1012, 1254];
-const SRC = '/assets/food/cheeseburger.png';
+const SRC = '/assets/food/cheeseburger.webp';
 const SIZES = '(max-width: 899px) 100vw, 66vw';
 const Y = [-27, -13.5, 0, 13.5, 27];
 const X = [-2.5, 2, -1.5, 2.5, -2];

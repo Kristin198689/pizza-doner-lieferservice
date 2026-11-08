@@ -7,7 +7,9 @@ const FILES = [
   'basil_leaf_single', 'tomato_half', 'mushroom_slice', 'red_pepper_rings', 'cherry_tomatoes', 'basil_sprig',
   'red_onion_ring', 'black_olives', 'mozzarella_shreds', 'mushrooms_group', 'mixed_herbs_spices',
   'basil_leaf_single', 'red_onion_ring', 'tomato_half', 'mozzarella_shreds', 'black_olives', 'red_pepper_rings',
-].map((f) => `/assets/ingredients/${f}.png`);
+];
+/** small sprites use the 256px variant (smaller bitmaps), large near-lens ones the full 360px file */
+const srcFor = (f: string, w: number) => (w <= 150 ? `/assets/ingredients/s/${f}.webp` : `/assets/ingredients/${f}.webp`);
 
 const COUNT = 168;
 const PHONE_COUNT = 72;
@@ -28,12 +30,13 @@ const SPRITES: Sprite[] = Array.from({ length: COUNT }, (_, i) => {
   const a = (i * 137.508 * Math.PI) / 180;
   const rad = big ? 0.55 + rnd(i, 1) * 0.4 : 0.2 + rnd(i, 2) * 0.8;
   const sign = (n: number) => (rnd(i, n) > 0.5 ? 1 : -1);
+  const w = big ? Math.round(300 + rnd(i, 4) * 130) : Math.round(60 + Math.pow(rnd(i, 4), 1.6) * 200);
   return {
-    src: FILES[(i * 5 + (i >> 3)) % FILES.length],
+    src: srcFor(FILES[(i * 5 + (i >> 3)) % FILES.length], w),
     x: Math.round(Math.cos(a) * rad * 62 * 10) / 10,
     y: Math.round(Math.sin(a) * rad * 54 * 10) / 10,
     z: big ? Math.round(-DEPTH + rnd(i, 3) * (DEPTH - 150)) : Math.round(-DEPTH + (zi / (COUNT - 1)) * DEPTH),
-    w: big ? Math.round(300 + rnd(i, 4) * 130) : Math.round(60 + Math.pow(rnd(i, 4), 1.6) * 200),
+    w,
     r: Math.round((rnd(i, 5) - 0.5) * 360),
     rx: Math.round((rnd(i, 6) - 0.5) * 70),
     ry: Math.round((rnd(i, 7) - 0.5) * 80),
@@ -138,7 +141,7 @@ export function IngredientTunnel({ word }: { word: string }) {
           {SPRITES.map((s, i) => (
             <div key={i} className={`it__s${i >= PHONE_COUNT ? ' it__s--far' : ''}`} style={{ '--w': `${s.w}px`, opacity: 0 } as React.CSSProperties}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={s.src} alt="" aria-hidden="true" decoding="async" draggable={false} />
+              <img src={s.src} alt="" aria-hidden="true" loading="lazy" decoding="async" draggable={false} />
             </div>
           ))}
         </div>

@@ -506,7 +506,7 @@ export function DonerRotation({ t }: { t: Messages['doner'] }) {
       <p className="dn__word" aria-hidden="true">DÖNER</p>
       <div className="dn__view">
         {failed ? (
-          <Image className="dn__fallback" src="/assets/food/doner_sandwich.png" alt={t.sandwichAlt} width={1254} height={1254} sizes="60vw" />
+          <Image className="dn__fallback" src="/assets/food/doner_sandwich.webp" alt={t.sandwichAlt} width={1100} height={1100} sizes="60vw" />
         ) : (
           <canvas ref={canvas} className="dn__canvas" role="img" aria-label={t.alt} />
         )}

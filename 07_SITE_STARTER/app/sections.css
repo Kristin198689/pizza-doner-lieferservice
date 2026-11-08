@@ -89,6 +89,16 @@
   .sb { --sb-h: 44svh; }
   .sb--roll { --sb-h: 32svh; }
 }
+/* PHONES (keep the query in sync with SectionBreak.tsx): roll + wipe breaks are pinned full-screen colour blocks (lvh = also fills the area under a collapsed URL bar),
+   the tall words band is 90svh; the animation is spread over a longer scroll range so nothing flies by */
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .sb.sb--roll, .sb.sb--wipe { height: 100vh; height: 100lvh; }
+  .sb.sb--words.sb--tall { --sb-h: 90svh; height: 90svh; }
+  .cta { min-height: 100svh; align-content: center; }
+}
+@media (pointer: coarse) and (max-height: 500px) and (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .sb.sb--roll, .sb.sb--wipe { height: 100vh; height: 100lvh; }
+}
 /* reduced motion: static coloured spacer, word fully visible */
 @media (prefers-reduced-motion: reduce) {
   .sb { --sb-h: clamp(200px, 36svh, 380px); }

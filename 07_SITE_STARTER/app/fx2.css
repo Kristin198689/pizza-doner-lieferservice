@@ -31,7 +31,7 @@
 .sd { aspect-ratio: 1 / 0.9; }
 .sd__scene { position: absolute; top: 0; bottom: 0; left: 6%; right: 6%; }
 @media (min-width: 900px) { .sd { aspect-ratio: 1.15 / 1; } .sd__scene { left: 15%; right: 2%; } }
-.sd__back, .sd__front { position: absolute; left: 4%; width: 92%; background-color: #B98B57; background-image: url('/assets/backgrounds/kraft_cardboard.jpg'); background-size: 70% auto; }
+.sd__back, .sd__front { position: absolute; left: 4%; width: 92%; background-color: #B98B57; background-image: url('/assets/backgrounds/kraft_cardboard.webp'); background-size: 70% auto; }
 .sd__back { bottom: 7%; height: 38%; z-index: 0; clip-path: polygon(0 0, 100% 0, 91% 100%, 9% 100%); filter: brightness(0.55); }
 .sd__front { bottom: 7%; height: 22%; z-index: 20; clip-path: polygon(0 0, 100% 0, 91.5% 100%, 8.5% 100%); }
 /* rim highlight + fold shade on the front lip (static gradients) */

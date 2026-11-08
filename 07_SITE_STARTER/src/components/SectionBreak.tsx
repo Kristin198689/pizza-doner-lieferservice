@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { useRef } from 'react';
-import { gsap, useGSAP } from '@/lib/gsap';
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 
 type Tone = 'ink' | 'red' | 'lime' | 'cream' | 'green';
 
@@ -33,9 +33,29 @@ export function SectionBreak({ variant, from, to = 'red', words, sprite, spriteS
       const el = ref.current;
       if (!el) return;
       const mm = gsap.matchMedia();
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
+      // PHONES: roll / wipe breaks are PINNED for a short stretch (full-screen colour block, animation spread over entry + pin, ~0.5 vh hold) so
+      // they never "fly by" between the slow pinned scenes. Desktop / tablet keep the plain scrub. Keep PHONE in sync with sections.css.
+      mm.add({ ok: '(prefers-reduced-motion: no-preference)', phone: '(max-width: 767px), (pointer: coarse) and (max-height: 500px)' }, (ctx) => {
         const trigger = { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 0.6 } as const;
-        if (variant === 'words') {
+        if (ctx.conditions?.phone && variant !== 'words') {
+          const vh = () => window.innerHeight;
+          // distances in viewport heights: `entry` = scroll before the pin (the animation already runs while the block rises into view), `pinLen` = pinned stretch
+          const entry = variant === 'roll' ? 0.8 : 0.75;
+          const pinLen = variant === 'roll' ? 1.1 : 1.2;
+          const total = entry + pinLen;
+          ScrollTrigger.create({ trigger: el, start: 'top top', end: () => `+=${Math.round(vh() * pinLen)}`, pin: true, invalidateOnRefresh: true });
+          // timeline is in "vh units"; whatever is left after the move is the hold
+          const tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: el, start: `top ${Math.round(entry * 100)}%`, end: () => `+=${Math.round(vh() * total)}`, scrub: 0.5, invalidateOnRefresh: true } });
+          if (variant === 'roll') {
+            const W = () => el.clientWidth || window.innerWidth;
+            tl.fromTo('.sb__sprite', { x: () => -W() * 0.42, rotate: -40 }, { x: () => W() * 1.28, rotate: 560, duration: 1.4 }, 0);
+            tl.fromTo('.sb__bgword', { xPercent: 6 }, { xPercent: -6, duration: total }, 0);
+          } else {
+            tl.fromTo('.sb__panel', { scaleY: 0 }, { scaleY: 1, duration: 1.1 }, 0);
+            tl.fromTo('.sb__word', { yPercent: 40, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5 }, 0.95);
+          }
+          tl.to({}, { duration: 0.001 }, total - 0.001);
+        } else if (variant === 'words') {
           gsap.fromTo('.sb__l1', { xPercent: -2 }, { xPercent: -32, ease: 'none', scrollTrigger: trigger });
           gsap.fromTo('.sb__l2', { xPercent: -34 }, { xPercent: -4, ease: 'none', scrollTrigger: trigger });
         } else if (variant === 'roll') {

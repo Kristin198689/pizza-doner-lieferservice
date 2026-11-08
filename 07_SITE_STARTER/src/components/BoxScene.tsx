@@ -73,8 +73,8 @@ export function BoxScene({ t }: { t: Messages['box'] }) {
             </div>
           </div>
           <div className="cbox__rise" aria-hidden="true">
-            <Image className="cbox__pizza" src="/assets/food/pizza_hero_assembled.png" alt="" width={1254} height={1254} sizes="(max-width: 767px) 90vw, 620px" />
-            <Image className="cbox__steam" src="/assets/effects/smoke_overlay.png" alt="" width={1300} height={1000} sizes="60vw" />
+            <Image className="cbox__pizza" src="/assets/food/pizza_hero_assembled.webp" alt="" width={1100} height={1100} sizes="(max-width: 767px) 90vw, 620px" />
+            <Image className="cbox__steam" src="/assets/effects/smoke_overlay.webp" alt="" width={1000} height={769} sizes="60vw" />
           </div>
         </div>
         <p className="box__body">{t.body}</p>

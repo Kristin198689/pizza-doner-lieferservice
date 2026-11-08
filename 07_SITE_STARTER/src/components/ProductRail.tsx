@@ -5,13 +5,13 @@ import { IconArrow } from './Icons';
 import type { Messages } from '@/lib/i18n';
 
 const SRC: Record<string, string> = {
-  pizza: 'food/pizza_hero_assembled.png',
-  slice: 'food/pizza_slice_cheese_pull.png',
-  doner: 'food/doner_sandwich.png',
-  yufka: 'food/yufka_wrap.png',
-  burger: 'food/cheeseburger.png',
-  pommes: 'food/fries.png',
-  nuggets: 'food/nuggets.png',
+  pizza: 'food/pizza_hero_assembled.webp',
+  slice: 'food/pizza_slice_cheese_pull.webp',
+  doner: 'food/doner_sandwich.webp',
+  yufka: 'food/yufka_wrap.webp',
+  burger: 'food/cheeseburger.webp',
+  pommes: 'food/fries.webp',
+  nuggets: 'food/nuggets.webp',
 };
 
 /** Flat panel colour + name colour per dish, chosen so each dish reads best. */
@@ -183,7 +183,7 @@ export function ProductRail({ t }: { t: Messages['orbit'] }) {
           >
             <h3 className="rail__name">{dish.name}</h3>
             <div className="rail__fig">
-              <Image src={`/assets/${SRC[dish.key]}`} alt={dish.alt} width={1254} height={1254} sizes="(max-width: 767px) 92vw, 50vw" draggable={false} priority={i < 2} />
+              <Image src={`/assets/${SRC[dish.key]}`} alt={dish.alt} width={1100} height={1100} sizes="(max-width: 767px) 92vw, 50vw" draggable={false} priority={i < 2} />
             </div>
             <div className="rail__foot">
               <p className="rail__hint">{dish.hint}</p>

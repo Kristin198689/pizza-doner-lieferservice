@@ -87,7 +87,7 @@ html[data-motion='on'] [data-reveal]:not(.in) { opacity: 0; transform: translate
 @media (min-width: 900px) { .header__nav { display: flex; } .lang { margin-left: 0; } .header__pending { display: block; } }
 
 /* ============ Runway (pizza + döner chapters) ============ */
-.runway { position: relative; background: var(--ink) url('/assets/backgrounds/black_slate_provisional.jpg') center / cover; padding: var(--section) 0; overflow: hidden; }
+.runway { position: relative; background: var(--ink) url('/assets/backgrounds/black_slate_provisional.webp') center / cover; padding: var(--section) 0; overflow: hidden; }
 .runway::before { content: ''; position: absolute; inset: 0; background: linear-gradient(var(--ink), rgba(9, 9, 11, 0.55) 18%, rgba(9, 9, 11, 0.55) 82%, var(--ink)); }
 .runway > * { position: relative; }
 .runway__head { padding: 0 var(--gutter); margin-bottom: clamp(48px, 8vw, 120px); }
@@ -137,16 +137,16 @@ html[data-motion='on'] [data-reveal]:not(.in) { opacity: 0; transform: translate
 .cbox { --W: min(92vw, 880px, 64svh); position: relative; width: var(--W); aspect-ratio: 1.12 / 1; margin: clamp(8px, 1.6vw, 24px) auto 0; perspective: 1800px; perspective-origin: 50% 10%; }
 .cbox__shadow { position: absolute; left: 4%; right: 4%; bottom: -1%; height: 9%; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.75), transparent 70%); }
 .cbox__scene { position: absolute; left: 6%; width: 88%; bottom: 4%; aspect-ratio: 1.55 / 1; transform-style: preserve-3d; transform-origin: 50% 100%; transform: rotateX(56deg); }
-.cbox__base { position: absolute; inset: 0; border-radius: 10px; background: radial-gradient(ellipse at 50% 55%, rgba(255, 170, 70, 0.2), transparent 60%), linear-gradient(#8a5f31, #6e4a24), url('/assets/backgrounds/kraft_cardboard.jpg') center / cover; background-blend-mode: normal, multiply, normal; border: clamp(10px, 1.6vw, 18px) solid #b78851; box-shadow: inset 0 0 40px rgba(30, 14, 2, 0.6); }
+.cbox__base { position: absolute; inset: 0; border-radius: 10px; background: radial-gradient(ellipse at 50% 55%, rgba(255, 170, 70, 0.2), transparent 60%), linear-gradient(#8a5f31, #6e4a24), url('/assets/backgrounds/kraft_cardboard.webp') center / cover; background-blend-mode: normal, multiply, normal; border: clamp(10px, 1.6vw, 18px) solid #b78851; box-shadow: inset 0 0 40px rgba(30, 14, 2, 0.6); }
 .cbox__glow { position: absolute; inset: 15%; background: radial-gradient(ellipse at center, rgba(255, 150, 50, 0.5), transparent 65%); opacity: 1; }
 .cbox__lid { position: absolute; inset: 0; transform-style: preserve-3d; transform-origin: 50% 0; transform: rotateX(118deg); }
-.cbox__lidface { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 10px; background: linear-gradient(rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.08)), #c79a68 url('/assets/backgrounds/kraft_cardboard.jpg') center / cover; border: clamp(8px, 1.2vw, 14px) solid #c9a06c; box-shadow: inset 0 0 0 2px rgba(60, 34, 10, 0.25), inset 0 -30px 50px rgba(60, 34, 10, 0.18); }
+.cbox__lidface { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 10px; background: linear-gradient(rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.08)), #c79a68 url('/assets/backgrounds/kraft_cardboard.webp') center / cover; border: clamp(8px, 1.2vw, 14px) solid #c9a06c; box-shadow: inset 0 0 0 2px rgba(60, 34, 10, 0.25), inset 0 -30px 50px rgba(60, 34, 10, 0.18); }
 .cbox__lidface--in { transform: rotateY(180deg); background: linear-gradient(#9a6c3a, #7d5628); border-color: #b0834f; }
 .cbox__lidlight { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 100%, rgba(255, 190, 110, 0.7), transparent 70%); opacity: 0.6; }
 .cbox__rise { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .cbox__pizza { position: absolute; left: 50%; bottom: -12%; width: 70%; translate: -50% 0; transform: translateY(-4%); filter: drop-shadow(0 24px 26px rgba(0, 0, 0, 0.6)); }
 .cbox__steam { position: absolute; left: 50%; bottom: 34%; width: 74%; translate: -50% 0; opacity: 0.8; transform: translateY(-30%); mix-blend-mode: screen; }
-.cbox__rise::after { content: ''; position: absolute; left: 6%; width: 88%; bottom: 3%; height: clamp(30px, 7.4%, 64px); z-index: 3; background: linear-gradient(#c79a68, #a87a45), url('/assets/backgrounds/kraft_cardboard.jpg') center / cover; background-blend-mode: multiply; border-radius: 4px 4px 10px 10px; box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.4), inset 0 3px 0 rgba(255, 255, 255, 0.18); }
+.cbox__rise::after { content: ''; position: absolute; left: 6%; width: 88%; bottom: 3%; height: clamp(30px, 7.4%, 64px); z-index: 3; background: linear-gradient(#c79a68, #a87a45), url('/assets/backgrounds/kraft_cardboard.webp') center / cover; background-blend-mode: multiply; border-radius: 4px 4px 10px 10px; box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.4), inset 0 3px 0 rgba(255, 255, 255, 0.18); }
 
 /* ============ Döner rotation (3D spit fills the screen, burnt wood) ============ */
 .dn { position: relative; height: 100svh; min-height: 560px; background: #0d0806; overflow: hidden; isolation: isolate; }
@@ -208,7 +208,7 @@ html[data-motion='on'] [data-reveal]:not(.in) { opacity: 0; transform: translate
 }
 
 /* ============ Fulfillment ============ */
-.ful { position: relative; display: grid; gap: 48px; background: #0c0a09 url('/assets/backgrounds/charred_wood_provisional.jpg') center / cover; padding: var(--section) var(--gutter); overflow: hidden; isolation: isolate; }
+.ful { position: relative; display: grid; gap: 48px; background: #0c0a09 url('/assets/backgrounds/charred_wood_provisional.webp') center / cover; padding: var(--section) var(--gutter); overflow: hidden; isolation: isolate; }
 .ful::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(9, 9, 11, 0.92), rgba(9, 9, 11, 0.7)); }
 .ful__title { font-size: calc(clamp(3.4rem, 10.5vw, 11rem) * var(--xs)); }
 .ful__title em { font-size: 0.5em; line-height: 1.05; margin-top: 0.2em; }

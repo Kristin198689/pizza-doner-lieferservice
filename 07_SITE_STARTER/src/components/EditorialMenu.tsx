@@ -12,11 +12,11 @@ import type { Locale, Messages } from '@/lib/i18n';
 
 /** Each category is a full product screen: the product is the hero, the list is a narrow editorial column. */
 const LOOK: Record<string, { theme: string; side: 'l' | 'r'; imgs: string[] }> = {
-  pizza: { theme: 'cream', side: 'l', imgs: ['food/pizza_toppings_airborne_reference.png'] },
-  doner: { theme: 'ink', side: 'r', imgs: ['food/doner_sandwich.png'] },
-  yufka: { theme: 'red', side: 'l', imgs: ['food/yufka_wrap.png'] },
-  burger: { theme: 'cream', side: 'r', imgs: ['food/cheeseburger.png'] },
-  snacks: { theme: 'ink', side: 'l', imgs: ['food/fries.png', 'food/nuggets.png'] },
+  pizza: { theme: 'cream', side: 'l', imgs: ['food/pizza_toppings_airborne_reference.webp'] },
+  doner: { theme: 'ink', side: 'r', imgs: ['food/doner_sandwich.webp'] },
+  yufka: { theme: 'red', side: 'l', imgs: ['food/yufka_wrap.webp'] },
+  burger: { theme: 'cream', side: 'r', imgs: ['food/cheeseburger.webp'] },
+  snacks: { theme: 'ink', side: 'l', imgs: ['food/fries.webp', 'food/nuggets.webp'] },
   drinks: { theme: 'green', side: 'r', imgs: [] },
 };
 
@@ -46,7 +46,7 @@ export function EditorialMenu({ t, locale }: { t: Messages['menu']; locale: Loca
             {!Art && look.imgs.length > 0 && (
               <div className="pm__art" aria-hidden="true">
                 {look.imgs.map((src, k) => (
-                  <TiltImage key={src} className={`pm__img pm__img--${k}`} src={`/assets/${src}`} alt="" width={1254} height={1254} sizes="(max-width: 899px) 100vw, 64vw" data-parallax={k ? '-30' : '30'} />
+                  <TiltImage key={src} className={`pm__img pm__img--${k}`} src={`/assets/${src}`} alt="" width={1100} height={1100} sizes="(max-width: 899px) 100vw, 64vw" data-parallax={k ? '-30' : '30'} />
                 ))}
                 <IngredientFloat id={cat.id} />
               </div>

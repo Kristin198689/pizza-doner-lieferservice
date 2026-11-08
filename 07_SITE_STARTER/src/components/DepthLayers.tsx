@@ -21,7 +21,7 @@ type Item = {
   alt?: string;
 };
 
-const A = (f: string) => `/assets/${f}.png`;
+const A = (f: string) => `/assets/${f}.webp`;
 const ITEMS: Item[] = [
   // L1 mid: ingredients
   { src: A('ingredients/tomato_half'), layer: 1, x: 14, y: 46, w: 11, wm: 24, s0: 0.7, s1: 1.1, y0: 30, y1: -40, r: -14, d: 0.5 },
@@ -110,7 +110,7 @@ export function DepthLayers({ t }: { t: Messages['depth'] }) {
             style={{ '--x': `${it.x}%`, '--y': `${it.y}%`, '--w': `${it.w}vw`, '--wm': `${it.wm}vw` } as React.CSSProperties}
           >
             <div className="dl__s" data-i={i} style={{ transform: `scale(${it.s1 > 1.2 ? 1 : (it.s0 + it.s1) / 2}) rotate(${it.r}deg)` }}>
-              <Image src={it.src} alt={it.layer === 2 ? t.boxAlt : ''} width={it.layer >= 2 ? 1254 : 380} height={it.layer === 2 ? 941 : it.layer === 3 ? 1254 : 330} sizes="(max-width: 767px) 60vw, 30vw" draggable={false} />
+              <Image src={it.src} alt={it.layer === 2 ? t.boxAlt : ''} width={it.layer >= 2 ? 1100 : 380} height={it.layer === 2 ? 825 : it.layer === 3 ? 1100 : 330} sizes="(max-width: 767px) 60vw, 30vw" draggable={false} />
             </div>
           </div>
         ))}

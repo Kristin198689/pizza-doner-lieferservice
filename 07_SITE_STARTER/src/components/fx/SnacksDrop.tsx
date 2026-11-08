@@ -48,7 +48,7 @@ export function SnacksDrop({ label }: { label: string }) {
         <div className="sd__back" />
         {ITEMS.map((it, i) => (
           <div key={i} className="sd__item" style={{ width: `${it.w}%`, left: `${it.l}%`, bottom: `${it.b}%`, zIndex: it.z }}>
-            <Image className="sd__img" style={{ '--r': `${it.r}deg`, '--f': it.flip ? -1 : 1 } as CSSProperties} src={`/assets/food/${it.src}.png`} alt="" width={1254} height={1254} sizes="(max-width: 899px) 60vw, 34vw" loading="eager" />
+            <Image className="sd__img" style={{ '--r': `${it.r}deg`, '--f': it.flip ? -1 : 1 } as CSSProperties} src={`/assets/food/${it.src}.webp`} alt="" width={1100} height={1100} sizes="(max-width: 899px) 60vw, 34vw" loading="eager" />
           </div>
         ))}
         <div className="sd__front" />

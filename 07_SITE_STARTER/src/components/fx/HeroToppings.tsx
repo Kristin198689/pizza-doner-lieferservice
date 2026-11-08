@@ -2,10 +2,11 @@
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 
-const I = (f: string) => `/assets/ingredients/${f}.png`;
+/** raw (unoptimized) <img>: use the 256px variants so the bitmaps stay small */
+const I = (f: string) => `/assets/ingredients/s/${f}.webp`;
 const DIM: Record<string, [number, number]> = {
-  tomato_half: [304, 277], red_pepper_rings: [378, 301], mushroom_slice: [359, 297], red_onion_ring: [348, 283],
-  basil_leaf_single: [325, 297], basil_sprig: [360, 316], mushrooms_group: [364, 304],
+  tomato_half: [256, 233], red_pepper_rings: [256, 204], mushroom_slice: [256, 212], red_onion_ring: [256, 208],
+  basil_leaf_single: [256, 234], basil_sprig: [256, 225], mushrooms_group: [256, 214],
 };
 /** x / y = centre in % of the pizza box (the ellipse top edge is at y≈21.6 %), w = width in % of the box, r = base rotation,
  *  tx / ty = float travel (px), dur = period (s). m = hidden on phones/tablets. Rows narrow upward: a pyramid. */

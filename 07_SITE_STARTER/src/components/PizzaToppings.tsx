@@ -41,14 +41,14 @@ export function PizzaToppings() {
       {PYR_ITEMS.map(([f, l, t, w, r0, r, dx, dy, dur, dl, par, ph], i) => (
         <span key={`y${i}`} className={`pt__p pt__p--c${ph ? '' : ' pt__p--more'}`} style={{ left: `${l}%`, top: `${t}%`, width: `${w}%` }} data-parallax={par}>
           <span className="pt__i" style={{ '--r0': `${r0}deg`, '--r': `${r}deg`, '--dx': `${dx}px`, '--dy': `${dy}px`, '--dur': `${dur}s`, '--dl': `${dl}s` } as React.CSSProperties}>
-            <Image src={`/assets/ingredients/${f}.png`} alt="" width={360} height={300} sizes="(max-width: 767px) 20vw, 12vw" />
+            <Image src={`/assets/ingredients/${f}.webp`} alt="" width={360} height={300} sizes="(max-width: 767px) 20vw, 12vw" />
           </span>
         </span>
       ))}
       {ITEMS.map(([f, l, t, w, r0, r, dx, dy, dur, dl, par], i) => (
         <span key={i} className={`pt__p${i >= 3 ? ' pt__p--more' : ''}`} style={{ left: `${l}%`, top: `${t}%`, width: `${w}%` }} data-parallax={par}>
           <span className="pt__i" style={{ '--r0': `${r0}deg`, '--r': `${r}deg`, '--dx': `${dx}px`, '--dy': `${dy}px`, '--dur': `${dur}s`, '--dl': `${dl}s` } as React.CSSProperties}>
-            <Image src={`/assets/ingredients/${f}.png`} alt="" width={360} height={300} sizes="(max-width: 767px) 12vw, 7vw" />
+            <Image src={`/assets/ingredients/${f}.webp`} alt="" width={360} height={300} sizes="(max-width: 767px) 12vw, 7vw" />
           </span>
         </span>
       ))}

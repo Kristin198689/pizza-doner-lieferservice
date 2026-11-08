@@ -20,9 +20,12 @@ export function ScrollFx() {
   useEffect(() => {
     let current = tier();
     let timer = 0;
+    let lastW = window.innerWidth;
     const onResize = () => {
+      // a height-only resize (URL bar collapsing, on-screen keyboard) must never reload anything; only a real width change (rotation, window resize) counts
+      if (window.innerWidth === lastW) return;
       window.clearTimeout(timer);
-      timer = window.setTimeout(() => { if (tier() !== current) {
+      timer = window.setTimeout(() => { lastW = window.innerWidth; if (tier() !== current) {
           current = tier();
           // never loop: at most one automatic reload per 4 s
           try { const last = Number(sessionStorage.getItem('tier-reload') || 0); if (Date.now() - last < 4000) return; sessionStorage.setItem('tier-reload', String(Date.now())); } catch { /* storage blocked: still reload once */ }
@@ -76,16 +79,45 @@ export function ScrollFx() {
 
     // Pin starts/ends are absolute scroll offsets: any layout shift above a pin (late fonts/images, row reveals, resize) makes them stale
     // and the pinned screen snaps over its neighbour. Keep them in sync: refresh (debounced) whenever the page height changes.
+    // Never refresh mid-scroll (a refresh re-measures every pin and re-seeks the scrubs: on a phone it shows as a jump/twitch): wait until
+    // no scroll event / finger on the screen for >= IDLE ms, and ignore height changes < 8 px.
+    const IDLE = 250;
     let t = 0;
     let lastH = document.documentElement.scrollHeight;
-    const refresh = () => { window.clearTimeout(t); t = window.setTimeout(() => { lastH = document.documentElement.scrollHeight; ScrollTrigger.sort(); ScrollTrigger.refresh(); }, 180); };
-    const ro = new ResizeObserver(() => { const h = document.documentElement.scrollHeight; if (Math.abs(h - lastH) >= 1) refresh(); });
+    let lastW2 = window.innerWidth;
+    let lastScroll = 0;
+    let touching = false;
+    const onScroll = () => { lastScroll = performance.now(); };
+    const onTouchStart = () => { touching = true; };
+    const onTouchEnd = () => { touching = false; lastScroll = performance.now(); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchend', onTouchEnd, { passive: true });
+    window.addEventListener('touchcancel', onTouchEnd, { passive: true });
+    const run = () => {
+      const idle = performance.now() - lastScroll;
+      if (touching || idle < IDLE) { t = window.setTimeout(run, Math.max(60, IDLE - idle + 20)); return; }
+      lastH = document.documentElement.scrollHeight;
+      lastW2 = window.innerWidth;
+      ScrollTrigger.sort();
+      ScrollTrigger.refresh();
+    };
+    const refresh = () => { window.clearTimeout(t); t = window.setTimeout(run, 180); };
+    const ro = new ResizeObserver(() => { const h = document.documentElement.scrollHeight; if (Math.abs(h - lastH) >= 8) refresh(); });
     ro.observe(document.body);
+    const onWinResize = () => { if (window.innerWidth !== lastW2) refresh(); };
+    const coarse = window.matchMedia('(pointer: coarse)').matches; // desktop: ScrollTrigger's own resize refresh stays
+    if (coarse) window.addEventListener('resize', onWinResize);
     window.addEventListener('load', refresh, { once: true });
     document.fonts?.ready.then(refresh);
     return () => {
       window.clearTimeout(t);
       ro.disconnect();
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('touchcancel', onTouchEnd);
+      window.removeEventListener('resize', onWinResize);
       window.removeEventListener('load', refresh);
       mm.revert();
     };

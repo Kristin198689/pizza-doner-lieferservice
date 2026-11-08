@@ -7,10 +7,10 @@
   --pt-dim: 0.12;
   color: #F6F2E9; /* fallback: no background-clip:text, solid letters */
 }
-.pizza-text--doner { --pt-img: url('/assets/food/doner_sandwich.png'); }
-.pizza-text--slice { --pt-img: url('/assets/food/pizza_slice_cheese_pull.png'); }
-.pizza-text--yufka { --pt-img: url('/assets/food/yufka_wrap.png'); }
-.pizza-text--hero { --pt-img: url('/assets/food/pizza_hero_assembled.png'); }
+.pizza-text--doner { --pt-img: url('/assets/food/doner_sandwich.webp'); }
+.pizza-text--slice { --pt-img: url('/assets/food/pizza_slice_cheese_pull.webp'); }
+.pizza-text--yufka { --pt-img: url('/assets/food/yufka_wrap.webp'); }
+.pizza-text--hero { --pt-img: url('/assets/food/pizza_hero_assembled.webp'); }
 
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   .pizza-text {
@@ -41,7 +41,7 @@
 /* ---- two photo layers drifting in opposite directions (used by the box headline) ---- */
 .pizza-text.pizza-text--duo, .box .box__title.pizza-text {
   --pt-img: url('/assets/hero/pizza_whole.webp');
-  --pt-img2: url('/assets/food/pizza_hero_assembled.png');
+  --pt-img2: url('/assets/food/pizza_hero_assembled.webp');
   background-image: linear-gradient(rgba(9, 9, 11, var(--pt-dim)), rgba(9, 9, 11, var(--pt-dim))), var(--pt-img2), var(--pt-img);
   background-size: 100% 100%, 150% auto, 200% auto;
   background-position: 0 0, 70% 65%, 30% 35%;

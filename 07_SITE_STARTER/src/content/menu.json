@@ -16,7 +16,7 @@
         "en": "Classics and specialties",
         "uk": "Класика та авторські"
       },
-      "image": "food/pizza_slice_cheese_pull.png",
+      "image": "food/pizza_slice_cheese_pull.webp",
       "items": [
         {
           "id": "margherita",
@@ -126,7 +126,7 @@
         "en": "Fresh off the spit",
         "uk": "Щойно з рожна"
       },
-      "image": "food/doner_sandwich.png",
+      "image": "food/doner_sandwich.webp",
       "items": [
         {
           "id": "doner-brot",
@@ -208,7 +208,7 @@
         "en": "Rolled, warm, fresh",
         "uk": "Гаряча, свіжа, у рулеті"
       },
-      "image": "food/yufka_wrap.png",
+      "image": "food/yufka_wrap.webp",
       "items": [
         {
           "id": "yufka-doner",
@@ -270,7 +270,7 @@
         "en": "Juicy and freshly grilled",
         "uk": "Соковиті, щойно з грилю"
       },
-      "image": "food/cheeseburger.png",
+      "image": "food/cheeseburger.webp",
       "items": [
         {
           "id": "cheeseburger",
@@ -308,7 +308,7 @@
         "en": "Fries · Chicken nuggets",
         "uk": "Картопля фрі · Курячі нагетси"
       },
-      "image": "food/fries.png",
+      "image": "food/fries.webp",
       "items": [
         {
           "id": "pommes",

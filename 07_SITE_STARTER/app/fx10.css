@@ -32,7 +32,7 @@ html[data-menu-open] .callfab { opacity: 0; visibility: hidden; pointer-events: 
 
 /* real page-top anchor (the hero is a pinned scene: an #id on it jumps into the middle of its pin) */
 .page-top { position: absolute; top: 0; left: 0; width: 1px; height: 1px; pointer-events: none; }
-html { scroll-behavior: auto; }
+html, body { scroll-behavior: auto; overflow-anchor: none; } /* no scroll anchoring: pins/spacers change heights above the viewport and the browser must not 'correct' the scroll position */
 
 /* roll break on brand lime: the big word is solid ink (not a grey ghost) and fits the width whatever its length */
 .sb--roll.sb--bg-lime .sb__bgword { color: var(--ink); opacity: 1; font-size: calc(min(calc(92vw / (var(--n) * 0.74)), 26vw, 38svh) * var(--xf)); }

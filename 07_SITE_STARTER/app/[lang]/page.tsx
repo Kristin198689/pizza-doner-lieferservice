@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <TypographyTakeover t={t.takeover} sliceAlt={t.hero.sliceAlt} />
         <SectionBreak variant="words" from="red" short words={[t.takeover.a, t.takeover.b]} />
         <Runway t={t.runway} />
-        <SectionBreak variant="roll" from="lime" words={[t.runway.crisp]} sprite="tomato_half.png" spriteSize={[304, 277]} />
+        <SectionBreak variant="roll" from="lime" words={[t.runway.crisp]} sprite="tomato_half.webp" spriteSize={[304, 277]} />
         <DonerRotation t={t.doner} />
         <IngredientTunnel word={t.doner.accent} />
         <ProductRail t={t.orbit} />
@@ -37,7 +37,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <SectionBreak variant="words" from="lime" tall words={boxWords} />
         <BoxScene t={t.box} />
         <DepthLayers t={t.depth} />
-        <SectionBreak variant="roll" from="green" words={[t.takeover.b]} sprite="red_pepper_rings.png" spriteSize={[378, 301]} />
+        <SectionBreak variant="roll" from="green" words={[t.takeover.b]} sprite="red_pepper_rings.webp" spriteSize={[378, 301]} />
         <EditorialMenu t={t.menu} locale={locale} />
         <SectionBreak variant="wipe" from="cream" to="red" words={[t.fulfillment.title]} />
         <Fulfillment t={t.fulfillment} order={t.order} />

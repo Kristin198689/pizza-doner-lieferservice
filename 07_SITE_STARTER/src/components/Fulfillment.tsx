@@ -37,7 +37,7 @@ export function Fulfillment({ t, order }: { t: Messages['fulfillment']; order: M
         )}
       </div>
       <div className="cta__art">
-        <Image className="cta__bag" src="/assets/packaging/kraft_bag_provisional.png" alt={t.bagAlt} width={273} height={316} sizes="(max-width: 760px) 62vw, 380px" data-parallax="24" />
+        <Image className="cta__bag" src="/assets/packaging/kraft_bag_provisional.webp" alt={t.bagAlt} width={273} height={316} sizes="(max-width: 760px) 62vw, 380px" data-parallax="24" />
       </div>
     </section>
   );

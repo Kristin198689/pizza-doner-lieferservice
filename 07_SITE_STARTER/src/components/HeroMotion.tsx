@@ -10,7 +10,7 @@ import type { Messages } from '@/lib/i18n';
 type Props = { t: Messages['hero']; order: Messages['order']; limeT: Messages['lime']; yufkaAlt: string };
 
 /**
- * Geometry of /assets/hero/pizza_whole.png (percent of the square image): the pizza is an ellipse (3/4 view).
+ * Geometry of /assets/hero/pizza_whole.webp (percent of the square image): the pizza is an ellipse (3/4 view).
  * All 8 sectors are cut from THIS ONE image with polygon clip-paths along rays of that ellipse, so nothing changes
  * (ingredients, crust, light) when the pizza falls apart.
  */
@@ -105,13 +105,18 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
           geo.y = c.y;
           geo.w = (box.offsetWidth * c.s);
         };
+        // unit-ellipse points are constant: only scale/offset per frame; skip entirely when nothing changed (one string build per rAF at most, only while the window tween runs)
+        const UNIT_PTS: [number, number][] = [];
+        for (let a = 0; a < 360; a += 6) UNIT_PTS.push([Math.cos(rad(a)), FLAT * Math.sin(rad(a))]);
+        let lastKey = '';
         const paint = () => {
-          const cx = geo.x;
-          const cy = geo.y;
           const Rx = (geo.w * G.rx) / 100 * win.s;
-          const parts: string[] = [];
-          for (let a = 0; a < 360; a += 6) parts.push(`${(cx + Rx * Math.cos(rad(a))).toFixed(1)}px ${(cy + Rx * FLAT * Math.sin(rad(a))).toFixed(1)}px`);
-          limeEl.style.clipPath = `polygon(${parts.join(',')})`;
+          const key = `${geo.x}|${geo.y}|${Rx.toFixed(1)}`;
+          if (key === lastKey && limeEl.style.clipPath.startsWith('polygon')) return;
+          lastKey = key;
+          let out = 'polygon(';
+          for (let i = 0; i < UNIT_PTS.length; i++) out += `${i ? ',' : ''}${(geo.x + Rx * UNIT_PTS[i][0]).toFixed(1)}px ${(geo.y + Rx * UNIT_PTS[i][1]).toFixed(1)}px`;
+          limeEl.style.clipPath = out + ')';
         };
 
         /**
@@ -410,11 +415,11 @@ export function HeroMotion({ t, order, limeT, yufkaAlt }: Props) {
           <span className="lime__mask"><span className="lime__l2">{t.yufka[1]}</span></span>
         </h2>
         <div className="lime__wrap">
-          <Image className="lime__img" src="/assets/food/yufka_wrap.png" alt={yufkaAlt} width={1254} height={1254} sizes="(orientation: portrait) 100vw, 50vw" />
+          <Image className="lime__img" src="/assets/food/yufka_wrap.webp" alt={yufkaAlt} width={1100} height={1100} sizes="(orientation: portrait) 100vw, 50vw" />
         </div>
-        <Image className="lime__deco lime__deco--a" src="/assets/ingredients/red_pepper_rings.png" alt="" aria-hidden width={378} height={301} sizes="180px" />
-        <Image className="lime__deco lime__deco--b" src="/assets/ingredients/tomato_half.png" alt="" aria-hidden width={304} height={277} sizes="160px" />
-        <Image className="lime__deco lime__deco--c" src="/assets/ingredients/basil_leaf_single.png" alt="" aria-hidden width={325} height={297} sizes="160px" />
+        <Image className="lime__deco lime__deco--a" src="/assets/ingredients/red_pepper_rings.webp" alt="" aria-hidden width={378} height={301} sizes="180px" />
+        <Image className="lime__deco lime__deco--b" src="/assets/ingredients/tomato_half.webp" alt="" aria-hidden width={304} height={277} sizes="160px" />
+        <Image className="lime__deco lime__deco--c" src="/assets/ingredients/basil_leaf_single.webp" alt="" aria-hidden width={325} height={297} sizes="160px" />
         <p className="lime__body">{limeT.body}</p>
         <OrderButtons order={order} className="lime__order" />
       </div>

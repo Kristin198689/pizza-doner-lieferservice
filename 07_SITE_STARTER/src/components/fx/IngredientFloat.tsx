@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 type Bit = { src: string; x: number; y: number; w: number; r: number; tx: number; ty: number; dur: number; delay: number; mobile?: boolean };
-const I = (f: string) => `/assets/ingredients/${f}.png`;
+const I = (f: string) => `/assets/ingredients/${f}.webp`;
 
 /** Small real ingredient cut-outs resting on the product photo; each one idles with a gentle wiggle.
  *  x / y = centre in % of the photo, w = width in % of the photo, r = base rotation (deg), tx / ty = travel (px), dur = period (s). */

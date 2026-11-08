@@ -28,7 +28,7 @@ export function YufkaUnroll({ label }: { label: string }) {
 
   return (
     <div className="pm__art yx" ref={root} aria-hidden="true">
-      <Image className="pm__img yx__img" src="/assets/food/yufka_wrap.png" alt="" width={1254} height={1254} sizes="(max-width: 899px) 100vw, 66vw" />
+      <Image className="pm__img yx__img" src="/assets/food/yufka_wrap.webp" alt="" width={1100} height={1100} sizes="(max-width: 899px) 100vw, 66vw" />
       <span className="sr-only">{label}</span>
     </div>
   );
