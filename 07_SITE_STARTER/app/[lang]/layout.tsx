@@ -31,15 +31,59 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
+/** Absolute base for canonical/OG URLs: explicit env, then the configured domain, then the Vercel deployment host. */
+const siteUrl = (): string => {
+  const env = process.env.NEXT_PUBLIC_SITE_URL;
+  if (env) return env.startsWith('http') ? env : `https://${env}`;
+  if (biz.domain) return biz.domain.startsWith('http') ? biz.domain : `https://${biz.domain}`;
+  const v = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL;
+  if (v) return `https://${v}`;
+  return 'http://localhost:3000';
+};
+const OG_LOCALE: Record<string, string> = { de: 'de_DE', en: 'en_US', uk: 'uk_UA' };
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
-  const { t } = getMessages(lang);
+  const { t, locale } = getMessages(lang);
+  const ogImage = { url: `/og/og-${locale}.png`, width: 1200, height: 630, alt: t.meta.title };
   return {
+    metadataBase: new URL(siteUrl()),
     title: t.meta.title,
     description: t.meta.description,
+    applicationName: 'Pizza & Döner',
     // Stay out of search indexes until the owner has confirmed real data.
     robots: biz.publishReady ? { index: true, follow: true } : { index: false, follow: false },
-    openGraph: { title: t.meta.title, description: t.meta.description, type: 'website', locale: lang },
+    alternates: {
+      canonical: `/${locale}`,
+      languages: { de: '/de', en: '/en', uk: '/uk', 'x-default': '/de' },
+    },
+    icons: {
+      icon: [
+        { url: '/favicon.ico', sizes: 'any' },
+        { url: '/icons/icon-16.png', sizes: '16x16', type: 'image/png' },
+        { url: '/icons/icon-32.png', sizes: '32x32', type: 'image/png' },
+        { url: '/icons/icon-48.png', sizes: '48x48', type: 'image/png' },
+        { url: '/icons/android-chrome-192.png', sizes: '192x192', type: 'image/png' },
+        { url: '/icons/android-chrome-512.png', sizes: '512x512', type: 'image/png' },
+      ],
+      shortcut: ['/favicon.ico'],
+      apple: [{ url: '/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+    },
+    manifest: '/site.webmanifest',
+    appleWebApp: { capable: true, title: 'Pizza & Döner', statusBarStyle: 'black-translucent' },
+    formatDetection: { telephone: false },
+    other: { 'msapplication-TileColor': '#09090B', 'msapplication-config': '/browserconfig.xml' },
+    openGraph: {
+      title: t.meta.title,
+      description: t.meta.description,
+      type: 'website',
+      siteName: 'Pizza & Döner',
+      url: `/${locale}`,
+      locale: OG_LOCALE[locale] ?? 'de_DE',
+      alternateLocale: Object.values(OG_LOCALE).filter((l) => l !== OG_LOCALE[locale]),
+      images: [ogImage],
+    },
+    twitter: { card: 'summary_large_image', title: t.meta.title, description: t.meta.description, images: [ogImage.url] },
   };
 }
 
