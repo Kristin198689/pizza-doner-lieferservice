@@ -28,6 +28,17 @@ const LOOK: Record<string, string> = {
 const pad = (n: number) => String(n).padStart(2, '0');
 
 export function ProductRail({ t }: { t: Messages['orbit'] }) {
+  // Only the first two panels are eager; the rest used to be lazy, so each later dish (Yufka among them) started downloading only
+  // when its panel was swiped into view, which on a phone means a visible blank wait. Once the rail is within ~2 screens of the viewport
+  // we switch every panel image to eager (low priority) so the whole strip is already there when the user reaches it.
+  const [warm, setWarm] = useState(false);
+  useEffect(() => {
+    const el = root.current;
+    if (!el || typeof IntersectionObserver === 'undefined') { setWarm(true); return; }
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setWarm(true); io.disconnect(); } }, { rootMargin: '250% 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const n = t.dishes.length;
   const track = useRef<HTMLDivElement>(null);
   const panels = useRef<(HTMLElement | null)[]>([]);
@@ -183,7 +194,7 @@ export function ProductRail({ t }: { t: Messages['orbit'] }) {
           >
             <h3 className="rail__name">{dish.name}</h3>
             <div className="rail__fig">
-              <Image src={`/assets/${SRC[dish.key]}`} alt={dish.alt} width={1100} height={1100} sizes="(max-width: 767px) 92vw, 50vw" draggable={false} priority={i < 2} />
+              <Image src={`/assets/${SRC[dish.key]}`} alt={dish.alt} width={1100} height={1100} sizes="(max-width: 767px) 92vw, 50vw" draggable={false} priority={i < 2} loading={i < 2 || warm ? 'eager' : 'lazy'} fetchPriority={i < 2 ? 'high' : 'low'} />
             </div>
             <div className="rail__foot">
               <p className="rail__hint">{dish.hint}</p>
